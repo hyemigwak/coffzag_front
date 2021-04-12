@@ -8,3 +8,5 @@ yarn add axios
 yarn add styled-components
 yarn add @material-ui/core @material-ui/icons
 yarn add redux-logger history@4.10.1
+
+yarn add redux-actions
