@@ -1,5 +1,7 @@
 # coffzag_front
 
+
+main으로 푸쉬할게요! 
 yarn add redux react-redux redux-thunk
 yarn add connected-react-router react-router-dom
 yarn add axios
