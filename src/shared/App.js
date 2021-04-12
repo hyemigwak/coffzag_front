@@ -1,5 +1,6 @@
 import React from "react";
 import styled from "styled-components";
+import "./App.css";
 
 import { Route, Switch } from "react-router-dom";
 import { ConnectedRouter } from "connected-react-router";
