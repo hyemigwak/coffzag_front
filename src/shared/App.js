@@ -18,9 +18,9 @@ function App() {
         <ConnectedRouter history={history}>
           <Route exact path="/login" component={Login} />
           {/* 지정하지 않은 주소를 notfound로 가게 하기 */}
-          <Switch>
-            {/* <Route exact component={NotFound} /> */}
-          </Switch>
+          {/* <Switch>
+            <Route exact component={NotFound} />
+          </Switch> */}
         </ConnectedRouter>
       </Grid>
     </AppGlobal>
