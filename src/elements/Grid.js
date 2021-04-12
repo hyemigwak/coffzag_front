@@ -59,7 +59,6 @@ const Grid = (props) => {
       </GridBox>
     );
   }
-
   return <GridBox {...styles}>{children}</GridBox>;
 };
 

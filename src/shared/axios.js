@@ -1,4 +1,5 @@
 import axios from "axios";
+import { request } from "./request";
 
 //이미지포함 불러오는 baseurl
 export const _baseURL = "https://image.tmdb.org/t/p/w500/";
