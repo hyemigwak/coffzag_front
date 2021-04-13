@@ -70,14 +70,14 @@ Grid.defaultProps = {
   bg: false,
   bgimg: false,
   width: "100%",
-  height: false,
+  height: null,
   flex: false,
   margin: false,
   align: false,
   zIndex: false,
   back_center: false,
   hidden: false,
-  opacity: false,
+  opacity: null,
   position: false,
 };
 
