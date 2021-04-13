@@ -1,7 +1,7 @@
 import React from "react";
 import styled from "styled-components";
 
-const Button = (props) => {
+const Badge = (props) => {
   const {
     bg,
     text,
@@ -9,8 +9,9 @@ const Button = (props) => {
     radius,
     bgopacity,
     color,
-    isHome,
-    isPay,
+    isPlay,
+    isInfo,
+    isLogout,
     _onClick,
     children,
   } = props;
@@ -24,19 +25,27 @@ const Button = (props) => {
     radius: radius,
   };
 
-  if (isHome) {
+  if (isPlay) {
     return (
-      <Btn isHome onClick={_onClick}>
+      <Btn isPlay="isPlay" onClick={_onClick}>
         {text ? text : children}
       </Btn>
     );
   }
 
-  if (isPay) {
+  if (isInfo) {
     return (
-      <Btn isPay onClick={_onClick}>
+      <Btn isInfo="isInfo" onClick={_onClick}>
         {text ? text : children}
       </Btn>
+    );
+  }
+
+  if (isLogout) {
+    return (
+      <LogoutBtn isLogout="isLogout" onClick={_onClick}>
+        {text ? text : children}
+      </LogoutBtn>
     );
   }
 
@@ -50,7 +59,7 @@ const Button = (props) => {
   // return <CircleBtn disabled onClick={_onClick} {...styles} >{text? text : children}</CircleBtn>;
 };
 
-Button.defaultProps = {
+Badge.defaultProps = {
   children: null,
   _onClick: () => {},
   isPlay: false,
@@ -77,21 +86,38 @@ const Btn = styled.button`
     vertical-align: 0.2em;
   }
   ${(props) =>
-    props.isHome
+    props.isPlay
       ? `
-  background-color:#FFC149;
+  background-color:#ffffff;
   :hover {
-    background-color:#FFC149bf;
+    background-color:#ffffffbf;
   }`
-      : props.isPay
+      : props.isInfo
       ? `
 color: #fff;
-    background-color:#5A5656b3;
+    background-color:#6d6d6eb3;
     :hover {
-      background-color:#5A565666;
+      background-color:#6d6d6e66;
 
   }`
       : ""}
+`;
+
+const LogoutBtn = styled.button`
+  display: none;
+  border: none;
+  padding: 4px;
+  margin: 0px 12px;
+  font-size: 0.9rem;
+  outline: 0px;
+  border-radius: 4px;
+  text-align: center;
+  cursor: pointer;
+  color: #fff;
+  background-color: #6d6d6eb3;
+  &:hover {
+    background-color: #6d6d6e66;
+  }
 `;
 
 const BtnCircle = styled.button`
@@ -111,4 +137,4 @@ const BtnCircle = styled.button`
   outline: 0;
 `;
 
-export default Button;
+export default Badge;

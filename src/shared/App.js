@@ -6,7 +6,7 @@ import { Route, Switch } from "react-router-dom";
 import { ConnectedRouter } from "connected-react-router";
 import { history } from "../redux/configureStore";
 
-import { Login, NotFound, Detail,Signup } from "../pages";
+import { Main, Detail, Cart, Login, Signup, NotFound } from "../pages";
 import { Header } from "../components";
 import { Grid } from "../elements";
 
@@ -16,12 +16,14 @@ function App() {
       <Header />
       <Grid isRoot>
         <ConnectedRouter history={history}>
+          <Route exact path="/" component={Main} />
+          <Route exact path="/detail" component={Detail} />
           <Route exact path="/login" component={Login} />
-          <Route exact path="/detail" component={Detail}/>
-          <Route exact path="/signup" component={Signup}/>
+          <Route exact path="/signup" component={Signup} />
+          <Route exact path="/cart" component={Cart} />
           {/* 지정하지 않은 주소를 notfound로 가게 하기 */}
           {/* <Switch>
-            <Route exact component={NotFound} />
+            <Route component={NotFound} />
           </Switch> */}
         </ConnectedRouter>
       </Grid>

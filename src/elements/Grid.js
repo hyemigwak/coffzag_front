@@ -12,16 +12,22 @@ const Grid = (props) => {
     bgimg,
     width,
     height,
-    flex,
     margin,
     align,
     zIndex,
     back_center,
-    hidden,
+    overflow,
     size,
     opacity,
     position,
     column,
+    //추가
+    textAlign,
+    color,
+    top,
+    right,
+    left,
+    borderRadius,
   } = props;
 
   const styles = {
@@ -31,16 +37,22 @@ const Grid = (props) => {
     bgimg: bgimg ? bgimg : false,
     width: width,
     height: height,
-    flex: flex,
     margin: margin,
     align: align,
     zIndex: zIndex,
     back_center: back_center,
-    hidden: hidden,
+    overflow: overflow,
     size: size,
     opacity: opacity,
     position: position,
     column: column,
+    //추가
+    textAlign: textAlign,
+    color: color,
+    top: top,
+    right: right,
+    left: left,
+    borderRadius: borderRadius,
   };
 
   if (isRoot) {
@@ -71,48 +83,65 @@ Grid.defaultProps = {
   bgimg: false,
   width: "100%",
   height: null,
-  flex: false,
   margin: false,
   align: false,
   zIndex: false,
   back_center: false,
-  hidden: false,
   opacity: null,
   position: false,
+  // 아래 추가
+  textAlign: false,
+  color: "#5A5656",
+  top: false,
+  right: false,
+  left: false,
+  borderRadius: false,
 };
 
 const GridBox = styled.div`
   width: ${(props) => props.width};
-  height: ${(props) => props.height};
+  height: ${(props) => (props.height ? props.height : "")};
   padding: ${(props) => props.padding};
   margin: ${(props) => props.margin};
   background-color: ${(props) => props.bg};
   background-image: ${(props) => `url(${props.bgimg})`};
   background-size: ${(props) => props.size};
-  opacity: ${(props) => props.opacity};
+  opacity: ${(props) => (props.opacity ? props.opacity : "")};
   position: ${(props) => props.position};
   z-index: ${(props) => props.zIndex};
   ${(props) => (props.back_center ? `background-position: center;` : "")}
-  ${(props) => (props.hidden ? `overflow: hidden;` : "")}
   ${(props) =>
     props.is_flex
       ? `display:flex; align-items: center; justify-content:flex-start; `
       : ""};
   ${(props) =>
     props.column ? `flex-direction: column;` : `flex-direction: row;`}
+  // 추가한 부분
+  text-align:${(props) => props.textAlign};
+  top: ${(props) => props.top};
+  right: ${(props) => props.right};
+  left: ${(props) => props.left};
+  border-radius: ${(props) => props.borderRadius};
+  background-repeat: no-repeat;
 `;
 
 const RootContainer = styled.div`
-  position: relative;
-  z-index: 0;
-  background-color: transparent;
-  color: black;
-  min-height: 80vh;
-  margin: 0;
-  box-sizing: border-box;
+  // header 가려지는것 방지
+  padding-top: 70px;
+
   overflow-x: hidden;
   flex-wrap: wrap;
   display: flex;
+  position: relative;
+  z-index: 0;
+  background-color: transparent;
+  color: #5a5656;
+  margin: 0;
+
+  // 바뀐부분
+  align-items: center;
+  justify-content: center;
+  padding: 4%;
 `;
 
 export default Grid;
