@@ -4,14 +4,11 @@ import { history } from "../redux/configureStore";
 import { useDispatch, useSelector } from "react-redux";
 import styled from "styled-components";
 import { Grid, Button } from "../elements";
-
 import { actionCreators as commentActions } from "../redux/modules/comment";
 import moment from "moment";
 
 const DetailReview = (props) => {
-  const { coffee_id } = props.data;
-
-  console.log(props.data);
+  const { coffeeId } = props;
 
   const dispatch = useDispatch();
   const commentList = useSelector((state) => state.comment.comment_list);
@@ -22,10 +19,10 @@ const DetailReview = (props) => {
   const onChangeReview = useCallback((e) => setReview(e.target.value), []);
 
   useEffect(() => {
-    if (commentList[coffee_id]) {
+    if (commentList[coffeeId]) {
       return;
     }
-    dispatch(commentActions.getComment(coffee_id));
+    dispatch(commentActions.getCommentAPI(coffeeId));
   }, []);
 
   const siteAddComment = () => {
@@ -38,7 +35,7 @@ const DetailReview = (props) => {
       window.alert("리뷰를 입력해주세요!");
       return;
     }
-    dispatch(commentActions.addComment(coffee_id, review, created_at));
+    dispatch(commentActions.addCommentAPI(coffeeId, review, created_at));
   };
 
   return (

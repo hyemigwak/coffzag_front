@@ -11,19 +11,18 @@ import AddCircleOutlineIcon from "@material-ui/icons/AddCircleOutline";
 import RemoveCircleOutlineIcon from "@material-ui/icons/RemoveCircleOutline";
 
 const DetailProduct = (props) => {
-  const dispatch = useDispatch();
 
   const {
-    coffee_name,
-    coffee_price,
-    coffee_image,
-    coffee_brand,
-    coffee_unit,
-    coffee_info,
-  } = props.data;
+    coffeeName,
+    coffeePrice,
+    coffeeImg,
+    coffeeBrand,
+    coffeeUnit,
+    coffeeInfo,
+  } = props;
 
   //가격에 콤마 붙여주는 정규식 표현
-  const coffeePrice = coffee_price
+  const coffee_price = coffeePrice
     .toString()
     .replace(/\B(?<!\.\d*)(?=(\d{3})+(?!\d))/g, ",");
 
@@ -36,7 +35,7 @@ const DetailProduct = (props) => {
         <Contents>
           <CardRight>
             <CircleImage>
-              <img src={coffee_image} alt="커피이미지" />
+              <img src={coffeeImg} alt="커피이미지" />
             </CircleImage>
             <StarArea>
               <div className="starRank">
@@ -54,18 +53,18 @@ const DetailProduct = (props) => {
           <CardLeft>
             <BrandNameArea>
               <div className="Btn">
-                <CoffeeBrandBtn>{coffee_brand}</CoffeeBrandBtn>
+                <CoffeeBrandBtn>{coffeeBrand}</CoffeeBrandBtn>
               </div>
             </BrandNameArea>
             <ProductName>
-              <div className="Pname">{coffee_name}</div>
+              <div className="Pname">{coffeeName}</div>
             </ProductName>
             <PriceLine>
-              <div className="Pprice">{coffeePrice} 원</div>
-              <div className="capsulePack">{coffee_unit}</div>
+              <div className="Pprice">{coffee_price} 원</div>
+              <div className="capsulePack">{coffeeUnit}</div>
             </PriceLine>
             <DetailLine>
-              <p>{coffee_info}</p>
+              <p>{coffeeInfo}</p>
             </DetailLine>
             <QtyLine>
               <div>
@@ -85,6 +84,15 @@ const DetailProduct = (props) => {
       </Container>
     </div>
   );
+};
+
+DetailProduct.defaultProps = {
+  coffeeImg:"https://www.nespresso.com/shared_res/agility/enhancedPDP/vertuo/images/Vertuo_Double-espresso-Scuro_resp.jpg",
+  coffeeBrand:"Nespresso",
+  coffeeName:"네스프레소",
+  coffeePrice:"7,900",
+  coffeeUnit:"1슬리브(10캡슐)",
+  coffeeInfo:"향이 풍부한 커피입니다.",
 };
 
 const Container = styled.div`

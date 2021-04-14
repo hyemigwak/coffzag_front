@@ -6,12 +6,12 @@ import axios from "axios";
 //actions
 const LOG_IN = "LOG_IN"; //로그인
 const LOG_OUT = "LOG_OUT"; //로그아웃
-const GET_USER = "GET_USER"; //유저정보 가져오기
+const LOGIN_CHECK = "LOGIN_CHECK"; //로그인 유지
 
 //actionCreators
 const logIn = createAction(LOG_IN, (user) => ({ user }));
 const logOut = createAction(LOG_OUT, (user) => ({ user }));
-const getUser = createAction(GET_USER, (user) => ({ user }));
+const loginCheck = createAction(LOGIN_CHECK, (cookie) => ({ cookie }));
 
 //initialState
 const initialState = {
@@ -25,16 +25,16 @@ const loginAPI = (username, pwd) => {
   return function (dispatch, getState, { history }) {
     axios({
       method: "POST",
-      url: "https://run.mocky.io/v3/a0426349-6b6b-4045-8488-30eefc6ac179",
+      url: "http://54.180.86.19/api/authenticate",
       data: {
         username: username,
         password: pwd,
       },
     })
       .then((res) => {
-        // const jwtToken = res. 받은 토큰 어딨니. 받아서 쿠키에 저장해주자
-        // setCookie("user_login", jwtToken); 쿠키에 user_login 이라는 이름으로 저장
-        // axios.defaults.headers.common['Authorization'] = `${jwtToken}`; 디폴트로 헤더에 토큰 담아주기
+        const jwtToken = res.data.token;
+        setCookie("user_login", jwtToken);
+        axios.defaults.headers.common['Authorization'] = `${jwtToken}`;
         dispatch(
           logIn({
             username: username,
@@ -54,19 +54,18 @@ const signupAPI = (username, pwd, email) => {
   return function (dispatch, getState, { history }) {
     axios({
       method: "POST",
-      // url: ""
+      url: "http://54.180.86.19/api/signup",
       headers: {
-        Accept: "application/json", //클라이언트가 서버한테 요청(원하는) 타입 but 서버는 그대로 안줄 수 있음
-        "Content-Type": "application/json;charset=UTF-8", //현재 서버에게 보내는 데이터 타입, 한글깨짐 방지
+        "Accept": "application/json", 
+        "Content-Type": "application/json;charset=UTF-8",
         "Access-Control-Allow-Origin": "*",
       },
-      body: JSON.stringify({
-        username: username,
-        password: pwd,
-        email: email,
-      }),
+      data: {
+        "username": username,
+        "password": pwd,
+        "email": email,
+      }
     })
-      .then((res) => res.json())
       .then((res) => {
         console.log(res);
         history.push("/login");
@@ -93,6 +92,9 @@ export default handleActions(
         draft.user = null;
         draft.is_login = false;
       }),
+    [LOGIN_CHECK]: (state,action) => produce(state,(draft) => {
+      draft.is_login = action.payload.cookie;
+    })
   },
   initialState
 );
@@ -101,7 +103,7 @@ export default handleActions(
 const actionCreators = {
   logIn,
   logOut,
-  getUser,
+  loginCheck,
   loginAPI,
   signupAPI,
 };

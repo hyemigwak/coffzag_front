@@ -6,24 +6,24 @@ import { useDispatch, useSelector } from "react-redux";
 
 const Detail = (props) => {
   const dispatch = useDispatch();
-
-  const coffees = useSelector((state) => state.product.product_list);
   const id = props.match.params.id;
-  const coffee_idx = coffees.findIndex((c) => c.coffee_id === Number(id));
+  const coffees = useSelector((state) => state.product.product_list);
+  const coffee_idx = coffees.findIndex((c) => c.coffeeId === Number(id));
   const coffee = coffees[coffee_idx];
   console.log(coffee);
 
   useEffect(() => {
-    if (coffee) {
-      return;
+    if(coffee) {
+      return coffee;
     }
-    dispatch(productActions.setOneProductAPI(id));
-  }, []);
+    dispatch(productActions.setOneProductAPI(id))
+  },[coffee]);
+
 
   return (
     <div>
-      <DetailProduct data={coffee} />
-      <DetailReview data={coffee} />
+      <DetailProduct {...coffee} />
+      <DetailReview {...coffee} />
     </div>
   );
 };

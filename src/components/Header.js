@@ -13,7 +13,7 @@ import ShoppingBasketRoundedIcon from "@material-ui/icons/ShoppingBasketRounded"
 const Header = (props) => {
   const dispatch = useDispatch();
   const is_login = useSelector((state) => state.user.is_login);
-  // const cookie = getCookie("user_login")? true: false;
+  const cookie = getCookie("user_login")? true : false;
 
   const siteLogout = () => {
     dispatch(userActions.logOut());
@@ -39,7 +39,7 @@ const Header = (props) => {
     return () => window.removeEventListener("scroll", headerChange);
   }, []);
 
-  if (is_login) {
+  if (cookie && is_login) {
     return (
       <HeaderWrap className="nav">
         <Grid is_flex padding="0 4% 0 4%">

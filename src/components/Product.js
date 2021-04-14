@@ -5,28 +5,29 @@ import { history } from "../redux/configureStore";
 
 const Product = (props) => {
   const {
-    coffee_name,
-    coffee_price,
-    coffee_image,
-    coffee_brand,
+    coffeeName,
+    coffeePrice,
+    coffeeImg,
+    coffeeBrand,
     review,
     review_date,
     user_name,
-    coffee_id,
+    coffeeId,
   } = props.data;
+
   return (
     <Card
       onClick={() => {
-        history.push(`/detail/${coffee_id}`);
+        history.push(`/detail/${coffeeId}`);
       }}
     >
-      <ProductImg bgimg={coffee_image}>
-        <BrandBadge>{coffee_brand}</BrandBadge>
+      <ProductImg bgimg={coffeeImg}>
+        <BrandBadge>{coffeeBrand}</BrandBadge>
       </ProductImg>
       <CardBody>
         <Grid>
-          <h1>{coffee_name}</h1>
-          <h4>{coffee_price} 원</h4>
+          <h1>{coffeeName}</h1>
+          <h4>{coffeePrice} 원</h4>
         </Grid>
         <Grid>
           <p>{review}</p>
@@ -47,11 +48,11 @@ const Product = (props) => {
 };
 
 Product.defaultProps = {
-  coffee_name: "더블 에스프레소 스쿠로",
-  coffee_price: 12000,
-  coffee_image:
+  coffeeName: "더블 에스프레소 스쿠로",
+  coffeePrice: 12000,
+  coffeeImg:
     "https://www.nespresso.com/shared_res/agility/enhancedPDP/vertuo/images/Vertuo_Double-espresso-Scuro_resp.jpg",
-  coffee_brand: "Nespresso",
+  coffeeBrand: "Nespresso",
   review:
     "에스프레소가 더블 진한맛과 다크로스팅 아로마 바이스 첫 산미감 어쩌구 저쩌구 김수한무",
   review_date: "2021-04-01",

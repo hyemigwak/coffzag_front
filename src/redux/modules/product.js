@@ -16,17 +16,19 @@ const initialState = {
     product_list: [],
     is_loading: false,
 };
-
-const product_API = "https://run.mocky.io/v3/e43b1027-8246-4ea7-a0d4-8ed73982b308"
+// http://54.180.86.19/api/products
+// http://localhost:8080/api/products
+//mockAPI = "https://run.mocky.io/v3/eca60b5e-b520-427f-8f54-7b88df09acc1"
+const product_API = 'http://54.180.86.19/api/products'
 const setProductAPI = () => {
     return function(dispatch, getState, {history}){
         dispatch(loading(true));
         axios
         .get(product_API)
         .then((res)=>{
-            console.log(res);
+            console.log(res.data);
             if(res.data.ok){
-                dispatch(setProduct(res.data.results));
+                dispatch(setProduct(res.data.products));
                 dispatch(loading(false));
             }
         })
@@ -35,19 +37,21 @@ const setProductAPI = () => {
         })
     }
 }
-
+// const Detail_API = "",
 const setOneProductAPI = (id) => {
     return function(dispatch, getState, {history}){
         dispatch(loading(true));
         axios
         .get(product_API)
         .then((res) => {
-            const product_list = res.data.results;
-            const product_idx = product_list.findIndex((p) => p.coffee_id === Number(id));
+            const product_list = res.data.products;
+            const product_idx = product_list.findIndex((p) => p.coffeeId === Number(id));
             const product = product_list[product_idx];
             console.log(product);
-            dispatch(setProduct([product]));
-            dispatch(loading(false));
+            if(res.data.ok){
+                dispatch(setProduct([product]));
+                dispatch(loading(false));
+            }
         })
         .catch((e)=>console.log("setOneProductAPI 오류", e));
     }
@@ -61,7 +65,7 @@ export default handleActions({
     }),
     [SET_PRODUCT]: (state,action) => produce(state, (draft) => {
         draft.is_loading = action.payload.is_loading;
-        draft.product_list = action.payload.data; 
+        draft.product_list = action.payload.data;
     }),
 },initialState);
 

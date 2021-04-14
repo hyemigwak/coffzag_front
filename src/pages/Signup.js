@@ -2,6 +2,7 @@ import React, { useCallback } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { history } from "../redux/configureStore";
 import styled from "styled-components";
+import { actionCreators as userActions } from "../redux/modules/user";
 import { Grid, Button } from "../elements";
 
 const Signup = (props) => {
@@ -14,6 +15,19 @@ const Signup = (props) => {
   const onChangePwd = useCallback((e) => setPwd(e.target.value), []);
   const onChangePwdCheck = useCallback((e) => setPwdCheck(e.target.value), []);
   const onChangeEmail = useCallback((e) => setEmail(e.target.value), []);
+
+  const siteSignup = () => {
+    if(username === "" || pwd === "" || email === "" || pwdCheck === "") {
+      window.alert("모두 입력해주세요!");
+      return;
+    }
+    if(pwd !== pwdCheck){
+      window.alert("비밀번호가 일치하지 않습니다!");
+      return;
+    }
+    dispatch(userActions.signupAPI(username,pwd,email));
+    window.alert("회원가입이 완료되었습니다.");
+  }
 
   return (
     <Grid is_flex column width="25%" padding="4%">
@@ -59,7 +73,7 @@ const Signup = (props) => {
           />
         </Grid>
 
-        <Button yellow text="회원가입" width="102%" margin=".5rem 0" />
+        <Button _onClick={siteSignup}  yellow text="회원가입" width="102%" margin=".5rem 0" />
       </Grid>
     </Grid>
   );
