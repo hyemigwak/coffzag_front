@@ -10,10 +10,13 @@ import moment from "moment";
 
 const DetailReview = (props) => {
   const { coffeeId } = props;
+  console.log(coffeeId);
 
   const dispatch = useDispatch();
+  const productInfo = useSelector((state) => state.comment.product_info);
   const commentList = useSelector((state) => state.comment.comment_list);
-  console.log(commentList);
+
+  // console.log(commentList[coffeeId].coffeeId);
   const is_login = useSelector((state) => state.user.is_login);
   // const Cookie = getCookie("user_login");
   const createdAt = moment().format("YYYY-MM-DD hh:mm:ss");
@@ -26,6 +29,9 @@ const DetailReview = (props) => {
     }
     dispatch(commentActions.getCommentAPI(coffeeId));
   }, []);
+
+  console.log(productInfo[coffeeId]);
+  console.log(commentList[coffeeId]);
 
   const siteAddComment = () => {
     if (!is_login) {
@@ -54,14 +60,23 @@ const DetailReview = (props) => {
       </ReviewInput>
       <ShowingReview>
         {/* <Review1> */}
-          {commentList[coffeeId]?.map((c)=>{
-            return <Comment key={c.id}{...c}/>;
-          })}
-          {/* <div className="reviewuser">{commentList.username}</div>
+
+        {commentList[coffeeId]?.map((c, idx) => {
+          const commentProductId = commentList[coffeeId][0].coffeeId;
+          const productId = productInfo[coffeeId][0].coffeeId;
+          console.log(coffeeId);
+          console.log(commentProductId);
+          console.log(productId);
+
+          if (coffeeId === productId) {
+            console.log("id 일치");
+            return <Comment key={idx} {...c} />;
+          }
+        })}
+        {/* <div className="reviewuser">{commentList.username}</div>
           <div className="reviewcontent">{commentList.contents}</div>
         </Review1>
         <div className="reviewdate">{commentList.createdAt}</div> */}
-        
       </ShowingReview>
     </ReviewContainer>
   );

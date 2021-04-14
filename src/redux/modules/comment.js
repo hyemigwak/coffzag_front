@@ -12,10 +12,14 @@ const ADD_COMMENT = "ADD_COMMENT";
 
 //actionCreators
 const loading = createAction(LOADING, (is_loading) => ({ is_loading }));
-const getComment = createAction(GET_COMMENT, (coffeeId, comment_list) => ({
-  coffeeId,
-  comment_list,
-}));
+const getComment = createAction(
+  GET_COMMENT,
+  (coffeeId, product_info, comment_list) => ({
+    coffeeId,
+    product_info,
+    comment_list,
+  })
+);
 
 const addComment = createAction(ADD_COMMENT, (coffeeId, comment) => ({
   coffeeId,
@@ -25,6 +29,7 @@ const addComment = createAction(ADD_COMMENT, (coffeeId, comment) => ({
 //initialState
 const initialState = {
   comment_list: {}, // []가 아닌 {}값으로 들어간다.
+  product_info: [],
   is_loading: false,
 };
 
@@ -42,17 +47,20 @@ const getCommentAPI = (coffeeId) => {
     axios
       .get(commentAPI)
       .then((res) => {
-        console.log(res.data);
+        // console.log(res.data);
         if (res.data.ok) {
+          let product_info = res.data.products;
+
           let commentList = [];
-          let response_data = res.data.reviews;
-          console.log(response_data);
-          response_data.forEach((c) => {
+          let response_data_reviews = res.data.reviews;
+          // console.log(response_data);
+          response_data_reviews.forEach((c) => {
             commentList.push({ ...c });
           });
-          console.log(commentList);
-          dispatch(getComment(coffeeId, commentList));
+
+          dispatch(getComment(coffeeId, product_info, commentList));
           //시간순 내림차순 정렬하기
+          dispatch(loading(false));
         }
       })
       .catch((err) => console.log("getCommentAPI 에러", err));
@@ -94,6 +102,8 @@ export default handleActions(
         // let data = {[coffeeId]:comment_list, ...}
         draft.comment_list[action.payload.coffeeId] =
           action.payload.comment_list;
+        draft.product_info[action.payload.coffeeId] =
+          action.payload.product_info;
       }),
     [ADD_COMMENT]: (state, action) =>
       produce(state, (draft) => {
