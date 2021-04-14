@@ -98,7 +98,6 @@ DetailProduct.defaultProps = {
 const Container = styled.div`
   width: 800px;
   padding: 1rem 1rem;
-  height: 30rem;
   margin: 5% auto;
   text-align: center;
   background: #ffffff;

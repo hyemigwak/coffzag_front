@@ -32,6 +32,7 @@ const initialState = {
 
 const commentAPI =
   "https://run.mocky.io/v3/9f67130f-1633-452f-80db-909349fd6909";
+
 const getCommentAPI = (coffeeId) => {
   return function (dispatch, getState, { history }) {
     if (!coffeeId) {
@@ -45,10 +46,11 @@ const getCommentAPI = (coffeeId) => {
         if (res.data.ok) {
           let commentList = [];
           let response_data = res.data.reviews;
+          console.log(response_data);
           response_data.forEach((c) => {
             commentList.push({ ...c });
           });
-          commentList.sort();
+          console.log(commentList);
           dispatch(getComment(coffeeId, commentList));
           //시간순 내림차순 정렬하기
         }
@@ -59,7 +61,7 @@ const getCommentAPI = (coffeeId) => {
 
 const addCommentAPI = (coffeeId, contents, createdAt) => {
   return function (dispatch, getState, { history }) {
-    const user_info = getState.user.user;
+    const user_info = getState().user.user;
     let comment_data = {
       coffeeId: coffeeId,
       createdAt: createdAt,

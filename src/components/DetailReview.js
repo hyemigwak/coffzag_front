@@ -4,6 +4,7 @@ import { history } from "../redux/configureStore";
 import { useDispatch, useSelector } from "react-redux";
 import styled from "styled-components";
 import { Grid, Button } from "../elements";
+import Comment from "./Comment";
 import { actionCreators as commentActions } from "../redux/modules/comment";
 import moment from "moment";
 
@@ -12,6 +13,7 @@ const DetailReview = (props) => {
 
   const dispatch = useDispatch();
   const commentList = useSelector((state) => state.comment.comment_list);
+  console.log(commentList);
   const is_login = useSelector((state) => state.user.is_login);
   // const Cookie = getCookie("user_login");
   const createdAt = moment().format("YYYY-MM-DD hh:mm:ss");
@@ -20,7 +22,7 @@ const DetailReview = (props) => {
 
   useEffect(() => {
     if (commentList[coffeeId]) {
-      return;
+      return commentList[coffeeId];
     }
     dispatch(commentActions.getCommentAPI(coffeeId));
   }, []);
@@ -51,11 +53,15 @@ const DetailReview = (props) => {
         <Button yellow text="리뷰 등록" onClick={siteAddComment} />
       </ReviewInput>
       <ShowingReview>
-        <Review1>
-          <div className="reviewuser">{username}</div>
-          <div className="reviewcontent">{contents}</div>
+        {/* <Review1> */}
+          {commentList[coffeeId]?.map((c)=>{
+            return <Comment key={c.id}{...c}/>;
+          })}
+          {/* <div className="reviewuser">{commentList.username}</div>
+          <div className="reviewcontent">{commentList.contents}</div>
         </Review1>
-        <div className="reviewdate">{createdAt}</div>
+        <div className="reviewdate">{commentList.createdAt}</div> */}
+        
       </ShowingReview>
     </ReviewContainer>
   );
