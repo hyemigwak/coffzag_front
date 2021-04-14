@@ -5,17 +5,18 @@ import { Grid } from "../elements/";
 const CartProduct = (props) => {
   const { coffee_name, coffee_price, coffee_image, coffee_cnt } = props;
   return (
-    <Grid is_flex column width="60%">
+    <Grid is_flex column>
       <Grid is_flex>
-        <Grid is_flex margin="2px 2%">
+        <ProductLine is_flex>
           <ProductImg bgimg={coffee_image} />
+          <Grid textAlign="left" padding="10px">
+            <h3>{coffee_name}</h3>
+            {coffee_price}원/1슬리브(10캡슐)
+          </Grid>
+        </ProductLine>
+        <Grid width="15%" textAlign="right">
+          {coffee_cnt} sleeves
         </Grid>
-        <Grid textAlign="left" width="150%">
-          <h3>{coffee_name}</h3>
-          {coffee_price}원/1슬리브(10캡슐)
-        </Grid>
-        <Grid></Grid>
-        <Grid textAlign="right">{coffee_cnt} sleeves</Grid>
       </Grid>
       <Line />
     </Grid>
@@ -32,17 +33,22 @@ CartProduct.defaultProps = {
 
 const ProductImg = styled.div`
   background-image: ${(props) => `url(${props.bgimg})`};
-  width: 10rem;
-  height: 10rem;
+  width: 7rem;
+  height: 7rem;
   background-size: cover;
   background-position: center;
   text-align: right;
+  display: block;
 `;
 
 const Line = styled.div`
   border-top: 0.5px solid #d2d2d2;
   width: 100%;
   height: 1px;
+`;
+const ProductLine = styled.div`
+  display: flex;
+  width: 100%;
 `;
 
 export default CartProduct;

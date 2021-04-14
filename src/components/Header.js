@@ -1,13 +1,14 @@
 import React from "react";
-import {history} from "../redux/configureStore";
-import {useDispatch, useSelector} from "react-redux";
+import { history } from "../redux/configureStore";
+import { useDispatch, useSelector } from "react-redux";
 import { actionCreators as userActions } from "../redux/modules/user";
 import "./Header.css";
-import {getCookie, deleteCookie, setCookie} from "../shared/Cookie";
+import { getCookie, deleteCookie, setCookie } from "../shared/Cookie";
 import { Grid, Text } from "../elements/";
 
 import styled from "styled-components";
 import { TextureRounded } from "@material-ui/icons";
+import ShoppingBasketRoundedIcon from "@material-ui/icons/ShoppingBasketRounded";
 
 const Header = (props) => {
   const dispatch = useDispatch();
@@ -17,7 +18,7 @@ const Header = (props) => {
   const siteLogout = () => {
     dispatch(userActions.logOut());
     history.push("/");
-  }
+  };
 
   const headerChange = () => {
     const navbox = document.querySelector(".nav");
@@ -38,36 +39,67 @@ const Header = (props) => {
     return () => window.removeEventListener("scroll", headerChange);
   }, []);
 
-  if(is_login){
+  if (is_login) {
     return (
       <HeaderWrap className="nav">
-      <Grid is_flex padding="0 4% 0 4%">
-        <Grid>
-          <Logo onClick={()=>{history.push("/")}}>Coffzag</Logo>
+        <Grid is_flex padding="0 4% 0 4%">
+          <Grid>
+            <Logo
+              onClick={() => {
+                history.push("/");
+              }}
+            >
+              Coffzag
+            </Logo>
+          </Grid>
+          <Grid textAlign="right">
+            <HeaderText onClick={siteLogout}>로그아웃</HeaderText>
+            <HeaderText>
+              <ShoppingBasketRoundedIcon
+                style={{ verticalAlign: "-5px" }}
+                onClick={() => {
+                  history.push("/cart");
+                }}
+              />
+            </HeaderText>
+          </Grid>
         </Grid>
-        <Grid textAlign="right">
-          <LoginSignup onClick={siteLogout}>로그아웃</LoginSignup>
-          <LoginSignup onClick={()=>{history.push("/cart")}}>장바구니</LoginSignup>
-        </Grid>
-      </Grid>
-    </HeaderWrap> 
-    )
-  }else{
-    return(
+      </HeaderWrap>
+    );
+  } else {
+    return (
       <HeaderWrap className="nav">
-      <Grid is_flex padding="0 4% 0 4%">
-        <Grid>
-          <Logo onClick={()=>{history.push("/")}}>Coffzag</Logo>
-        </Grid>
-        <Grid textAlign="right">
-          <LoginSignup onClick={()=>{history.push("/login")}}>로그인</LoginSignup>
-          <LoginSignup onClick={()=>{history.push("/signup")}}>회원가입</LoginSignup>
-        </Grid>
-      </Grid>
-    </HeaderWrap>
-    )
-  }
+        <Grid is_flex padding="0 4% 0 4%">
+          <Grid>
+            <Logo
+              onClick={() => {
+                history.push("/");
+              }}
+            >
+              Coffzag
+            </Logo>
+          </Grid>
 
+          <Grid textAlign="right">
+            <HeaderText
+              onClick={() => {
+                history.push("/login");
+              }}
+            >
+              로그인
+            </HeaderText>
+            <HeaderText
+              onClick={() => {
+                history.push("/signup");
+              }}
+            >
+              회원가입
+            </HeaderText>
+          </Grid>
+        </Grid>
+      </HeaderWrap>
+    );
+  }
 };
 
 const HeaderWrap = styled.div`
@@ -88,14 +120,14 @@ const HeaderWrap = styled.div`
 const Logo = styled.div`
   font-size: 30px;
   font-weight: 900;
-  cursor:pointer;
+  cursor: pointer;
 `;
 
-const LoginSignup = styled.span`
-  font-size: 16px;
+const HeaderText = styled.span`
+  font-size: 14px;
   margin-left: 2%;
   font-weight: 700;
-  cursor:pointer;
+  cursor: pointer;
 `;
 
 export default Header;

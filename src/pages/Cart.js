@@ -1,13 +1,13 @@
 import React, { useState, useEffect } from "react";
 import styled from "styled-components";
 import { Grid, Button } from "../elements/";
+import { history } from "../redux/configureStore";
 
 import CartProduct from "../components/CartProduct";
 
-const ProductList = (props) => {
-  
+const Cart = (props) => {
   return (
-    <>
+    <Grid width="100vmin">
       <Grid is_flex column>
         <h1>장바구니</h1>
         <CartProduct />
@@ -15,16 +15,26 @@ const ProductList = (props) => {
         <CartProduct />
         <CartProduct />
       </Grid>
-      <Buttons>
-        <Button isPay text="쇼핑 더하기" />
-        <Button isHome text="구매" />
-      </Buttons>
-    </>
+      <Grid is_flex column margin="2rem 0">
+        <Grid is_flex>
+          <Grid textAlign="right">수량:</Grid>
+          <Grid width="15%" textAlign="right">
+            30 개
+          </Grid>
+        </Grid>
+      </Grid>
+      <Grid textAlign="right" margin="2rem 0">
+        <Button
+          text="쇼핑 더하기"
+          margin="0 5px 0 0"
+          _onClick={() => {
+            history.push("/");
+          }}
+        />
+        <Button yellow text="구매하기" margin="0 0 0 5px" />
+      </Grid>
+    </Grid>
   );
 };
 
-const Buttons = styled.div`
-  margin: 3rem 0;
-`;
-
-export default ProductList;
+export default Cart;

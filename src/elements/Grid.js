@@ -116,7 +116,6 @@ const GridBox = styled.div`
       : ""};
   ${(props) =>
     props.column ? `flex-direction: column;` : `flex-direction: row;`}
-  // 추가한 부분
   text-align:${(props) => props.textAlign};
   top: ${(props) => props.top};
   right: ${(props) => props.right};
@@ -137,8 +136,6 @@ const RootContainer = styled.div`
   background-color: transparent;
   color: #5a5656;
   margin: 0;
-
-  // 바뀐부분
   align-items: center;
   justify-content: center;
   padding: 4%;

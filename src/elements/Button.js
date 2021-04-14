@@ -1,114 +1,53 @@
 import React from "react";
 import styled from "styled-components";
+import { makeStyles } from "@material-ui/core/styles";
+import Button from "@material-ui/core/Button";
 
-const Button = (props) => {
-  const {
-    bg,
-    text,
-    size,
-    radius,
-    bgopacity,
-    color,
-    isHome,
-    isPay,
-    _onClick,
-    children,
-  } = props;
+// 버튼 종류
+// 로그인 / 회원가입
+// 장바구니 / 구매하기
+// 리뷰등록
+// 중복체크
 
-  const styles = {
-    bg: bg,
-    bgopacity: bgopacity,
-    text: text,
-    color: color,
-    size: size,
-    radius: radius,
-  };
+const useStyles = makeStyles({
+  yellow: (props) => ({
+    background: `linear-gradient(45deg, #ff9449 30%, #ffc149 90%)`,
+    border: 0,
+    borderRadius: 30,
+    boxShadow: "0 2px 5px 2px rgba(255, 148, 73, .3)",
+    color: "white",
+    height: 42,
+    padding: "0 30px",
+    margin: props.margin,
+    width: props.width,
+  }),
+  dark: (props) => ({
+    background: `linear-gradient(45deg, #333131 30%, #5a5656 90%)`,
+    border: 0,
+    borderRadius: 30,
+    boxShadow: "0 2px 5px 2px rgba(90, 86, 86, .2)",
+    color: "white",
+    height: 42,
+    padding: "0 30px",
+    margin: props.margin,
+    width: props.width,
+  }),
+});
 
-  if (isHome) {
-    return (
-      <Btn isHome onClick={_onClick}>
-        {text ? text : children}
-      </Btn>
-    );
-  }
-
-  if (isPay) {
-    return (
-      <Btn isPay onClick={_onClick}>
-        {text ? text : children}
-      </Btn>
-    );
-  }
-
-  return (
-    <BtnCircle {...styles} onClick={_onClick}>
-      {text ? text : children}
-    </BtnCircle>
-  );
-
-  // 아래꺼에 onClick 넣으면 안된다.. 왜안되는지 모르겠음 ㅠㅠㅠㅠㅠㅠ (disabled 빼고도 안됨 ㅠ)
-  // return <CircleBtn disabled onClick={_onClick} {...styles} >{text? text : children}</CircleBtn>;
-};
-
-Button.defaultProps = {
+Hook.defaultProps = {
   children: null,
   _onClick: () => {},
-  isPlay: false,
-  isInfo: false,
-  bg: false,
-  bgopacity: false,
-  text: false,
-  color: false,
 };
 
-const Btn = styled.button`
-  z-index: 500;
-  cursor: pointer;
-  padding: 0.5em 1.6em;
-  margin-right: 0.5em;
-  font-size: 1.25vw;
-  font-weight: 700;
-  outline: 0px;
-  border: none;
-  border-radius: 4px;
-  text-align: center;
-  background-color: ${(props) => (props.bg ? props.bg : "")};
-  span {
-    vertical-align: 0.2em;
-  }
-  ${(props) =>
-    props.isHome
-      ? `
-  background-color:#FFC149;
-  :hover {
-    background-color:#FFC149bf;
-  }`
-      : props.isPay
-      ? `
-color: #fff;
-    background-color:#5A5656b3;
-    :hover {
-      background-color:#5A565666;
-
-  }`
-      : ""}
-`;
-
-const BtnCircle = styled.button`
-  width: 4rem;
-  height: 4rem;
-  color: #fff;
-  cursor: pointer;
-  outline: 0px;
-  font-size: 1rem;
-  z-index: 15;
-  position: absolute;
-  right: 10%;
-  bottom: 36%;
-  background-color: ${(props) => (props.bg ? props.bg && props.bgopacity : "")};
-  border-radius: ${(props) => (props.radius ? props.radius : "")};
-  border: 0.5px solid #fff;
-  outline: 0;
-`;
-
-export default Button;
+export default function Hook(props) {
+  const classes = useStyles(props);
+  const { _onClick } = props;
+  return (
+    <Button
+      onClick={_onClick}
+      className={props.yellow ? classes.yellow : classes.dark}
+    >
+      {props.text}
+    </Button>
+  );
+}

@@ -1,7 +1,7 @@
 import React from "react";
 import styled from "styled-components";
 import { Grid } from "../elements/";
-import {history} from '../redux/configureStore'
+import { history } from "../redux/configureStore";
 
 const Product = (props) => {
   const {
@@ -13,9 +13,13 @@ const Product = (props) => {
     review_date,
     user_name,
     coffee_id,
-  } = props.data
+  } = props.data;
   return (
-    <Card onClick={()=>{history.push(`/detail/${coffee_id}`)}}>
+    <Card
+      onClick={() => {
+        history.push(`/detail/${coffee_id}`);
+      }}
+    >
       <ProductImg bgimg={coffee_image}>
         <BrandBadge>{coffee_brand}</BrandBadge>
       </ProductImg>
@@ -57,25 +61,10 @@ Product.defaultProps = {
 const Card = styled.div`
   z-index: 1;
   margin: 1rem;
-
   width: 16rem;
   background-color: #fff;
   border-radius: 20px;
   box-shadow: 0 0 10px #0000001a;
-  :hover {
-    div {
-      div {
-        h1,
-        p {
-          transition: transform 0.25s ease-in-out,
-            background-color 0.25s ease-in-out, font-weight 0.25s ease-in-out;
-          transform: scale(1.1) rotate(-3deg);
-          background-color: #fff;
-          font-weight: 700;
-        }
-      }
-    }
-  }
 `;
 
 const ProductImg = styled.div`
@@ -87,14 +76,6 @@ const ProductImg = styled.div`
   background-size: cover;
   background-position: right;
   text-align: right;
-  /* :hover {
-    div {
-      transition: transform 0.25s ease-in-out,
-        background-color 0.25s ease-in-out;
-      transform: scale(1.1) rotate(5deg);
-      background-color: #fca600;
-    }
-  } */
 `;
 
 const CardFooter = styled.footer`
