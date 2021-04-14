@@ -33,8 +33,8 @@ const loginAPI = (username, pwd) => {
     })
       .then((res) => {
         const jwtToken = res.data.token;
-        setCookie("user_login", jwtToken);
-        axios.defaults.headers.common['Authorization'] = `${jwtToken}`;
+        setCookie("user_login", jwtToken); //쿠키에 user_login 이라는 이름으로 저장
+        axios.defaults.headers.common["Authorization"] = `${jwtToken}`; //디폴트로 헤더에 토큰 담아주기
         dispatch(
           logIn({
             username: username,
@@ -56,15 +56,15 @@ const signupAPI = (username, pwd, email) => {
       method: "POST",
       url: "http://54.180.86.19/api/signup",
       headers: {
-        "Accept": "application/json", 
+        Accept: "application/json",
         "Content-Type": "application/json;charset=UTF-8",
         "Access-Control-Allow-Origin": "*",
       },
       data: {
-        "username": username,
-        "password": pwd,
-        "email": email,
-      }
+        username: username,
+        password: pwd,
+        email: email,
+      },
     })
       .then((res) => {
         console.log(res);
@@ -92,9 +92,10 @@ export default handleActions(
         draft.user = null;
         draft.is_login = false;
       }),
-    [LOGIN_CHECK]: (state,action) => produce(state,(draft) => {
-      draft.is_login = action.payload.cookie;
-    })
+    [LOGIN_CHECK]: (state, action) =>
+      produce(state, (draft) => {
+        draft.is_login = action.payload.cookie;
+      }),
   },
   initialState
 );

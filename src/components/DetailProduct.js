@@ -11,7 +11,6 @@ import AddCircleOutlineIcon from "@material-ui/icons/AddCircleOutline";
 import RemoveCircleOutlineIcon from "@material-ui/icons/RemoveCircleOutline";
 
 const DetailProduct = (props) => {
-
   const {
     coffeeName,
     coffeePrice,
@@ -87,12 +86,13 @@ const DetailProduct = (props) => {
 };
 
 DetailProduct.defaultProps = {
-  coffeeImg:"https://www.nespresso.com/shared_res/agility/enhancedPDP/vertuo/images/Vertuo_Double-espresso-Scuro_resp.jpg",
-  coffeeBrand:"Nespresso",
-  coffeeName:"네스프레소",
-  coffeePrice:"7,900",
-  coffeeUnit:"1슬리브(10캡슐)",
-  coffeeInfo:"향이 풍부한 커피입니다.",
+  coffeeImg:
+    "https://www.nespresso.com/shared_res/agility/enhancedPDP/vertuo/images/Vertuo_Double-espresso-Scuro_resp.jpg",
+  coffeeBrand: "Nespresso",
+  coffeeName: "네스프레소",
+  coffeePrice: "7,900",
+  coffeeUnit: "1슬리브(10캡슐)",
+  coffeeInfo: "향이 풍부한 커피입니다.",
 };
 
 const Container = styled.div`

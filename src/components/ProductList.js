@@ -1,8 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import styled from "styled-components";
-import { Grid } from "../elements/";
-import { history } from "../redux/configureStore";
 
 import Product from "./Product";
 import { actionCreators as productActions } from "../redux/modules/product";

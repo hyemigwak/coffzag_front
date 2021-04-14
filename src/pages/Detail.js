@@ -10,15 +10,13 @@ const Detail = (props) => {
   const coffees = useSelector((state) => state.product.product_list);
   const coffee_idx = coffees.findIndex((c) => c.coffeeId === Number(id));
   const coffee = coffees[coffee_idx];
-  console.log(coffee);
 
   useEffect(() => {
-    if(coffee) {
+    if (coffee) {
       return coffee;
     }
-    dispatch(productActions.setOneProductAPI(id))
-  },[coffee]);
-
+    dispatch(productActions.setOneProductAPI(id));
+  }, [coffee]);
 
   return (
     <div>

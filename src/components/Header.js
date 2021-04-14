@@ -13,7 +13,7 @@ import ShoppingBasketRoundedIcon from "@material-ui/icons/ShoppingBasketRounded"
 const Header = (props) => {
   const dispatch = useDispatch();
   const is_login = useSelector((state) => state.user.is_login);
-  const cookie = getCookie("user_login")? true : false;
+  const cookie = getCookie("user_login") ? true : false;
 
   const siteLogout = () => {
     dispatch(userActions.logOut());
@@ -35,7 +35,6 @@ const Header = (props) => {
 
   React.useEffect(() => {
     window.addEventListener("scroll", headerChange);
-
     return () => window.removeEventListener("scroll", headerChange);
   }, []);
 
