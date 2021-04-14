@@ -57,3 +57,35 @@
          }
       ]
    }
+
+
+   {
+      "ok":true,
+      "products": [
+               {
+                  "coffeeBrand": "nespresso",
+                  "coffeeId": 17,
+                  "coffeeImg": "https://www.nespresso.com/ecom/medias/sys_master/public/13415712784414/C-0625-Responsive-Standard-2000x2000-.png",
+                  "coffeeInfo": "2016년산 빈티지 수마트라 원두로, 로스팅향과 우디향, 스파이시향을 지닌 커피",
+                  "coffeeName": "리미티드 에디션 에이지드 수마트라",
+                  "coffeePrice": 9500,
+                  "coffeeUnit": "1 슬리브 (10캡슐)"
+               }
+            ],
+      "reviews": [
+               { 
+                     "id":4,
+                     "coffeeId":17,
+                     "username": "kale",
+                     "contents":"맛있어요",
+                     "createdAt":"2021-04-13 18:39:12"
+               },
+               {
+                     "id":5,
+                     "coffeeId":17,
+                     "username": "jua",
+                     "contents":"부드러워요",
+                     "createdAt":"2021-04-10 18:39:23"
+               }
+            ]
+      }

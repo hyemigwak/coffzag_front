@@ -11,8 +11,8 @@ import { TextureRounded } from "@material-ui/icons";
 import ShoppingBasketRoundedIcon from "@material-ui/icons/ShoppingBasketRounded";
 
 const Header = (props) => {
-  const dispatch = useDispatch();
-  const is_login = useSelector((state) => state.user.is_login);
+  const dispatch = useDispatch(); // 액션을 디스패치를 타고 와서 뿌려준다
+  const is_login = useSelector((state) => state.user.is_login); // state를 가져오는 것
   const cookie = getCookie("user_login") ? true : false;
 
   const siteLogout = () => {

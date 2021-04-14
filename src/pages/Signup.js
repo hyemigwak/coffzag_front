@@ -3,7 +3,6 @@ import { useDispatch, useSelector } from "react-redux";
 import { actionCreators as userActions } from "../redux/modules/user";
 import { history } from "../redux/configureStore";
 import styled from "styled-components";
-import { actionCreators as userActions } from "../redux/modules/user";
 import { Grid, Button } from "../elements";
 
 const Signup = (props) => {

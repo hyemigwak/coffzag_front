@@ -14,8 +14,8 @@ const DetailReview = (props) => {
   const commentList = useSelector((state) => state.comment.comment_list);
   const is_login = useSelector((state) => state.user.is_login);
   // const Cookie = getCookie("user_login");
-  const created_at = moment().format("YYYY-MM-DD hh:mm:ss");
-  const [review, setReview] = useState("");
+  const createdAt = moment().format("YYYY-MM-DD hh:mm:ss");
+  const [contents, setReview] = useState("");
   const onChangeReview = useCallback((e) => setReview(e.target.value), []);
 
   useEffect(() => {
@@ -31,11 +31,11 @@ const DetailReview = (props) => {
       history.push("/login");
       return;
     }
-    if (review === "") {
+    if (contents === "") {
       window.alert("리뷰를 입력해주세요!");
       return;
     }
-    dispatch(commentActions.addCommentAPI(coffeeId, review, created_at));
+    dispatch(commentActions.addCommentAPI(coffeeId, contents, createdAt));
   };
 
   return (
@@ -45,20 +45,26 @@ const DetailReview = (props) => {
         <input
           type="text"
           placeholder="리뷰를 작성해주세요!"
-          value={review}
+          value={contents}
           onChange={onChangeReview}
         />
         <Button yellow text="리뷰 등록" onClick={siteAddComment} />
       </ReviewInput>
       <ShowingReview>
         <Review1>
-          <div className="reviewuser">{commentList.user_name}</div>
-          <div className="reviewcontent">{commentList.contents}</div>
+          <div className="reviewuser">{username}</div>
+          <div className="reviewcontent">{contents}</div>
         </Review1>
-        <div className="reviewdate">{commentList.created_at}</div>
+        <div className="reviewdate">{createdAt}</div>
       </ShowingReview>
     </ReviewContainer>
   );
+};
+
+DetailReview.defaultProps = {
+  username: "kale",
+  contents: "맛있어요",
+  createdAt: "2021-04-13 18:39:12",
 };
 
 const ReviewContainer = styled.div`

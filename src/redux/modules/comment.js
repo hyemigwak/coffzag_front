@@ -6,43 +6,50 @@ import { history } from "../configureStore";
 import { getCookie } from "../../shared/Cookie";
 
 //actions
+const LOADING = "LOADING";
 const GET_COMMENT = "GET_COMMENT";
 const ADD_COMMENT = "ADD_COMMENT";
 
 //actionCreators
-const getComment = createAction(GET_COMMENT, (coffee_id, comment_list) => ({
-  coffee_id,
+const loading = createAction(LOADING, (is_loading) => ({ is_loading }));
+const getComment = createAction(GET_COMMENT, (coffeeId, comment_list) => ({
+  coffeeId,
   comment_list,
 }));
-const addComment = createAction(ADD_COMMENT, (coffee_id, comment) => ({
-  coffee_id,
+
+const addComment = createAction(ADD_COMMENT, (coffeeId, comment) => ({
+  coffeeId,
   comment,
 }));
 
 //initialState
 const initialState = {
   comment_list: {}, // []가 아닌 {}값으로 들어간다.
+  is_loading: false,
 };
 
 //api 연결
 
-const commentAPI = "";
-const getCommentAPI = (coffee_id) => {
+const commentAPI =
+  "https://run.mocky.io/v3/9f67130f-1633-452f-80db-909349fd6909";
+const getCommentAPI = (coffeeId) => {
   return function (dispatch, getState, { history }) {
-    if (!coffee_id) {
+    if (!coffeeId) {
       return;
     }
+    dispatch(loading(true));
     axios
       .get(commentAPI)
       .then((res) => {
+        console.log(res.data);
         if (res.data.ok) {
           let commentList = [];
-          let response_data = res.data.results;
+          let response_data = res.data.reviews;
           response_data.forEach((c) => {
             commentList.push({ ...c });
           });
           commentList.sort();
-          dispatch(getComment(coffee_id, commentList));
+          dispatch(getComment(coffeeId, commentList));
           //시간순 내림차순 정렬하기
         }
       })
@@ -50,14 +57,14 @@ const getCommentAPI = (coffee_id) => {
   };
 };
 
-const addCommentAPI = (coffee_id, contents, created_at) => {
+const addCommentAPI = (coffeeId, contents, createdAt) => {
   return function (dispatch, getState, { history }) {
     const user_info = getState.user.user;
     let comment_data = {
-      coffee_id: coffee_id,
-      created_at: created_at,
+      coffeeId: coffeeId,
+      createdAt: createdAt,
       username: user_info.username,
-      content: contents,
+      contents: contents,
     };
     axios({
       method: "POST",
@@ -66,7 +73,7 @@ const addCommentAPI = (coffee_id, contents, created_at) => {
     })
       .then((res) => {
         console.log(res);
-        dispatch(addComment(coffee_id, comment_data));
+        dispatch(addComment(coffeeId, comment_data));
         window.alert("댓글이 작성되었습니다.");
       })
       .catch((err) => {
@@ -82,19 +89,19 @@ export default handleActions(
     //[]리스트로 아예 갈아끼우면 매번 서버에 요청해야한다. 서버 과부하. 딕셔너리로 리덕스에 저장해두기
     [GET_COMMENT]: (state, action) =>
       produce(state, (draft) => {
-        // let data = {[coffee_id]:comment_list, ...}
-        draft.comment_list[action.payload.coffee_id] =
+        // let data = {[coffeeId]:comment_list, ...}
+        draft.comment_list[action.payload.coffeeId] =
           action.payload.comment_list;
       }),
     [ADD_COMMENT]: (state, action) =>
       produce(state, (draft) => {
-        if (!draft.comment_list[action.payload.coffee_id]) {
-          draft.comment_list[action.payload.coffee_id] = [
+        if (!draft.comment_list[action.payload.coffeeId]) {
+          draft.comment_list[action.payload.coffeeId] = [
             action.payload.comment,
           ];
           return;
         }
-        draft.comment_list[action.payload.coffee_id].unshift(
+        draft.comment_list[action.payload.coffeeId].unshift(
           action.payload.comment
         );
       }),

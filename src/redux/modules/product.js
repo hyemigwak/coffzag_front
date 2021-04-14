@@ -16,7 +16,7 @@ const initialState = {
   product_list: [],
   is_loading: false,
 };
-// http://54.180.86.19/api/products
+
 // http://localhost:8080/api/products
 //mockAPI = "https://run.mocky.io/v3/eca60b5e-b520-427f-8f54-7b88df09acc1"
 const product_API = "http://54.180.86.19/api/products";
