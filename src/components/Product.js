@@ -1,23 +1,24 @@
 import React from "react";
 import styled from "styled-components";
 import { Grid } from "../elements/";
+import {history} from '../redux/configureStore'
 
 const Product = (props) => {
   const {
     coffee_name,
     coffee_price,
     coffee_image,
-    coffe_brand,
+    coffee_brand,
     review,
     review_date,
     user_name,
-  } = props;
+    coffee_id,
+  } = props.data
   return (
-    <Card>
+    <Card onClick={()=>{history.push(`/detail/${coffee_id}`)}}>
       <ProductImg bgimg={coffee_image}>
-        <BrandBadge>{coffe_brand}</BrandBadge>
+        <BrandBadge>{coffee_brand}</BrandBadge>
       </ProductImg>
-
       <CardBody>
         <Grid>
           <h1>{coffee_name}</h1>
@@ -46,11 +47,11 @@ Product.defaultProps = {
   coffee_price: 12000,
   coffee_image:
     "https://www.nespresso.com/shared_res/agility/enhancedPDP/vertuo/images/Vertuo_Double-espresso-Scuro_resp.jpg",
-  coffe_brand: "Nespresso",
+  coffee_brand: "Nespresso",
   review:
     "에스프레소가 더블 진한맛과 다크로스팅 아로마 바이스 첫 산미감 어쩌구 저쩌구 김수한무",
   review_date: "2021-04-01",
-  user_name: "Jason",
+  user_name: "mdnimi",
 };
 
 const Card = styled.div`
@@ -84,7 +85,7 @@ const ProductImg = styled.div`
   border-top-left-radius: 20px;
   border-top-right-radius: 20px;
   background-size: cover;
-  background-position: center;
+  background-position: right;
   text-align: right;
   /* :hover {
     div {

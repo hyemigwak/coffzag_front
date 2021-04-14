@@ -1,10 +1,24 @@
 import React from "react";
+import {history} from "../redux/configureStore";
+import {useDispatch, useSelector} from "react-redux";
+import { actionCreators as userActions } from "../redux/modules/user";
 import "./Header.css";
+import {getCookie, deleteCookie, setCookie} from "../shared/Cookie";
 import { Grid, Text } from "../elements/";
 
 import styled from "styled-components";
+import { TextureRounded } from "@material-ui/icons";
 
 const Header = (props) => {
+  const dispatch = useDispatch();
+  const is_login = useSelector((state) => state.user.is_login);
+  // const cookie = getCookie("user_login")? true: false;
+
+  const siteLogout = () => {
+    dispatch(userActions.logOut());
+    history.push("/");
+  }
+
   const headerChange = () => {
     const navbox = document.querySelector(".nav");
     if (window.scrollY > 35) {
@@ -24,19 +38,36 @@ const Header = (props) => {
     return () => window.removeEventListener("scroll", headerChange);
   }, []);
 
-  return (
-    <HeaderWrap className="nav">
+  if(is_login){
+    return (
+      <HeaderWrap className="nav">
       <Grid is_flex padding="0 4% 0 4%">
         <Grid>
-          <Logo>Coffzag</Logo>
+          <Logo onClick={()=>{history.push("/")}}>Coffzag</Logo>
         </Grid>
         <Grid textAlign="right">
-          <LoginSignup>로그인</LoginSignup>
-          <LoginSignup>회원가입</LoginSignup>
+          <LoginSignup onClick={siteLogout}>로그아웃</LoginSignup>
+          <LoginSignup onClick={()=>{history.push("/cart")}}>장바구니</LoginSignup>
+        </Grid>
+      </Grid>
+    </HeaderWrap> 
+    )
+  }else{
+    return(
+      <HeaderWrap className="nav">
+      <Grid is_flex padding="0 4% 0 4%">
+        <Grid>
+          <Logo onClick={()=>{history.push("/")}}>Coffzag</Logo>
+        </Grid>
+        <Grid textAlign="right">
+          <LoginSignup onClick={()=>{history.push("/login")}}>로그인</LoginSignup>
+          <LoginSignup onClick={()=>{history.push("/signup")}}>회원가입</LoginSignup>
         </Grid>
       </Grid>
     </HeaderWrap>
-  );
+    )
+  }
+
 };
 
 const HeaderWrap = styled.div`
@@ -57,12 +88,14 @@ const HeaderWrap = styled.div`
 const Logo = styled.div`
   font-size: 30px;
   font-weight: 900;
+  cursor:pointer;
 `;
 
 const LoginSignup = styled.span`
   font-size: 16px;
   margin-left: 2%;
   font-weight: 700;
+  cursor:pointer;
 `;
 
 export default Header;

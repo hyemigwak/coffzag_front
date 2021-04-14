@@ -16,7 +16,7 @@ const Login = (props) => {
       window.alert("아이디와 패스워드 모두 입력해주세요!");
       return;
     }
-    dispatch(userActions.logIn(username,pwd));
+    dispatch(userActions.loginAPI(username,pwd));
     history.push("/");
   }
   
