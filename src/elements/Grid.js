@@ -131,13 +131,10 @@ const RootContainer = styled.div`
   overflow-x: hidden;
   flex-wrap: wrap;
   display: flex;
-  position: relative;
   z-index: 0;
   background-color: transparent;
   color: #5a5656;
-  margin: 0;
-  align-items: center;
-  justify-content: center;
+  justify-content: space-evenly;
   padding: 4%;
 `;
 

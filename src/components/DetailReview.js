@@ -28,7 +28,10 @@ const DetailReview = (props) => {
       return commentList[coffeeId];
     }
     dispatch(commentActions.getCommentAPI(coffeeId));
-  }, []);
+  }, [commentList[coffeeId]]);
+
+  console.log(productInfo);
+  console.log(commentList);
 
   console.log(productInfo[coffeeId]);
   console.log(commentList[coffeeId]);
@@ -58,26 +61,18 @@ const DetailReview = (props) => {
         />
         <Button yellow text="리뷰 등록" onClick={siteAddComment} />
       </ReviewInput>
-      <ShowingReview>
-        {/* <Review1> */}
-
+      <Grid width="95%" margin="0 auto">
         {commentList[coffeeId]?.map((c, idx) => {
           const commentProductId = commentList[coffeeId][0].coffeeId;
-          const productId = productInfo[coffeeId][0].coffeeId;
           console.log(coffeeId);
           console.log(commentProductId);
-          console.log(productId);
 
-          if (coffeeId === productId) {
+          if (coffeeId === coffeeId) {
             console.log("id 일치");
             return <Comment key={idx} {...c} />;
           }
         })}
-        {/* <div className="reviewuser">{commentList.username}</div>
-          <div className="reviewcontent">{commentList.contents}</div>
-        </Review1>
-        <div className="reviewdate">{commentList.createdAt}</div> */}
-      </ShowingReview>
+      </Grid>
     </ReviewContainer>
   );
 };
@@ -103,6 +98,7 @@ const ReviewInput = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
+  margin: 0 auto 1rem auto;
   input {
     width: 100%;
     height: 2rem;
@@ -117,28 +113,6 @@ const ReviewInput = styled.div`
   button {
     min-width: 15%;
   }
-`;
-
-const ShowingReview = styled.div`
-  width: 96%;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  color: #5a5656;
-  .reviewuser {
-    margin: 0 2.5rem 0 2rem;
-    font-weight: bold;
-  }
-  .reviewdate {
-    color: #d2d2d2;
-    font-size: 14px;
-  }
-`;
-
-const Review1 = styled.div`
-  display: flex;
-  justify-content: flex-start;
-  align-items: center;
 `;
 
 export default DetailReview;

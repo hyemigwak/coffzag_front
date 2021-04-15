@@ -1,13 +1,16 @@
 import React from "react";
-import styled from "styled-components";
 import { makeStyles } from "@material-ui/core/styles";
 import Button from "@material-ui/core/Button";
 
-// 버튼 종류
-// 로그인 / 회원가입
-// 장바구니 / 구매하기
-// 리뷰등록
-// 중복체크
+// # 만들어야하는 버튼 종류
+// 로그인 / 회원가입 / 장바구니 / 구매하기 / 리뷰등록
+
+// # 버튼 element 구성 순서
+// 1. import Button from @material-ui
+// 2. material-ui 버튼 커스텀 스타일 참조 (makeStyles)
+// 3. JS에서 태그 style = {{ color : "red" }} 와 같은 문법이 아래 형식에 동일하게 적용
+// 4. element로 버튼을 넘겨줄 경우 onClick 기능을 따로 지정해야 한다. () => {}
+// 5. react hooks 에서는 if문의 분기 처리가 안된다고 오류가 뜨는데 *** 이 부분 공부해보기
 
 const useStyles = makeStyles({
   yellow: (props) => ({

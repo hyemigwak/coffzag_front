@@ -2,139 +2,57 @@ import React from "react";
 import styled from "styled-components";
 
 const Badge = (props) => {
-  const {
-    bg,
-    text,
-    size,
-    radius,
-    bgopacity,
-    color,
-    isPlay,
-    isInfo,
-    isLogout,
-    _onClick,
-    children,
-  } = props;
+  const { bg, text, _onClick, children } = props;
 
-  const styles = {
-    bg: bg,
-    bgopacity: bgopacity,
-    text: text,
-    color: color,
-    size: size,
-    radius: radius,
-  };
+  console.log(children);
 
-  if (isPlay) {
+  if (children === "illy") {
     return (
-      <Btn isPlay="isPlay" onClick={_onClick}>
-        {text ? text : children}
-      </Btn>
+      <BrandBadge bg="#d12420" onClick={_onClick}>
+        {children}
+      </BrandBadge>
+    );
+  }
+  if (children === "nespresso") {
+    return (
+      <BrandBadge bg="#bd6416" onClick={_onClick}>
+        {children}
+      </BrandBadge>
     );
   }
 
-  if (isInfo) {
+  if (children === "starbucks") {
     return (
-      <Btn isInfo="isInfo" onClick={_onClick}>
-        {text ? text : children}
-      </Btn>
+      <BrandBadge bg="#006241" onClick={_onClick}>
+        {children}
+      </BrandBadge>
     );
   }
-
-  if (isLogout) {
-    return (
-      <LogoutBtn isLogout="isLogout" onClick={_onClick}>
-        {text ? text : children}
-      </LogoutBtn>
-    );
-  }
-
   return (
-    <BtnCircle {...styles} onClick={_onClick}>
-      {text ? text : children}
-    </BtnCircle>
+    <BrandBadge {...props} onClick={_onClick}>
+      {children}
+    </BrandBadge>
   );
-
-  // 아래꺼에 onClick 넣으면 안된다.. 왜안되는지 모르겠음 ㅠㅠㅠㅠㅠㅠ (disabled 빼고도 안됨 ㅠ)
-  // return <CircleBtn disabled onClick={_onClick} {...styles} >{text? text : children}</CircleBtn>;
 };
 
 Badge.defaultProps = {
+  bg: "#5a5656",
+  text: false,
   children: null,
   _onClick: () => {},
-  isPlay: false,
-  isInfo: false,
-  bg: false,
-  bgopacity: false,
-  text: false,
-  color: false,
 };
 
-const Btn = styled.button`
-  z-index: 500;
-  cursor: pointer;
-  padding: 0.5em 1.6em;
-  margin-right: 0.5em;
-  font-size: 1.25vw;
-  font-weight: 700;
-  outline: 0px;
-  border: none;
-  border-radius: 4px;
-  text-align: center;
-  background-color: ${(props) => (props.bg ? props.bg : "")};
-  span {
-    vertical-align: 0.2em;
-  }
-  ${(props) =>
-    props.isPlay
-      ? `
-  background-color:#ffffff;
-  :hover {
-    background-color:#ffffffbf;
-  }`
-      : props.isInfo
-      ? `
-color: #fff;
-    background-color:#6d6d6eb3;
-    :hover {
-      background-color:#6d6d6e66;
-
-  }`
-      : ""}
-`;
-
-const LogoutBtn = styled.button`
-  display: none;
-  border: none;
-  padding: 4px;
-  margin: 0px 12px;
-  font-size: 0.9rem;
-  outline: 0px;
-  border-radius: 4px;
-  text-align: center;
-  cursor: pointer;
-  color: #fff;
-  background-color: #6d6d6eb3;
-  &:hover {
-    background-color: #6d6d6e66;
-  }
-`;
-
-const BtnCircle = styled.button`
-  width: 4rem;
-  height: 4rem;
-  color: #fff;
-  cursor: pointer;
-  outline: 0px;
-  font-size: 1rem;
-  z-index: 15;
-  position: absolute;
-  right: 10%;
-  bottom: 36%;
-  background-color: ${(props) => (props.bg ? props.bg && props.bgopacity : "")};
-  border-radius: ${(props) => (props.radius ? props.radius : "")};
-  border: 0.5px solid #fff;
-  outline: 0;
+const BrandBadge = styled.div`
+  display: inline-block;
+  margin: 1vmin 1vmin auto auto;
+  padding: 5px 10px;
+  border-radius: 15px;
+  border: 10px;
+  background-color: ${(props) => props.bg};
+  color: white;
+  font-size: 12px;
+  font-weight: 600;
+  text-shadow: 0 0 2px #0000004d;
 `;
 
 export default Badge;

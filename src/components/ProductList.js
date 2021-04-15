@@ -18,18 +18,11 @@ const ProductList = (props) => {
 
   return (
     <React.Fragment>
-      <ProductContainer>
-        {coffees.map((coffee, idx) => (
-          <Product data={coffee} key={idx} />
-        ))}
-      </ProductContainer>
+      {coffees.map((coffee, idx) => (
+        <Product {...coffee} key={idx} />
+      ))}
     </React.Fragment>
   );
 };
-
-const ProductContainer = styled.div`
-  display: flex;
-  flex-wrap: wrap;
-`;
 
 export default ProductList;

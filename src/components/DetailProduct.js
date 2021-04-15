@@ -2,7 +2,7 @@ import React, { useEffect } from "react";
 import styled from "styled-components";
 import { actionCreators as productActions } from "../redux/modules/product";
 import { useDispatch, useSelector } from "react-redux";
-import { Grid, Input, Button } from "../elements";
+import { Grid, Input, Button, Badge } from "../elements";
 
 import StarRoundedIcon from "@material-ui/icons/StarRounded";
 import StarOutlineRoundedIcon from "@material-ui/icons/StarOutlineRounded";
@@ -52,7 +52,7 @@ const DetailProduct = (props) => {
           <CardLeft>
             <BrandNameArea>
               <div className="Btn">
-                <CoffeeBrandBtn>{coffeeBrand}</CoffeeBrandBtn>
+                <Badge>{coffeeBrand}</Badge>
               </div>
             </BrandNameArea>
             <ProductName>
@@ -124,22 +124,21 @@ const Contents = styled.div`
 
 const CardRight = styled.div`
   width: 23rem;
-  img {
-    max-width: 100%;
-  }
 `;
 
 const CircleImage = styled.div`
+  display: inline-flex;
+  justify-content: space-between;
+  flex-direction: column;
   border-radius: 70%;
   overflow: hidden;
   width: 20rem;
   height: 20rem;
-  border: 1px solid #ffc149;
+  box-shadow: 0 0 10px #0000001a;
   img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-    object-position: right;
+    max-width: 100%;
+    margin: auto;
+    object-fit: contain;
   }
 `;
 
@@ -160,7 +159,7 @@ const CardLeft = styled.div`
 const ProductName = styled.div`
   display: flex;
   justify-content: flex-start;
-  align-items: center;
+  align-items: left;
   padding: 1rem 0rem;
   border-bottom: 1px solid #9a9292;
   margin-bottom: 0.6rem;
@@ -175,18 +174,6 @@ const ProductName = styled.div`
 const BrandNameArea = styled.div`
   display: flex;
   justify-content: flex-start;
-`;
-
-const CoffeeBrandBtn = styled.button`
-  border: none;
-  border-radius: 1rem;
-  font-size: 0.8rem;
-  color: #ffffff;
-  background-color: #ffc149;
-  width: 6.2rem;
-  height: 1.8rem;
-  text-align: center;
-  margin-right: 0.5rem;
 `;
 
 const PriceLine = styled.div`

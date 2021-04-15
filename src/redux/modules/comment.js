@@ -49,10 +49,10 @@ const getCommentAPI = (coffeeId) => {
       .then((res) => {
         // console.log(res.data);
         if (res.data.ok) {
-          let product_info = res.data.products;
+          const product_info = res.data.products;
 
-          let commentList = [];
-          let response_data_reviews = res.data.reviews;
+          const commentList = [];
+          const response_data_reviews = res.data.reviews;
           // console.log(response_data);
           response_data_reviews.forEach((c) => {
             commentList.push({ ...c });
@@ -96,10 +96,15 @@ const addCommentAPI = (coffeeId, contents, createdAt) => {
 //reducer
 export default handleActions(
   {
+    [LOADING]: (state, action) =>
+      produce(state, (draft) => {
+        draft.is_loading = action.payload.is_loading;
+      }),
     //[]리스트로 아예 갈아끼우면 매번 서버에 요청해야한다. 서버 과부하. 딕셔너리로 리덕스에 저장해두기
     [GET_COMMENT]: (state, action) =>
       produce(state, (draft) => {
         // let data = {[coffeeId]:comment_list, ...}
+        draft.is_loading = action.payload.is_loading;
         draft.comment_list[action.payload.coffeeId] =
           action.payload.comment_list;
         draft.product_info[action.payload.coffeeId] =

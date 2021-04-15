@@ -1,6 +1,6 @@
 import React from "react";
 import styled from "styled-components";
-import { Grid } from "../elements/";
+import { Grid, Badge } from "../elements/";
 import { history } from "../redux/configureStore";
 
 const Product = (props) => {
@@ -13,7 +13,12 @@ const Product = (props) => {
     review_date,
     user_name,
     coffeeId,
-  } = props.data;
+  } = props;
+
+  //가격에 콤마 붙여주는 정규식 표현
+  const coffee_price = coffeePrice
+    .toString()
+    .replace(/\B(?<!\.\d*)(?=(\d{3})+(?!\d))/g, ",");
 
   return (
     <Card
@@ -22,12 +27,12 @@ const Product = (props) => {
       }}
     >
       <ProductImg bgimg={coffeeImg}>
-        <BrandBadge>{coffeeBrand}</BrandBadge>
+        <Badge>{coffeeBrand}</Badge>
       </ProductImg>
       <CardBody>
         <Grid>
           <h1>{coffeeName}</h1>
-          <h4>{coffeePrice} 원</h4>
+          <h4>{coffee_price} 원</h4>
         </Grid>
         <Grid>
           <p>{review}</p>
@@ -74,9 +79,14 @@ const ProductImg = styled.div`
   height: 16rem;
   border-top-left-radius: 20px;
   border-top-right-radius: 20px;
-  background-size: cover;
-  background-position: right;
+  background-size: 100%;
+  background-position: center;
+  background-repeat: no-repeat;
   text-align: right;
+  transition: background-size 0.3s ease-in-out;
+  :hover {
+    background-size: 110%;
+  }
 `;
 
 const CardFooter = styled.footer`
@@ -128,19 +138,6 @@ const CardBody = styled.div`
     -webkit-box-orient: vertical;
     display: -webkit-box;
   }
-`;
-
-const BrandBadge = styled.span`
-  display: inline-block;
-  margin: 1vmin 1vmin auto auto;
-  padding: 5px 10px;
-  border-radius: 15px;
-  border: 10px;
-  background-color: #ffc149;
-  color: white;
-  font-size: 12px;
-  font-weight: 600;
-  text-shadow: 0 0 2px #0000004d;
 `;
 
 export default Product;
