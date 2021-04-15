@@ -24,11 +24,10 @@ const DetailReview = (props) => {
   const onChangeReview = useCallback((e) => setReview(e.target.value), []);
 
   useEffect(() => {
-    if (commentList[coffeeId]) {
-      return commentList[coffeeId];
+    if(!commentList[coffeeId]){
+      dispatch(commentActions.getCommentAPI(coffeeId));
     }
-    dispatch(commentActions.getCommentAPI(coffeeId));
-  }, [commentList[coffeeId]]);
+  }, []);
 
   console.log(productInfo);
   console.log(commentList);
@@ -47,6 +46,7 @@ const DetailReview = (props) => {
       return;
     }
     dispatch(commentActions.addCommentAPI(coffeeId, contents, createdAt));
+    setReview("");
   };
 
   return (
@@ -59,7 +59,7 @@ const DetailReview = (props) => {
           value={contents}
           onChange={onChangeReview}
         />
-        <Button yellow text="리뷰 등록" onClick={siteAddComment} />
+        <Button yellow text="리뷰 등록" _onClick={siteAddComment} />
       </ReviewInput>
       <Grid width="95%" margin="0 auto">
         {commentList[coffeeId]?.map((c, idx) => {
@@ -67,7 +67,7 @@ const DetailReview = (props) => {
           console.log(coffeeId);
           console.log(commentProductId);
 
-          if (coffeeId === coffeeId) {
+          if (coffeeId === commentProductId) {
             console.log("id 일치");
             return <Comment key={idx} {...c} />;
           }

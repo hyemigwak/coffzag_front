@@ -16,6 +16,7 @@ const ProductList = (props) => {
     }
   }, [coffees]);
 
+
   return (
     <React.Fragment>
       {coffees.map((coffee, idx) => (
