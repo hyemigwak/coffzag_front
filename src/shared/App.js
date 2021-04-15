@@ -34,9 +34,9 @@ function App() {
           <Route exact path="/signup" component={Signup} />
           <Route exact path="/cart" component={Cart} />
           {/* 지정하지 않은 주소를 notfound로 가게 하기 */}
-          {/* <Switch>
+          <Switch>
             <Route component={NotFound} />
-          </Switch> */}
+          </Switch>
         </ConnectedRouter>
       </Grid>
     </AppGlobal>
