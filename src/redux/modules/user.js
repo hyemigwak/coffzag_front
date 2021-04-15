@@ -17,7 +17,6 @@ const loginCheck = createAction(LOGIN_CHECK, (cookie) => ({ cookie }));
 const initialState = {
   user: [],
   is_login: false,
-  _username: null,
 };
 
 //api연결
@@ -26,15 +25,18 @@ const loginAPI = (username, pwd) => {
   return function (dispatch, getState, { history }) {
     axios({
       method: "POST",
-      url: "http://54.180.86.19/api/authenticate",
+      url: "http://54.180.86.19/api/login",
       data: {
         username: username,
         password: pwd,
       },
+      headers : {
+          'Content-Type' : 'application/json',
+          'Accept' : 'application/json',
+      },
     })
       .then((res) => {
         console.log(res);
-        let user = JSON.parse(res.config.data);
         const jwtToken = res.data.token;
         setCookie("user_login", jwtToken); //쿠키에 user_login 이라는 이름으로 저장
         axios.defaults.headers.common["Authorization"] = `${jwtToken}`; //디폴트로 헤더에 토큰 담아주기

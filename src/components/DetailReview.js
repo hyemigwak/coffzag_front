@@ -52,7 +52,7 @@ const DetailReview = (props) => {
 
   return (
     <ReviewContainer>
-      <div className="reviewcount">리뷰 {commentList.length}개 (최신순)</div>
+      <div className="reviewcount">리뷰 0개 (최신순)</div>
       <ReviewInput>
         <input
           type="text"

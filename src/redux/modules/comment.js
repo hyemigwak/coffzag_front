@@ -45,15 +45,14 @@ const getCommentAPI = (coffeeId) => {
     }
     dispatch(loading(true));
     axios
-      .get(commentAPI)
+      .get(`http://54.180.86.19/api/details/${coffeeId}`)
       .then((res) => {
-        // console.log(res.data);
+        console.log(res.data);
         if (res.data.ok) {
           const product_info = res.data.products;
 
           const commentList = [];
           const response_data_reviews = res.data.reviews;
-          // console.log(response_data);
           response_data_reviews.forEach((c) => {
             commentList.push({ ...c });
           });
@@ -73,13 +72,17 @@ const addCommentAPI = (coffeeId, contents, createdAt) => {
     let comment_data = {
       coffeeId: coffeeId,
       createdAt: createdAt,
-      username: user_info.username,
       contents: contents,
+      username: user_info.username,
     };
+    let token = getCookie("user_login");
     axios({
       method: "POST",
-      url: commentAPI,
+      url: `http://54.180.86.19/api/reviews/${coffeeId}`,
       data: comment_data,
+      headers: {
+        'X-AUTH-TOKEN': token,
+      },
     })
       .then((res) => {
         console.log(res);
