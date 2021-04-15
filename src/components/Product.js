@@ -1,26 +1,26 @@
-import React from "react";
+import React, {useEffect} from "react";
+import { useDispatch} from "react-redux";
 import styled from "styled-components";
 import { Grid, Badge } from "../elements/";
 import { useSelector } from "react-redux";
 import { history } from "../redux/configureStore";
-import moment from "moment";
+import { actionCreators as commentActions } from "../redux/modules/comment";
 
 const Product = (props) => {
-  const commentList = useSelector((state) => state.comment.commentList);
-  console.log(commentList);
-
+  const dispatch = useDispatch();
   const {
     coffeeName,
     coffeePrice,
     coffeeImg,
     coffeeBrand,
-    review,
-    review_date,
-    user_name,
     coffeeId,
+    username,
+    createdAt,
+    contents,
   } = props;
 
-
+  const commentList = useSelector((state)=>state.comment.comment_list);
+  
   //가격에 콤마 붙여주는 정규식 표현
   const coffee_price = coffeePrice
     .toString()
@@ -41,17 +41,17 @@ const Product = (props) => {
           <h4>{coffee_price} 원</h4>
         </Grid>
         <Grid>
-          <p>{review}</p>
+          <p>{commentList[coffeeId]? commentList[coffeeId][0].contents : contents }</p>
         </Grid>
       </CardBody>
 
       <CardFooter>
         <Grid>
-          <span>{review_date}</span>
+          <span>{commentList[coffeeId]? commentList[coffeeId][0].createdAt : createdAt }</span>
         </Grid>
         <Grid textAlign="right">
           <span>by </span>
-          {user_name}
+          {commentList[coffeeId]? commentList[coffeeId][0].username : username}
         </Grid>
       </CardFooter>
     </Card>
@@ -64,10 +64,10 @@ Product.defaultProps = {
   coffeeImg:
     "https://www.nespresso.com/shared_res/agility/enhancedPDP/vertuo/images/Vertuo_Double-espresso-Scuro_resp.jpg",
   coffeeBrand: "Nespresso",
-  review:
+  contents:
     "첫 리뷰어가 되어주세요!",
-  review_date: moment().format("YYYY-MM-DD"),
-  user_name: "Coffzag",
+  createdAt: "",
+  username: "Coffzag",
 };
 
 const Card = styled.div`

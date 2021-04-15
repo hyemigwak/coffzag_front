@@ -4,15 +4,18 @@ import styled from "styled-components";
 
 import Product from "./Product";
 import { actionCreators as productActions } from "../redux/modules/product";
-// import { _axios } from "../shared/axios";
+import { actionCreators as commentActions } from "../redux/modules/comment";
+
 
 const ProductList = (props) => {
   const dispatch = useDispatch();
   const coffees = useSelector((state) => state.product.product_list);
+  const commentList = useSelector((state)=>state.comment.comment_list);
 
+  
   useEffect(() => {
     if (coffees.length < 2) {
-      dispatch(productActions.setProductAPI());
+      dispatch(productActions.setProductAPI())
     }
   }, [coffees]);
 
