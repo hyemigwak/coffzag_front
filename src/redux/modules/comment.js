@@ -2,6 +2,8 @@ import { createAction, handleActions } from "redux-actions";
 import { produce } from "immer";
 import axios from "axios";
 import { getCookie } from "../../shared/Cookie";
+import { compose } from "redux";
+import { ConfirmationNumberTwoTone } from "@material-ui/icons";
 
 //actions
 const LOADING = "LOADING";
@@ -58,6 +60,12 @@ const getCommentAPI = (coffeeId) => {
                 : 0;
             });
           });
+
+          commentList.forEach((c) => {
+            // List에 날짜 key만 추가
+            c._createdAt = c.createdAt.split("T")[0];
+          });
+          console.log(commentList);
 
           dispatch(getComment(coffeeId, product_info, commentList));
           dispatch(loading(false));

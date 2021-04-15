@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
 import styled from "styled-components";
 import { Grid, Badge } from "../elements/";
@@ -8,6 +8,8 @@ import { actionCreators as commentActions } from "../redux/modules/comment";
 
 const Product = (props) => {
   const dispatch = useDispatch();
+  const commentList = useSelector((state) => state.comment.comment_list);
+
   const {
     coffeeName,
     coffeePrice,
@@ -18,8 +20,6 @@ const Product = (props) => {
     createdAt,
     contents,
   } = props;
-
-  const commentList = useSelector((state) => state.comment.comment_list);
 
   //가격에 콤마 붙여주는 정규식 표현
   const coffee_price = coffeePrice
@@ -42,9 +42,7 @@ const Product = (props) => {
         </Grid>
         <Grid>
           <p>
-            {commentList[coffeeId]
-              ? commentList[coffeeId][0].contents
-              : contents}
+            {commentList[coffeeId] ? commentList[coffeeId][0].contents : ""}
           </p>
         </Grid>
       </CardBody>
@@ -52,14 +50,12 @@ const Product = (props) => {
       <CardFooter>
         <Grid>
           <span>
-            {commentList[coffeeId]
-              ? commentList[coffeeId][0].createdAt
-              : createdAt}
+            {commentList[coffeeId] ? commentList[coffeeId][0]._createdAt : ""}
           </span>
         </Grid>
         <Grid textAlign="right">
           <span>by </span>
-          {commentList[coffeeId] ? commentList[coffeeId][0].username : username}
+          {commentList[coffeeId] ? commentList[coffeeId][0].username : ""}
         </Grid>
       </CardFooter>
     </Card>

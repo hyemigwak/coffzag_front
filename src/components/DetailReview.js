@@ -21,6 +21,10 @@ const DetailReview = (props) => {
   const [contents, setReview] = useState("");
   const onChangeReview = useCallback((e) => setReview(e.target.value), []);
 
+  if (commentList[coffeeId]) {
+    console.log(commentList[coffeeId][0]);
+  }
+
   useEffect(() => {
     if (!commentList[coffeeId]) {
       dispatch(commentActions.getCommentAPI(coffeeId));
