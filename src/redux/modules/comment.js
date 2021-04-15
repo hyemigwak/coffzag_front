@@ -68,6 +68,7 @@ const getCommentAPI = (coffeeId) => {
 
 const addCommentAPI = (coffeeId, contents, createdAt) => {
   return function (dispatch, getState, { history }) {
+    let token = getCookie("user_login") || "";
     const user_info = getState().user.user;
     let comment_data = {
       coffeeId: coffeeId,
@@ -75,13 +76,12 @@ const addCommentAPI = (coffeeId, contents, createdAt) => {
       contents: contents,
       username: user_info.username,
     };
-    let token = getCookie("user_login");
     axios({
       method: "POST",
       url: `http://54.180.86.19/api/reviews/${coffeeId}`,
       data: comment_data,
       headers: {
-        'X-AUTH-TOKEN': token,
+        "X-AUTH-TOKEN": token,
       },
     })
       .then((res) => {

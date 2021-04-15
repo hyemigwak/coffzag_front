@@ -10,14 +10,14 @@ import moment from "moment";
 
 const DetailReview = (props) => {
   const { coffeeId } = props;
-  console.log(coffeeId);
+  // console.log(coffeeId);
 
   const dispatch = useDispatch();
   const productInfo = useSelector((state) => state.comment.product_info);
   const commentList = useSelector((state) => state.comment.comment_list);
 
   const user = useSelector((state) => state.user.user);
-  console.log(user);
+  // console.log(user);
   const is_login = useSelector((state) => state.user.is_login);
   // const Cookie = getCookie("user_login");
   const createdAt = moment().format("YYYY-MM-DD hh:mm:ss");
@@ -30,11 +30,25 @@ const DetailReview = (props) => {
     }
   }, []);
 
-  console.log(productInfo);
-  console.log(commentList);
+  // 로딩 되기전에 commentList[coffeeId]를 불러오기 때문에 undefined가 뜬다.
 
-  console.log(productInfo[coffeeId]);
-  console.log(commentList[coffeeId]);
+  const is_loading = useSelector((state) => state.product.is_loading);
+
+  // comment가 달린 coffeeId 지정
+  // const commentProductId =
+  //   commentList[coffeeId] != null ? commentList[coffeeId][0].coffeeId : "";
+
+  // console.log("commentProductId가 뭐지?", commentProductId);
+  // console.log("commentList[coffeeId]가 뭐지?", commentList[coffeeId]);
+
+  // if (Object.keys(commentList[coffeeId]))
+  // console.log("commentProductId가 뭐지?", Object.keys(commentList[coffeeId]));
+  // 오브젝트 길이 구하기
+  // null 또는 undefined가 뜨기 때문에 null이 아닌 경우 세어주는걸로 조건을 걸어야 할 듯
+  // console.log(Object.keys(commentList[coffeeId]).length);
+  // console.log(productInfo);
+  // console.log(productInfo[coffeeId]);
+  // console.log(commentList[coffeeId]);
 
   const siteAddComment = () => {
     if (!is_login) {
@@ -65,11 +79,8 @@ const DetailReview = (props) => {
       <Grid width="95%" margin="0 auto">
         {commentList[coffeeId]?.map((c, idx) => {
           const commentProductId = commentList[coffeeId][0].coffeeId;
-          console.log(coffeeId);
-          console.log(commentProductId);
-
           if (coffeeId === commentProductId) {
-            console.log("id 일치");
+            console.log("commentProductId :", commentProductId);
             return <Comment key={idx} {...c} />;
           }
         })}

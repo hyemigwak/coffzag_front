@@ -4,8 +4,6 @@ import styled from "styled-components";
 const Badge = (props) => {
   const { bg, text, _onClick, children } = props;
 
-  console.log(children);
-
   if (children === "illy") {
     return (
       <BrandBadge bg="#d12420" onClick={_onClick}>
@@ -13,6 +11,7 @@ const Badge = (props) => {
       </BrandBadge>
     );
   }
+
   if (children === "nespresso") {
     return (
       <BrandBadge bg="#bd6416" onClick={_onClick}>
@@ -28,6 +27,7 @@ const Badge = (props) => {
       </BrandBadge>
     );
   }
+
   return (
     <BrandBadge {...props} onClick={_onClick}>
       {children}

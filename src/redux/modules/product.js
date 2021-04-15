@@ -49,7 +49,7 @@ const setOneProductAPI = (id) => {
           (p) => p.coffeeId === Number(id)
         );
         const product = product_list[product_idx];
-        console.log(product);
+        // console.log(product);
         if (res.data.ok) {
           dispatch(setProduct([product]));
           dispatch(loading(false));
