@@ -83,6 +83,32 @@ const signupAPI = (username, pwd, email) => {
   };
 };
 
+// 중복체크 api를 파줘야 할것같다
+// login POST요청시 필요한 data는 username & password 인데
+// 중복체크 요청은 request -> username만 해당
+const IDCheckAPI = (username) => {
+  return function (dispatch, getState, { history }) {
+    axios({
+      method: "POST",
+      url: "http://54.180.86.19/api/login",
+      data: {
+        username: username,
+      },
+    })
+      .then((res) => {
+        console.log(res); // response 확인
+        if (res.data.token === null) {
+          return console.log(true);
+        } else {
+          return console.log(false);
+        }
+      })
+      .catch((err) => {
+        console.log("IDCheckAPI에서 오류 발생", err);
+      });
+  };
+};
+
 //reducer
 export default handleActions(
   {
@@ -112,6 +138,7 @@ const actionCreators = {
   loginCheck,
   loginAPI,
   signupAPI,
+  IDCheckAPI,
 };
 
 export { actionCreators };

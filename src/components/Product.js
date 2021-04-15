@@ -84,6 +84,16 @@ const Card = styled.div`
   background-color: #fff;
   border-radius: 20px;
   box-shadow: 0 0 10px #0000001a;
+  transition: box-shadow 0.3s ease-in-out;
+  :hover {
+    box-shadow: 0 0 10px #00000038;
+    /* 로그인 active랑 색상 통일 or not? */
+    /* box-shadow: 0 0 10px rgba(255, 193, 73, 0.7); */
+    div {
+      transition: background-size 0.3s ease-in-out;
+      background-size: 107%;
+    }
+  }
 `;
 
 const ProductImg = styled.div`
@@ -96,10 +106,6 @@ const ProductImg = styled.div`
   background-position: center;
   background-repeat: no-repeat;
   text-align: right;
-  transition: background-size 0.3s ease-in-out;
-  :hover {
-    background-size: 110%;
-  }
 `;
 
 const CardFooter = styled.footer`

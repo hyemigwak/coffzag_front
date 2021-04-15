@@ -21,7 +21,6 @@ const Grid = (props) => {
     opacity,
     position,
     column,
-    //추가
     textAlign,
     color,
     top,
@@ -46,7 +45,6 @@ const Grid = (props) => {
     opacity: opacity,
     position: position,
     column: column,
-    //추가
     textAlign: textAlign,
     color: color,
     top: top,
@@ -91,11 +89,11 @@ Grid.defaultProps = {
   position: false,
   // 아래 추가
   textAlign: false,
-  color: "#5A5656",
   top: false,
   right: false,
   left: false,
   borderRadius: false,
+  color: "#5A5656",
 };
 
 const GridBox = styled.div`
@@ -124,18 +122,21 @@ const GridBox = styled.div`
   background-repeat: no-repeat;
 `;
 
+// App.js 의 Grid isRoot
 const RootContainer = styled.div`
-  // header 가려지는것 방지
-  padding-top: 70px;
-
   overflow-x: hidden;
-  flex-wrap: wrap;
-  display: flex;
   z-index: 0;
   background-color: transparent;
   color: #5a5656;
+  // 가로 화면 자동 줄 나눔
+  display: flex;
+  flex-wrap: wrap;
+  // 컴포넌트 사이 거리 동일
   justify-content: space-evenly;
-  padding: 4%;
+  // padding 여백 주기 => padding-top은 고정값으로 반응형 X
+  padding-top: 60px;
+  padding-left: 4%;
+  padding-right: 4%;
 `;
 
 export default Grid;
