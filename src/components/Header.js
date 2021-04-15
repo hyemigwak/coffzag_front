@@ -16,8 +16,12 @@ const Header = (props) => {
   const cookie = getCookie("user_login") ? true : false;
 
   const siteLogout = () => {
-    dispatch(userActions.logOut());
-    history.push("/");
+    if (window.confirm("정말 로그아웃 하시겠습니까?")) {
+      dispatch(userActions.logOut());
+      history.replace("/");
+    } else {
+      console.log("로그인 유지");
+    }
   };
 
   const headerChange = () => {

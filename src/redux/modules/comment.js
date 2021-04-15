@@ -1,7 +1,6 @@
 import { createAction, handleActions } from "redux-actions";
 import { produce } from "immer";
 import axios from "axios";
-import { history } from "../configureStore";
 import { getCookie } from "../../shared/Cookie";
 
 //actions
@@ -11,6 +10,7 @@ const ADD_COMMENT = "ADD_COMMENT";
 
 //actionCreators
 const loading = createAction(LOADING, (is_loading) => ({ is_loading }));
+
 const getComment = createAction(
   GET_COMMENT,
   (coffeeId, product_info, comment_list) => ({
@@ -33,10 +33,6 @@ const initialState = {
 };
 
 //api 연결
-
-const commentAPI =
-  "https://run.mocky.io/v3/9f67130f-1633-452f-80db-909349fd6909";
-
 const getCommentAPI = (coffeeId) => {
   return function (dispatch, getState, { history }) {
     if (!coffeeId) {
@@ -54,8 +50,12 @@ const getCommentAPI = (coffeeId) => {
           const response_data_reviews = res.data.reviews;
           response_data_reviews.forEach((c) => {
             commentList.push({ ...c });
-            commentList.sort(function(a,b){
-              return a.createdAt > b.createdAt ? -1 : a.createdAt < b.createdAt ? 1: 0;
+            commentList.sort(function (a, b) {
+              return a.createdAt > b.createdAt
+                ? -1
+                : a.createdAt < b.createdAt
+                ? 1
+                : 0;
             });
           });
 
@@ -96,7 +96,6 @@ const addCommentAPI = (coffeeId, contents, createdAt) => {
       });
   };
 };
-
 
 //reducer
 export default handleActions(

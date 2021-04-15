@@ -16,7 +16,6 @@ const DetailReview = (props) => {
   const productInfo = useSelector((state) => state.comment.product_info);
   const commentList = useSelector((state) => state.comment.comment_list);
 
-  const user = useSelector((state) => state.user.user);
   const is_login = useSelector((state) => state.user.is_login);
   const createdAt = moment().format("YYYY-MM-DD hh:mm:ss");
   const [contents, setReview] = useState("");
@@ -42,30 +41,32 @@ const DetailReview = (props) => {
     setReview("");
   };
 
-    return (
-      <ReviewContainer>
-        <div className="reviewcount">리뷰 {commentList[coffeeId]? commentList[coffeeId].length : 0}개 (최신순)</div>
-        <ReviewInput>
-          <input
-            type="text"
-            placeholder="리뷰를 작성해주세요!"
-            value={contents}
-            onChange={onChangeReview}
-          />
-          <Button yellow text="리뷰 등록" _onClick={siteAddComment} />
-        </ReviewInput>
-        <Grid width="95%" margin="0 auto">
-          {commentList[coffeeId]?.map((c, idx) => {
-            const commentProductId = commentList[coffeeId][0].coffeeId;
-            if (coffeeId === commentProductId) {
-              console.log("commentProductId :", commentProductId);
-              return <Comment key={idx} {...c} />;
-            }
-          })}
-        </Grid>
-      </ReviewContainer>
-    );
-
+  return (
+    <ReviewContainer>
+      <div className="reviewcount">
+        리뷰 {commentList[coffeeId] ? commentList[coffeeId].length : 0}개
+        (최신순)
+      </div>
+      <ReviewInput>
+        <input
+          type="text"
+          placeholder="리뷰를 작성해주세요!"
+          value={contents}
+          onChange={onChangeReview}
+        />
+        <Button yellow text="리뷰 등록" _onClick={siteAddComment} />
+      </ReviewInput>
+      <Grid width="95%" margin="0 auto">
+        {commentList[coffeeId]?.map((c, idx) => {
+          const commentProductId = commentList[coffeeId][0].coffeeId;
+          if (coffeeId === commentProductId) {
+            console.log("commentProductId :", commentProductId);
+            return <Comment key={idx} {...c} />;
+          }
+        })}
+      </Grid>
+    </ReviewContainer>
+  );
 };
 
 DetailReview.defaultProps = {

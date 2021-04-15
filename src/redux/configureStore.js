@@ -9,9 +9,9 @@ import Comment from "./modules/comment";
 export const history = createBrowserHistory();
 
 const rootReducer = combineReducers({
-    user: User,
-    product: Product,
-    comment: Comment,
+  user: User,
+  product: Product,
+  comment: Comment,
   router: connectRouter(history),
 });
 

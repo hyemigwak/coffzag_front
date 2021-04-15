@@ -1,7 +1,7 @@
 import { createAction, handleActions } from "redux-actions";
 import { produce } from "immer";
-import { setCookie, deleteCookie, getCookie } from "../../shared/Cookie";
 import axios from "axios";
+import { setCookie, deleteCookie, getCookie } from "../../shared/Cookie";
 
 //actions
 const LOG_IN = "LOG_IN"; //로그인
@@ -32,18 +32,22 @@ const loginAPI = (username, pwd) => {
       },
     })
       .then((res) => {
-        console.log(res);
-        const jwtToken = res.data.token;
-        setCookie("user_login", jwtToken); //쿠키에 user_login 이라는 이름으로 저장
-        axios.defaults.headers.common["Authorization"] = `${jwtToken}`; //디폴트로 헤더에 토큰 담아주기
-        dispatch(
-          logIn({
-            username: username,
-            password: pwd,
-          })
-        );
-        history.push("/");
-        window.alert("정상적으로 로그인 되었습니다!");
+        if (res.data.token != null) {
+          console.log(res); // response 확인
+          const jwtToken = res.data.token;
+          setCookie("user_login", jwtToken); //쿠키에 user_login 이라는 이름으로 저장
+          axios.defaults.headers.common["Authorization"] = `${jwtToken}`; //디폴트로 헤더에 토큰 담아주기
+          dispatch(
+            logIn({
+              username: username,
+              password: pwd,
+            })
+          );
+          window.alert("정상적으로 로그인 되었습니다!");
+          history.push("/");
+        } else {
+          window.alert("ID를 다시 확인해주세요.");
+        }
       })
       .catch((err) => {
         console.log("loginAPI에서 오류 발생", err);
