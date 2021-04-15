@@ -17,6 +17,7 @@ const loginCheck = createAction(LOGIN_CHECK, (cookie) => ({ cookie }));
 const initialState = {
   user: [],
   is_login: false,
+  _username: null,
 };
 
 //api연결
@@ -33,7 +34,7 @@ const loginAPI = (username, pwd) => {
     })
       .then((res) => {
         console.log(res);
-        const _username = JSON.parse(res.config.data).username;
+        let user = JSON.parse(res.config.data);
         const jwtToken = res.data.token;
         setCookie("user_login", jwtToken); //쿠키에 user_login 이라는 이름으로 저장
         axios.defaults.headers.common["Authorization"] = `${jwtToken}`; //디폴트로 헤더에 토큰 담아주기

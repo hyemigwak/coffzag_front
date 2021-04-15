@@ -1,28 +1,51 @@
-import React from 'react'
-import styled from "styled-components";
-import spinner from "../images/spinner.gif";
+import React from "react";
+import { makeStyles } from "@material-ui/core/styles";
+import CircularProgress from "@material-ui/core/CircularProgress";
+import { Grid } from "../elements/";
 
-const Loading = () => {
-    return (
-        <Loader>
-            <Spinner><img src={spinner}/></Spinner>
-            <LoadingText>조금만 기다려주세요!</LoadingText>
-        </Loader>
-    )
+const useStyles = makeStyles((theme) => ({
+  root: {
+    position: "relative",
+    flexGrow: 1,
+  },
+  top: {
+    color: "#ffc149",
+    animationDuration: "680ms",
+  },
+  circle: {
+    strokeLinecap: "round",
+  },
+}));
+
+function FacebookCircularProgress(props) {
+  const classes = useStyles();
+
+  return (
+    <div className={classes.root}>
+      <CircularProgress
+        variant="indeterminate"
+        disableShrink
+        className={classes.top}
+        classes={{
+          circle: classes.circle,
+        }}
+        size={40}
+        thickness={4}
+        {...props}
+      />
+    </div>
+  );
 }
 
-const Loader = styled.div`
-    display: 100%;
-    margin: 20% auto;
-`;
+export default function CircularIndeterminate() {
+  const classes = useStyles();
 
-const Spinner = styled.div`
-`;
-
-
-const LoadingText = styled.div`
-    font-size: 30px;
-`;
-
-
-export default Loading;
+  return (
+    <Grid is_flex column padding="14rem" bg="transparent">
+      <div className={classes.root}>
+        <FacebookCircularProgress />
+      </div>
+      <h4>조금만 기다려주세요!</h4>
+    </Grid>
+  );
+}

@@ -6,22 +6,22 @@ import { actionCreators as userActions } from "../redux/modules/user";
 import { Route, Switch } from "react-router-dom";
 import { ConnectedRouter } from "connected-react-router";
 import { history } from "../redux/configureStore";
-import {getCookie} from "./Cookie";
-
+import { getCookie } from "./Cookie";
 
 import { Main, Detail, Cart, Login, Signup, NotFound } from "../pages";
 import { Header } from "../components";
 import { Grid } from "../elements";
 
+import Loading from "./Loading";
+
 function App() {
   const dispatch = useDispatch();
-  const cookie = getCookie('user_login') ? true : false;
+  const cookie = getCookie("user_login") ? true : false;
 
-  useEffect(()=>{
-    if(cookie);
-    dispatch(userActions.loginCheck(cookie))
-  },[])
-
+  useEffect(() => {
+    if (cookie);
+    dispatch(userActions.loginCheck(cookie));
+  }, []);
 
   return (
     <AppGlobal>

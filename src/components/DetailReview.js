@@ -16,7 +16,8 @@ const DetailReview = (props) => {
   const productInfo = useSelector((state) => state.comment.product_info);
   const commentList = useSelector((state) => state.comment.comment_list);
 
-  // console.log(commentList[coffeeId].coffeeId);
+  const user = useSelector((state) => state.user.user);
+  console.log(user);
   const is_login = useSelector((state) => state.user.is_login);
   // const Cookie = getCookie("user_login");
   const createdAt = moment().format("YYYY-MM-DD hh:mm:ss");
@@ -24,7 +25,7 @@ const DetailReview = (props) => {
   const onChangeReview = useCallback((e) => setReview(e.target.value), []);
 
   useEffect(() => {
-    if(!commentList[coffeeId]){
+    if (!commentList[coffeeId]) {
       dispatch(commentActions.getCommentAPI(coffeeId));
     }
   }, []);
