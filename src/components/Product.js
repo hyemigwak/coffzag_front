@@ -26,6 +26,8 @@ const Product = (props) => {
     .toString()
     .replace(/\B(?<!\.\d*)(?=(\d{3})+(?!\d))/g, ",");
 
+  console.log(commentList[coffeeId]);
+
   return (
     <Card
       onClick={() => {
@@ -42,7 +44,9 @@ const Product = (props) => {
         </Grid>
         <Grid>
           <p>
-            {commentList[coffeeId] ? commentList[coffeeId][0].contents : ""}
+            {commentList[coffeeId]?.length > 0
+              ? commentList[coffeeId][0].contents
+              : ""}
           </p>
         </Grid>
       </CardBody>
@@ -50,12 +54,16 @@ const Product = (props) => {
       <CardFooter>
         <Grid>
           <span>
-            {commentList[coffeeId] ? commentList[coffeeId][0]._createdAt : ""}
+            {commentList[coffeeId]?.length > 0
+              ? commentList[coffeeId][0]._createdAt
+              : ""}
           </span>
         </Grid>
         <Grid textAlign="right">
           <span>by </span>
-          {commentList[coffeeId] ? commentList[coffeeId][0].username : ""}
+          {commentList[coffeeId]?.length > 0
+            ? commentList[coffeeId][0].username
+            : username}
         </Grid>
       </CardFooter>
     </Card>
