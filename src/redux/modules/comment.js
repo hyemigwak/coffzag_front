@@ -55,10 +55,12 @@ const getCommentAPI = (coffeeId) => {
           const response_data_reviews = res.data.reviews;
           response_data_reviews.forEach((c) => {
             commentList.push({ ...c });
+            commentList.sort(function(a,b){
+              return a.createdAt > b.createdAt ? -1 : a.createdAt < b.createdAt ? 1: 0;
+            });
           });
 
           dispatch(getComment(coffeeId, product_info, commentList));
-          //시간순 내림차순 정렬하기
           dispatch(loading(false));
         }
       })

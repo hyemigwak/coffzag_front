@@ -30,10 +30,6 @@ const loginAPI = (username, pwd) => {
         username: username,
         password: pwd,
       },
-      headers : {
-          'Content-Type' : 'application/json',
-          'Accept' : 'application/json',
-      },
     })
       .then((res) => {
         console.log(res);

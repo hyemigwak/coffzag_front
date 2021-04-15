@@ -1,9 +1,14 @@
 import React from "react";
 import styled from "styled-components";
 import { Grid, Badge } from "../elements/";
+import { useSelector } from "react-redux";
 import { history } from "../redux/configureStore";
+import moment from "moment";
 
 const Product = (props) => {
+  const commentList = useSelector((state) => state.comment.commentList);
+  console.log(commentList);
+
   const {
     coffeeName,
     coffeePrice,
@@ -14,6 +19,7 @@ const Product = (props) => {
     user_name,
     coffeeId,
   } = props;
+
 
   //가격에 콤마 붙여주는 정규식 표현
   const coffee_price = coffeePrice
@@ -59,9 +65,9 @@ Product.defaultProps = {
     "https://www.nespresso.com/shared_res/agility/enhancedPDP/vertuo/images/Vertuo_Double-espresso-Scuro_resp.jpg",
   coffeeBrand: "Nespresso",
   review:
-    "에스프레소가 더블 진한맛과 다크로스팅 아로마 바이스 첫 산미감 어쩌구 저쩌구 김수한무",
-  review_date: "2021-04-01",
-  user_name: "mdnimi",
+    "첫 리뷰어가 되어주세요!",
+  review_date: moment().format("YYYY-MM-DD"),
+  user_name: "Coffzag",
 };
 
 const Card = styled.div`
