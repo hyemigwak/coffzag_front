@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
 import styled from "styled-components";
 import { Grid, Badge } from "../elements/";
@@ -8,6 +8,8 @@ import { actionCreators as commentActions } from "../redux/modules/comment";
 
 const Product = (props) => {
   const dispatch = useDispatch();
+  const commentList = useSelector((state) => state.comment.comment_list);
+
   const {
     coffeeName,
     coffeePrice,
@@ -19,12 +21,12 @@ const Product = (props) => {
     contents,
   } = props;
 
-  const commentList = useSelector((state) => state.comment.comment_list);
-
   //가격에 콤마 붙여주는 정규식 표현
   const coffee_price = coffeePrice
     .toString()
     .replace(/\B(?<!\.\d*)(?=(\d{3})+(?!\d))/g, ",");
+
+  console.log(commentList[coffeeId]);
 
   return (
     <Card
@@ -42,9 +44,9 @@ const Product = (props) => {
         </Grid>
         <Grid>
           <p>
-            {commentList[coffeeId]
+            {commentList[coffeeId]?.length > 0
               ? commentList[coffeeId][0].contents
-              : contents}
+              : ""}
           </p>
         </Grid>
       </CardBody>
@@ -52,14 +54,16 @@ const Product = (props) => {
       <CardFooter>
         <Grid>
           <span>
-            {commentList[coffeeId]
-              ? commentList[coffeeId][0].createdAt
-              : createdAt}
+            {commentList[coffeeId]?.length > 0
+              ? commentList[coffeeId][0]._createdAt
+              : ""}
           </span>
         </Grid>
         <Grid textAlign="right">
           <span>by </span>
-          {commentList[coffeeId] ? commentList[coffeeId][0].username : username}
+          {commentList[coffeeId]?.length > 0
+            ? commentList[coffeeId][0].username
+            : username}
         </Grid>
       </CardFooter>
     </Card>
@@ -84,6 +88,16 @@ const Card = styled.div`
   background-color: #fff;
   border-radius: 20px;
   box-shadow: 0 0 10px #0000001a;
+  transition: box-shadow 0.3s ease-in-out;
+  :hover {
+    box-shadow: 0 0 10px #00000038;
+    /* 로그인 active랑 색상 통일 or not? */
+    /* box-shadow: 0 0 10px rgba(255, 193, 73, 0.7); */
+    div {
+      transition: background-size 0.3s ease-in-out;
+      background-size: 107%;
+    }
+  }
 `;
 
 const ProductImg = styled.div`
@@ -96,10 +110,6 @@ const ProductImg = styled.div`
   background-position: center;
   background-repeat: no-repeat;
   text-align: right;
-  transition: background-size 0.3s ease-in-out;
-  :hover {
-    background-size: 110%;
-  }
 `;
 
 const CardFooter = styled.footer`

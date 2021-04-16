@@ -86,13 +86,12 @@ const DetailProduct = (props) => {
 };
 
 DetailProduct.defaultProps = {
-  coffeeImg:
-    "https://www.nespresso.com/shared_res/agility/enhancedPDP/vertuo/images/Vertuo_Double-espresso-Scuro_resp.jpg",
-  coffeeBrand: "Nespresso",
-  coffeeName: "네스프레소",
-  coffeePrice: "7,900",
+  coffeeImg: false,
+  coffeeBrand: "CoffeeBrand",
+  coffeeName: "Coffee",
+  coffeePrice: "",
   coffeeUnit: "1슬리브(10캡슐)",
-  coffeeInfo: "향이 풍부한 커피입니다.",
+  coffeeInfo: "",
 };
 
 const Container = styled.div`

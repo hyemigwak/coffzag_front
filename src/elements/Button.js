@@ -50,7 +50,7 @@ export default function Hook(props) {
       onClick={_onClick}
       className={props.yellow ? classes.yellow : classes.dark}
     >
-      {props.text}
+      {props.text ? props.text : props.children}
     </Button>
   );
 }

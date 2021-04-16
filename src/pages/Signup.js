@@ -1,32 +1,60 @@
-import React, { useCallback } from "react";
-import { useDispatch, useSelector } from "react-redux";
+import React, { useCallback, useRef, useState } from "react";
+import { useDispatch } from "react-redux";
 import { actionCreators as userActions } from "../redux/modules/user";
-import { history } from "../redux/configureStore";
+
 import styled from "styled-components";
 import { Grid, Button } from "../elements";
 
 const Signup = (props) => {
   const dispatch = useDispatch();
-  const [username, setUsername] = React.useState("");
-  const [pwd, setPwd] = React.useState("");
-  const [pwdCheck, setPwdCheck] = React.useState("");
-  const [email, setEmail] = React.useState("");
+  const [username, setUsername] = useState("");
+  const [pwd, setPwd] = useState("");
+  const [pwdCheck, setPwdCheck] = useState("");
+  const [email, setEmail] = useState("");
   const onChangeUsername = useCallback((e) => setUsername(e.target.value), []);
   const onChangePwd = useCallback((e) => setPwd(e.target.value), []);
   const onChangePwdCheck = useCallback((e) => setPwdCheck(e.target.value), []);
   const onChangeEmail = useCallback((e) => setEmail(e.target.value), []);
 
+  const _id = useRef();
+  const _pwd = useRef();
+  const _pwdChk = useRef();
+  const _email = useRef();
+
   const siteSignup = () => {
+    // 이메일 체크 정규 표현식
+    const emailPass = /^[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*.[a-zA-Z]{2,3}$/i;
     if (username === "" || pwd === "" || email === "" || pwdCheck === "") {
       window.alert("모두 입력해주세요!");
       return;
     }
+    if (username.length < 3) {
+      window.alert("아이디를 3자리 이상 입력해주세요.");
+      _id.current.focus();
+      return;
+    }
+    if (pwd.length < 3) {
+      window.alert("비밀번호를 3자리 이상 입력해주세요.");
+      _pwd.current.focus();
+      return;
+    }
     if (pwd !== pwdCheck) {
       window.alert("비밀번호가 일치하지 않습니다!");
+      _pwdChk.current.focus();
+      return;
+    }
+    if (!emailPass.test(email)) {
+      window.alert("이메일 형식이 아닙니다!");
+      _email.current.focus();
       return;
     }
     dispatch(userActions.signupAPI(username, pwd, email));
     window.alert("회원가입이 완료되었습니다.");
+  };
+
+  const tryDouble = () => {
+    dispatch(userActions.IDCheckAPI(username));
+    window.alert("중복체크 아이디 얻어오기?");
   };
 
   return (
@@ -36,6 +64,7 @@ const Signup = (props) => {
         <Grid is_flex margin="3%">
           <SignupInfo>ID</SignupInfo>
           <Input
+            ref={_id}
             type="text"
             placeholder="3자리 이상 입력해주세요."
             value={username}
@@ -45,6 +74,7 @@ const Signup = (props) => {
         <Grid is_flex margin="3%">
           <SignupInfo>PWD</SignupInfo>
           <Input
+            ref={_pwd}
             type="password"
             placeholder="3자리 이상 입력해주세요."
             value={pwd}
@@ -55,6 +85,7 @@ const Signup = (props) => {
         <Grid is_flex margin="3%">
           <SignupInfo>PWD</SignupInfo>
           <Input
+            ref={_pwdChk}
             type="password"
             placeholder="비밀번호를 한번 더 입력해주세요."
             value={pwdCheck}
@@ -65,6 +96,7 @@ const Signup = (props) => {
         <Grid is_flex margin="3%">
           <SignupInfo style={{ marginRight: "5px" }}>EMAIL</SignupInfo>
           <Input
+            ref={_email}
             type="text"
             placeholder="your_email@coffzag.com"
             value={email}
@@ -80,6 +112,13 @@ const Signup = (props) => {
           margin=".5rem 0"
         />
       </Grid>
+
+      <Button
+        _onClick={tryDouble}
+        text="중복쳌"
+        width="102%"
+        margin=".5rem 0"
+      />
     </Grid>
   );
 };

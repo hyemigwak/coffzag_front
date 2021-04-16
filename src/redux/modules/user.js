@@ -20,7 +20,6 @@ const initialState = {
 };
 
 //api연결
-
 const loginAPI = (username, pwd) => {
   return function (dispatch, getState, { history }) {
     axios({
@@ -83,6 +82,36 @@ const signupAPI = (username, pwd, email) => {
   };
 };
 
+// 중복체크 api를 파줘야 할것같다
+// login POST요청시 필요한 data는 username & password 인데
+// 중복체크 요청은 request -> username만 해당
+// # 로직
+// 1. Signup에서 username을 받음 (버튼은 test 용)
+// 2. username이 이미 존재하는 경우(-> false) != username 존재하지 않는 경우(-> true)
+// 3. signupAPI함수 내 또는 Signup.js 에서 return값을 받아 if문작성, dispatch하면 될 듯
+const IDCheckAPI = (username) => {
+  return function (dispatch, getState, { history }) {
+    axios({
+      method: "POST",
+      url: "http://54.180.86.19/api/login",
+      data: {
+        username: username,
+      },
+    })
+      .then((res) => {
+        console.log(res); // response 확인
+        if (res.data.token === null) {
+          return console.log(true);
+        } else {
+          return console.log(false);
+        }
+      })
+      .catch((err) => {
+        console.log("IDCheckAPI에서 오류 발생", err);
+      });
+  };
+};
+
 //reducer
 export default handleActions(
   {
@@ -112,6 +141,7 @@ const actionCreators = {
   loginCheck,
   loginAPI,
   signupAPI,
+  IDCheckAPI,
 };
 
 export { actionCreators };

@@ -3,17 +3,21 @@ import { Grid, Button, Line } from "../elements";
 import styled from "styled-components";
 
 const Comment = (props) => {
+  const { username, contents, createdAt } = props;
+
+  const onlyDate = createdAt.split("T")[0];
+
   return (
     <React.Fragment>
       <Grid is_flex>
         <Grid width="20%">
-          <User>{props.username}</User>
+          <User>{username}</User>
         </Grid>
         <Grid>
-          <Content>{props.contents}</Content>
+          <Content>{contents}</Content>
         </Grid>
         <Grid width="30%" textAlign="right">
-          <Date>{props.createdAt}</Date>
+          <Date>{onlyDate}</Date>
         </Grid>
       </Grid>
       <Line bottom margin="20px 0" />
@@ -24,7 +28,7 @@ const Comment = (props) => {
 Comment.defaultProps = {
   contents: "좋네요",
   name: "경미니",
-  insert_dt: "2021-04-14 10:00:00",
+  onlyDate: "2021-04-14",
 };
 
 const User = styled.div`

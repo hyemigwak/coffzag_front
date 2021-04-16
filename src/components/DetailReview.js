@@ -21,6 +21,10 @@ const DetailReview = (props) => {
   const [contents, setReview] = useState("");
   const onChangeReview = useCallback((e) => setReview(e.target.value), []);
 
+  if (commentList[coffeeId]) {
+    console.log(commentList[coffeeId][0]);
+  }
+
   useEffect(() => {
     if (!commentList[coffeeId]) {
       dispatch(commentActions.getCommentAPI(coffeeId));
@@ -29,9 +33,12 @@ const DetailReview = (props) => {
 
   const siteAddComment = () => {
     if (!is_login) {
-      window.alert("로그인해주세요!");
-      history.push("/login");
-      return;
+      if (window.confirm("로그인 창으로 이동합니다.")) {
+        history.push("/login");
+        return;
+      } else {
+        return;
+      }
     }
     if (contents === "") {
       window.alert("리뷰를 입력해주세요!");
@@ -48,13 +55,28 @@ const DetailReview = (props) => {
         (최신순)
       </div>
       <ReviewInput>
-        <input
-          type="text"
-          placeholder="리뷰를 작성해주세요!"
-          value={contents}
-          onChange={onChangeReview}
-        />
-        <Button yellow text="리뷰 등록" _onClick={siteAddComment} />
+        {is_login ? (
+          <>
+            <input
+              type="text"
+              placeholder="리뷰를 작성해주세요!"
+              value={contents}
+              onChange={onChangeReview}
+            />
+            <Button yellow text="리뷰 등록" _onClick={siteAddComment} />
+          </>
+        ) : (
+          <>
+            <input
+              type="text"
+              placeholder="로그인을 해야 등록 할 수 있습니다."
+              value={contents}
+              onChange={onChangeReview}
+              disabled
+            />
+            <Button text="리뷰 등록" _onClick={siteAddComment} />
+          </>
+        )}
       </ReviewInput>
       <Grid width="95%" margin="0 auto">
         {commentList[coffeeId]?.map((c, idx) => {
@@ -101,6 +123,12 @@ const ReviewInput = styled.div`
     outline: none;
     margin: 1rem 1rem;
     padding: 0.3rem 0.8rem;
+    :disabled {
+      background-color: #d2d2d2;
+      ::placeholder {
+        color: #ffffff;
+      }
+    }
   }
   button {
     min-width: 15%;

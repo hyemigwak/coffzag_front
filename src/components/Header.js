@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { history } from "../redux/configureStore";
 import { useDispatch, useSelector } from "react-redux";
 import { actionCreators as userActions } from "../redux/modules/user";
@@ -29,7 +29,8 @@ const Header = (props) => {
     if (window.scrollY > 35) {
       navbox.style.position = "fixed";
       navbox.style.zIndex = "1500";
-      navbox.style.backgroundColor = "white";
+      navbox.style.backgroundColor = "#ffffffCC";
+      navbox.style.backdropFilter = "blur(6px)";
       navbox.style.boxShadow = "0 0 5px #0000004d";
     } else {
       navbox.style.backgroundColor = "white";
@@ -37,7 +38,7 @@ const Header = (props) => {
     }
   };
 
-  React.useEffect(() => {
+  useEffect(() => {
     window.addEventListener("scroll", headerChange);
     return () => window.removeEventListener("scroll", headerChange);
   }, []);
@@ -115,7 +116,7 @@ const HeaderWrap = styled.div`
   flex-direction: row;
   color: #5a5656;
 
-  //Animation
+  // Animation
   transition-timing-function: ease-in-out;
   transition: all 0.5s;
 `;

@@ -1,14 +1,15 @@
-import React, { useCallback } from "react";
+import React, { useCallback, useState } from "react";
+import { useDispatch } from "react-redux";
 import { history } from "../redux/configureStore";
-import { useDispatch, useSelector } from "react-redux";
 import { actionCreators as userActions } from "../redux/modules/user";
+
 import styled from "styled-components";
-import { Grid, Input, Button } from "../elements";
+import { Grid, Button } from "../elements";
 
 const Login = (props) => {
   const dispatch = useDispatch();
-  const [username, setUsername] = React.useState("");
-  const [pwd, setPwd] = React.useState("");
+  const [username, setUsername] = useState("");
+  const [pwd, setPwd] = useState("");
   const onChangeUsername = useCallback((e) => setUsername(e.target.value), []);
   const onChangePwd = useCallback((e) => setPwd(e.target.value), []);
 
@@ -18,7 +19,6 @@ const Login = (props) => {
       return;
     }
     dispatch(userActions.loginAPI(username, pwd));
-    history.push("/");
   };
 
   return (
