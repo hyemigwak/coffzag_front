@@ -1,13 +1,14 @@
 import { createAction, handleActions } from "redux-actions";
 import { produce } from "immer";
 import axios from "axios";
-import { history } from "../configureStore";
 import { getCookie } from "../../shared/Cookie";
 
 //actions
 const LOADING = "LOADING";
 const GET_COMMENT = "GET_COMMENT";
 const ADD_COMMENT = "ADD_COMMENT";
+const EDIT_COMMENT = "EDIT_COMMENT";
+const DELETE_COMMENT = "DELETE_COMMENT";
 
 //actionCreators
 const loading = createAction(LOADING, (is_loading) => ({ is_loading }));
@@ -24,6 +25,9 @@ const addComment = createAction(ADD_COMMENT, (coffeeId, comment) => ({
   coffeeId,
   comment,
 }));
+
+const editComment = createAction(EDIT_COMMENT, (coffeeId, reviewId, comment) => ({coffeeId, reviewId, comment}));
+const deleteComment = createAction(DELETE_COMMENT,(coffeeId,comment) => ({coffeeId,comment}));
 
 //initialState
 const initialState = {
@@ -97,6 +101,33 @@ const addCommentAPI = (coffeeId, contents, createdAt) => {
   };
 };
 
+const deleteCommentAPI = (coffeeId, reviewId) => {
+  return function(dispatch, getState, {history}){
+    let token = getCookie("user_login");
+    axios({
+      method: "DELETE",
+      url: `http://54.180.86.19/api/reviews/${reviewId}`,
+      headers: {
+        "X-AUTH-TOKEN": token,
+      },
+    })
+      .then((res) => {
+        console.log(res);
+        dispatch(deleteComment(coffeeId,reviewId));
+        window.alert("댓글이 삭제되었습니다.");
+      })
+      .catch((err) => {
+        console.log("deleteCommentAPI에서 오류발생", err);
+        window.alert("댓글 삭제에 실패했습니다.");
+      });
+  }
+}
+
+const editCommentAPI = () => {
+  return function(dispatch, getState, {history}){
+
+  }
+}
 
 //reducer
 export default handleActions(
@@ -127,6 +158,15 @@ export default handleActions(
           action.payload.comment
         );
       }),
+
+      [EDIT_COMMENT]: (state, action) => produce(state, (draft) => {
+        let idx = draft.commnet_list.findIndex((c) => c.reviewId === action.payload.comment)
+        draft.comment_list[action.payload.coffeeId][idx] = {...draft.comment_list[action.payload.coffeeId][idx],...action.payload.comment} 
+      }),
+      [DELETE_COMMENT]: (state, action) => produce(state, (draft) => {
+        draft.comment_list[action.payload.coffeeId].filter((c)=> c.reviewId !== action.payload.comment)
+      }),
+
   },
   initialState
 );
@@ -135,8 +175,12 @@ export default handleActions(
 const actionCreators = {
   getComment,
   addComment,
+  editComment,
+  deleteComment,
   getCommentAPI,
   addCommentAPI,
+  editCommentAPI,
+  deleteCommentAPI,
 };
 
 export { actionCreators };
