@@ -93,7 +93,7 @@ const IDCheckAPI = (username) => {
   return function (dispatch, getState, { history }) {
     axios({
       method: "POST",
-      url: "http://54.180.86.19/api/login",
+      url: "http://54.180.86.19/api/signup/checkid",
       data: {
         username: username,
       },

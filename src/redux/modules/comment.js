@@ -30,7 +30,7 @@ const addComment = createAction(ADD_COMMENT, (coffeeId, comment) => ({
 }));
 
 const editComment = createAction(EDIT_COMMENT, (coffeeId, reviewId, comment) => ({coffeeId, reviewId, comment}));
-const deleteComment = createAction(DELETE_COMMENT,(coffeeId,comment) => ({coffeeId,comment}));
+const deleteComment = createAction(DELETE_COMMENT,(reviewId,comment) => ({reviewId,comment}));
 
 //initialState
 const initialState = {
@@ -110,6 +110,7 @@ const addCommentAPI = (coffeeId, contents, createdAt) => {
   };
 };
 
+//const DeleteUrl = "http://54.180.86.19/api/reviews/${reviewId}"
 const deleteCommentAPI = (coffeeId, reviewId) => {
   return function(dispatch, getState, {history}){
     let token = getCookie("user_login");
@@ -169,11 +170,16 @@ export default handleActions(
       }),
 
       [EDIT_COMMENT]: (state, action) => produce(state, (draft) => {
-        let idx = draft.commnet_list.findIndex((c) => c.reviewId === action.payload.comment)
-        draft.comment_list[action.payload.coffeeId][idx] = {...draft.comment_list[action.payload.coffeeId][idx],...action.payload.comment} 
+        let idx = draft.commnet_list.findIndex((c) =>
+         c.reviewId === action.payload.comment)
+
+        draft.comment_list[action.payload.coffeeId][idx] =
+         {...draft.comment_list[action.payload.coffeeId][idx],...action.payload.comment} 
       }),
-      [DELETE_COMMENT]: (state, action) => produce(state, (draft) => {
-        draft.comment_list[action.payload.coffeeId].filter((c)=> c.reviewId !== action.payload.comment)
+      [DELETE_COMMENT]: (state, action) => produce(state, (draft) => { 
+        console.log(action.payload);
+        draft.comment_list[action.payload.coffeeId].filter((c)=>
+         c.reviewId !== action.payload.reviewId)
       }),
 
   },
