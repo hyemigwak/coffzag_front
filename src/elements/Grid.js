@@ -120,6 +120,9 @@ const GridBox = styled.div`
   left: ${(props) => props.left};
   border-radius: ${(props) => props.borderRadius};
   background-repeat: no-repeat;
+  .svg {
+    cursor: pointer;
+  }
 `;
 
 // App.js 의 Grid isRoot

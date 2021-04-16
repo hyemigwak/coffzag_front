@@ -29,8 +29,14 @@ const addComment = createAction(ADD_COMMENT, (coffeeId, comment) => ({
   comment,
 }));
 
-const editComment = createAction(EDIT_COMMENT, (coffeeId, reviewId, comment) => ({coffeeId, reviewId, comment}));
-const deleteComment = createAction(DELETE_COMMENT,(reviewId,comment) => ({reviewId,comment}));
+const editComment = createAction(
+  EDIT_COMMENT,
+  (coffeeId, reviewId, comment) => ({ coffeeId, reviewId, comment })
+);
+const deleteComment = createAction(DELETE_COMMENT, (reviewId, comment) => ({
+  reviewId,
+  comment,
+}));
 
 //initialState
 const initialState = {
@@ -112,7 +118,7 @@ const addCommentAPI = (coffeeId, contents, createdAt) => {
 
 //const DeleteUrl = "http://54.180.86.19/api/reviews/${reviewId}"
 const deleteCommentAPI = (coffeeId, reviewId) => {
-  return function(dispatch, getState, {history}){
+  return function (dispatch, getState, { history }) {
     let token = getCookie("user_login");
     axios({
       method: "DELETE",
@@ -123,21 +129,19 @@ const deleteCommentAPI = (coffeeId, reviewId) => {
     })
       .then((res) => {
         console.log(res);
-        dispatch(deleteComment(coffeeId,reviewId));
+        dispatch(deleteComment(coffeeId, reviewId));
         window.alert("댓글이 삭제되었습니다.");
       })
       .catch((err) => {
         console.log("deleteCommentAPI에서 오류발생", err);
         window.alert("댓글 삭제에 실패했습니다.");
       });
-  }
-}
+  };
+};
 
 const editCommentAPI = () => {
-  return function(dispatch, getState, {history}){
-
-  }
-}
+  return function (dispatch, getState, { history }) {};
+};
 
 //reducer
 export default handleActions(
@@ -169,19 +173,24 @@ export default handleActions(
         );
       }),
 
-      [EDIT_COMMENT]: (state, action) => produce(state, (draft) => {
-        let idx = draft.commnet_list.findIndex((c) =>
-         c.reviewId === action.payload.comment)
+    [EDIT_COMMENT]: (state, action) =>
+      produce(state, (draft) => {
+        let idx = draft.commnet_list.findIndex(
+          (c) => c.reviewId === action.payload.comment
+        );
 
-        draft.comment_list[action.payload.coffeeId][idx] =
-         {...draft.comment_list[action.payload.coffeeId][idx],...action.payload.comment} 
+        draft.comment_list[action.payload.coffeeId][idx] = {
+          ...draft.comment_list[action.payload.coffeeId][idx],
+          ...action.payload.comment,
+        };
       }),
-      [DELETE_COMMENT]: (state, action) => produce(state, (draft) => { 
+    [DELETE_COMMENT]: (state, action) =>
+      produce(state, (draft) => {
         console.log(action.payload);
-        draft.comment_list[action.payload.coffeeId].filter((c)=>
-         c.reviewId !== action.payload.reviewId)
+        draft.comment_list[action.payload.coffeeId].filter(
+          (c) => c.reviewId !== action.payload.reviewId
+        );
       }),
-
   },
   initialState
 );

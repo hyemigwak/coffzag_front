@@ -21,6 +21,19 @@ const Signup = (props) => {
   const _pwdChk = useRef();
   const _email = useRef();
 
+  // const [alertDouble, setAlert] = useState("사용 가능한 ID입니다.");
+  const doubleCheckLive = () => {
+    if (dispatch(userActions.IDCheckAPI(username)) === "false") {
+      console.log("중복!");
+      // return setAlert("이미 존재하는 ID입니다.");
+    } else {
+      // console.log("중복임!");
+      // return setAlert("사용 가능한 ID입니다.");
+    }
+    return;
+  };
+  // doubleCheckLive();
+
   const siteSignup = () => {
     // 이메일 체크 정규 표현식
     const emailPass = /^[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*.[a-zA-Z]{2,3}$/i;
@@ -53,8 +66,10 @@ const Signup = (props) => {
   };
 
   const tryDouble = () => {
-    dispatch(userActions.IDCheckAPI(username));
-    window.alert("중복체크 아이디 얻어오기?");
+    if (dispatch(userActions.IDCheckAPI(username)) === true) {
+      console.log("가능");
+      window.alert("가능");
+    }
   };
 
   return (
@@ -71,6 +86,7 @@ const Signup = (props) => {
             onChange={onChangeUsername}
           />
         </Grid>
+        {/* {alertDouble} */}
         <Grid is_flex margin="3%">
           <SignupInfo>PWD</SignupInfo>
           <Input

@@ -99,11 +99,13 @@ const IDCheckAPI = (username) => {
       },
     })
       .then((res) => {
-        console.log(res); // response 확인
-        if (res.data.token === null) {
-          return console.log(true);
+        // console.log(res); // response 확인
+        console.log(res.data.ok); // response 확인
+
+        if (res.data.ok) {
+          return console.log(res.data.msg);
         } else {
-          return console.log(false);
+          return console.log(res.data.msg);
         }
       })
       .catch((err) => {
