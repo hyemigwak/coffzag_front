@@ -8,7 +8,7 @@ import { useDispatch, useSelector } from "react-redux";
 
 const Detail = (props) => {
   const dispatch = useDispatch();
-  const is_loading = useSelector((state) => state.product.is_loading)
+  const is_loading = useSelector((state) => state.product.is_loading);
   const id = props.match.params.id;
   const coffees = useSelector((state) => state.product.product_list);
   const coffee_idx = coffees.findIndex((c) => c.coffeeId === Number(id));
@@ -22,12 +22,8 @@ const Detail = (props) => {
     dispatch(commentActions.getCommentAPI(id));
   }, [coffee]);
 
-  if(is_loading){
-    return(
-      <>
-        <Loading/>
-      </>
-    )
+  if (is_loading) {
+    return <Loading />;
   }
 
   return (
