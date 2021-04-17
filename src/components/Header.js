@@ -3,15 +3,14 @@ import { history } from "../redux/configureStore";
 import { useDispatch, useSelector } from "react-redux";
 import { actionCreators as userActions } from "../redux/modules/user";
 import "./Header.css";
-import { getCookie, deleteCookie, setCookie } from "../shared/Cookie";
+import { getCookie } from "../shared/Cookie";
 import { Grid, Text } from "../elements/";
 
 import styled from "styled-components";
-import { TextureRounded } from "@material-ui/icons";
 import ShoppingBasketRoundedIcon from "@material-ui/icons/ShoppingBasketRounded";
 
 const Header = (props) => {
-  const dispatch = useDispatch(); // 액션을 디스패치를 타고 와서 뿌려준다
+  const dispatch = useDispatch(); // 액션을 디스패치를 타고 와서 뿌려줌
   const is_login = useSelector((state) => state.user.is_login); // state를 가져오는 것
   const cookie = getCookie("user_login") ? true : false;
 

@@ -1,7 +1,5 @@
 import React, { useEffect } from "react";
 import styled from "styled-components";
-import { actionCreators as productActions } from "../redux/modules/product";
-import { useDispatch, useSelector } from "react-redux";
 import { Grid, Input, Button, Badge } from "../elements";
 
 import StarRoundedIcon from "@material-ui/icons/StarRounded";
@@ -26,7 +24,7 @@ const DetailProduct = (props) => {
     .replace(/\B(?<!\.\d*)(?=(\d{3})+(?!\d))/g, ",");
 
   return (
-    <div style={{ margin: "0 auto" }}>
+    <Grid margin="0 auto">
       <Container>
         <CurrentBuy>
           <span>50</span>명 구매 완료!
@@ -81,7 +79,7 @@ const DetailProduct = (props) => {
           </CardLeft>
         </Contents>
       </Container>
-    </div>
+    </Grid>
   );
 };
 
@@ -155,6 +153,7 @@ const CardLeft = styled.div`
   width: 25rem;
   margin-left: 3rem;
 `;
+
 const ProductName = styled.div`
   display: flex;
   justify-content: flex-start;
@@ -185,7 +184,6 @@ const PriceLine = styled.div`
     font-weight: 600;
   }
   div::before {
-    content: "";
     width: 1px;
     height: 5px;
     border-right: 1px solid #aba8a8;

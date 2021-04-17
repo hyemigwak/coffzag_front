@@ -7,33 +7,28 @@ import { Grid, Button } from "../elements";
 import Comment from "./Comment";
 import { actionCreators as commentActions } from "../redux/modules/comment";
 import moment from "moment";
-import Loading from "../shared/Loading";
 
 const DetailReview = (props) => {
   const { coffeeId } = props;
-
   const dispatch = useDispatch();
-  const productInfo = useSelector((state) => state.comment.product_info);
-  const commentList = useSelector((state) => state.comment.comment_list);
 
- 
-  const cookie = getCookie("user_login")
-  console.log(cookie);
-
+  const cookie = getCookie("user_login");
+  console.log(cookie); // user_login 보기 (cookie - token)
   const _user_name = localStorage.getItem("user_name");
-  console.log(_user_name);
+  console.log(_user_name); // user_name 보기 (localstorage - username)
 
-
+  const commentList = useSelector((state) => state.comment.comment_list);
   const is_login = useSelector((state) => state.user.is_login);
-  const createdAt = moment().format("YYYY-MM-DD");
-  const [contents, setReview] = useState("");
+
+  const createdAt = moment().format("YYYY-MM-DD"); // 작성된 시점의 시간을 보냄
   const onChangeReview = useCallback((e) => setReview(e.target.value), []);
+  const [contents, setReview] = useState("");
 
   useEffect(() => {
     if (!commentList[coffeeId]) {
       dispatch(commentActions.getCommentAPI(coffeeId));
     }
-  }, []);
+  }, [commentList[coffeeId]]);
 
   const siteAddComment = () => {
     if (!is_login) {
@@ -48,7 +43,9 @@ const DetailReview = (props) => {
       window.alert("리뷰를 입력해주세요!");
       return;
     }
-    dispatch(commentActions.addCommentAPI(coffeeId, contents, createdAt, _user_name));
+    dispatch(
+      commentActions.addCommentAPI(coffeeId, contents, createdAt, _user_name)
+    );
     setReview("");
   };
 
@@ -86,7 +83,7 @@ const DetailReview = (props) => {
         {commentList[coffeeId]?.map((c, idx) => {
           const commentProductId = commentList[coffeeId][0].coffeeId;
           if (coffeeId === commentProductId) {
-            console.log("commentProductId :", commentProductId);
+            // console.log("")
             return <Comment key={idx} {...c} />;
           }
         })}

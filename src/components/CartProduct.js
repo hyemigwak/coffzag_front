@@ -46,6 +46,7 @@ const Line = styled.div`
   width: 100%;
   height: 1px;
 `;
+
 const ProductLine = styled.div`
   display: flex;
   width: 100%;

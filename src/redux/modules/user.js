@@ -12,8 +12,8 @@ const GET_USER = "GET_USER"; //유저ID 받아오기
 //actionCreators
 const logIn = createAction(LOG_IN, (user) => ({ user }));
 const logOut = createAction(LOG_OUT, (user) => ({ user }));
-const loginCheck = createAction(LOGIN_CHECK, ( cookie ) => ({ cookie }));
-const getUser = createAction(GET_USER, (user) => ({user}));
+const loginCheck = createAction(LOGIN_CHECK, (cookie) => ({ cookie }));
+const getUser = createAction(GET_USER, (user) => ({ user }));
 
 //initialState
 const initialState = {
@@ -38,7 +38,7 @@ const loginAPI = (username, pwd) => {
           const jwtToken = res.data.token;
           const _user_name = res.data.username;
           setCookie("user_login", jwtToken); //쿠키에 user_login 이라는 이름으로 저장
-          localStorage.setItem("user_name",_user_name); //유저네임을 로컬스토리지에 저장
+          localStorage.setItem("user_name", _user_name); //유저네임을 로컬스토리지에 저장
           axios.defaults.headers.common["Authorization"] = `${jwtToken}`; //디폴트로 헤더에 토큰 담아주기
           dispatch(
             logIn({
@@ -75,9 +75,9 @@ const signupAPI = (username, pwd, email) => {
       },
     })
       .then((res) => {
-        console.log(res);
-        history.push("/login");
+        console.log(res); // signup 정보 확인
         window.alert("축하합니다. coffzag의 회원이 되어주셔서 감사합니다.");
+        history.push("/login");
       })
       .catch((err) => {
         console.log("signupAPI에서 오류발생", err);
@@ -103,9 +103,7 @@ const IDCheckAPI = (username) => {
       },
     })
       .then((res) => {
-        // console.log(res); // response 확인
-        console.log(res.data.ok); // response 확인
-
+        // state를 하나 만들어서 액션 디스패치 다시 필요
         if (res.data.ok) {
           return console.log(res.data.msg);
         } else {
@@ -117,7 +115,6 @@ const IDCheckAPI = (username) => {
       });
   };
 };
-
 
 //reducer
 export default handleActions(
@@ -138,10 +135,11 @@ export default handleActions(
       produce(state, (draft) => {
         draft.is_login = action.payload.cookie;
       }),
-    [GET_USER]: (state, action) => produce(state, (draft) => {
-      draft.user = action.payload.user;
-      draft.is_login = true;
-    })
+    [GET_USER]: (state, action) =>
+      produce(state, (draft) => {
+        draft.user = action.payload.user;
+        draft.is_login = true;
+      }),
   },
   initialState
 );

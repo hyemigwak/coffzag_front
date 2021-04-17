@@ -22,16 +22,18 @@ const Signup = (props) => {
   const _email = useRef();
 
   // const [alertDouble, setAlert] = useState("사용 가능한 ID입니다.");
-  const doubleCheckLive = () => {
-    if (dispatch(userActions.IDCheckAPI(username)) === "false") {
-      console.log("중복!");
-      // return setAlert("이미 존재하는 ID입니다.");
-    } else {
-      // console.log("중복임!");
-      // return setAlert("사용 가능한 ID입니다.");
-    }
-    return;
-  };
+  // === 값, 타입 같은지
+  // 디스패치(스토어 상태값을 바꾸는것) 반환 값x
+  // const doubleCheckLive = () => {
+  //   if (dispatch(userActions.IDCheckAPI(username)) === false) {
+  //     console.log("중복!");
+  //     // return setAlert("이미 존재하는 ID입니다.");
+  //   } else {
+  //     // console.log("중복임!");
+  //     // return setAlert("사용 가능한 ID입니다.");
+  //   }
+  //   return;
+  // };
   // doubleCheckLive();
 
   const siteSignup = () => {

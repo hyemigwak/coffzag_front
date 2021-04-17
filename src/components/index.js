@@ -4,6 +4,8 @@ import ProductList from "./ProductList";
 import CartProduct from "./CartProduct";
 import DetailProduct from "./DetailProduct";
 import DetailReview from "./DetailReview";
+import EditComment from "./EditComment";
+import Comment from "./Comment";
 
 export {
   Header,
@@ -12,4 +14,6 @@ export {
   CartProduct,
   DetailProduct,
   DetailReview,
+  EditComment,
+  Comment,
 };

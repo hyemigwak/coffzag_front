@@ -2,8 +2,6 @@ import { createAction, handleActions } from "redux-actions";
 import { produce } from "immer";
 import axios from "axios";
 import { getCookie } from "../../shared/Cookie";
-import { compose } from "redux";
-import { ConfirmationNumberTwoTone } from "@material-ui/icons";
 
 //actions
 const LOADING = "LOADING";
@@ -24,10 +22,20 @@ const getComment = createAction(
   })
 );
 
-const addComment = createAction(ADD_COMMENT, (coffeeId, comment) => ({ coffeeId, comment }));
+const addComment = createAction(ADD_COMMENT, (coffeeId, comment) => ({
+  coffeeId,
+  comment,
+}));
 
-const editComment = createAction(EDIT_COMMENT,(coffeeId, comment) => ({ coffeeId, comment }));
-const deleteComment = createAction(DELETE_COMMENT, (coffeeId,reviewId) => ({coffeeId, reviewId }));
+const editComment = createAction(EDIT_COMMENT, (coffeeId, comment) => ({
+  coffeeId,
+  comment,
+}));
+
+const deleteComment = createAction(DELETE_COMMENT, (coffeeId, reviewId) => ({
+  coffeeId,
+  reviewId,
+}));
 
 //initialState
 const initialState = {
@@ -67,10 +75,11 @@ const getCommentAPI = (coffeeId) => {
             // List에 날짜 key만 추가
             c._createdAt = c.createdAt.split("T")[0];
           });
-          console.log(commentList);
 
           dispatch(getComment(coffeeId, product_info, commentList));
           dispatch(loading(false));
+        } else {
+          console.log("data.ok is false");
         }
       })
       .catch((err) => console.log("getCommentAPI 에러", err));
@@ -97,7 +106,6 @@ const addCommentAPI = (coffeeId, contents, createdAt, _user_name) => {
       .then((res) => {
         console.log(res);
         dispatch(addComment(coffeeId, comment_data));
-        window.alert("댓글이 작성되었습니다.");
       })
       .catch((err) => {
         console.log("addCommentAPI에서 오류발생", err);
@@ -106,13 +114,12 @@ const addCommentAPI = (coffeeId, contents, createdAt, _user_name) => {
   };
 };
 
-//const DeleteUrl = "http://54.180.86.19/api/reviews/${reviewId}"
 const deleteCommentAPI = (coffeeId, reviewId) => {
   return function (dispatch, getState, { history }) {
     let token = getCookie("user_login");
     let delete_data = {
-      reviewId : reviewId
-    }
+      reviewId: reviewId,
+    };
     axios({
       method: "DELETE",
       url: `http://54.180.86.19/api/reviews/${reviewId}`,
@@ -139,7 +146,6 @@ const editCommentAPI = (coffeeId, reviewId, contents) => {
     let edit_data = {
       reviewId: reviewId,
       contents: contents,
-
     };
     axios({
       method: "PUT",
@@ -180,44 +186,36 @@ export default handleActions(
       }),
     [ADD_COMMENT]: (state, action) =>
       produce(state, (draft) => {
+        // coffeeId로 찾은 comment_list가 없으면
+        // 배열에 넣기
         if (!draft.comment_list[action.payload.coffeeId]) {
           draft.comment_list[action.payload.coffeeId] = [
             action.payload.comment,
           ];
         }
-        console.log(action.payload.comment)
+        // unshift: 배열 맨 앞에 추가하기
         draft.comment_list[action.payload.coffeeId].unshift(
           action.payload.comment
         );
       }),
-
     [EDIT_COMMENT]: (state, action) =>
       produce(state, (draft) => {
-        console.log(draft.comment_list);
-        console.log(draft.comment_list[action.payload.reviewId])
-        console.log(action.payload.comment);
-        console.log(action.payload.reviewId);
-        console.log(draft.comment_list[action.payload.coffeeId].findIndex((c) => c.reviewId === action.payload.comment.reviewId))
-        let idx = draft.comment_list[action.payload.coffeeId].findIndex((c) => c.reviewId === action.payload.comment.reviewId)
-        console.log(idx);
-        console.log(draft.comment_list[action.payload.coffeeId][idx])
+        let idx = draft.comment_list[action.payload.coffeeId].findIndex(
+          (c) => c.reviewId === action.payload.comment.reviewId
+        );
         draft.comment_list[action.payload.coffeeId][idx] = {
           ...draft.comment_list[action.payload.coffeeId][idx],
-          ...action.payload.comment
+          ...action.payload.comment,
         };
       }),
 
     [DELETE_COMMENT]: (state, action) =>
       produce(state, (draft) => {
-        console.log(draft.comment_list[action.payload.coffeeId]);
-        console.log(action.payload.reviewId);
-        console.log(draft.comment_list[action.payload.coffeeId].findIndex((c) =>
-         c.reviewId === action.payload.reviewId.reviewId))
-
-        let idx = draft.comment_list[action.payload.coffeeId].findIndex((c) =>
-        c.reviewId === action.payload.reviewId.reviewId)
-
-        draft.comment_list[action.payload.coffeeId].splice(idx,1);
+        // *coffeeId로 먼저 찾은 다음* => reviewId로 객체 찾기
+        let idx = draft.comment_list[action.payload.coffeeId].findIndex(
+          (c) => c.reviewId === action.payload.reviewId.reviewId
+        );
+        draft.comment_list[action.payload.coffeeId].splice(idx, 1);
       }),
   },
   initialState

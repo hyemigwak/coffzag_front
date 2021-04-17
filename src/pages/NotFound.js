@@ -3,7 +3,7 @@ import { Grid, Button } from "../elements";
 
 const NotFound = (props) => {
   /* props뜯어보면 push, goBack, goForward .. 많음 */
-  // console.log(props);
+  console.log(props);
 
   return (
     <Grid is_flex column padding="180px">

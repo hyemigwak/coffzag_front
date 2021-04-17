@@ -1,18 +1,16 @@
 import React, { useEffect } from "react";
-import styled from "styled-components";
-import "./App.css";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import { actionCreators as userActions } from "../redux/modules/user";
 import { Route, Switch } from "react-router-dom";
 import { ConnectedRouter } from "connected-react-router";
 import { history } from "../redux/configureStore";
 import { getCookie } from "./Cookie";
 
-import { Main, Detail, Cart, Login, Signup, NotFound } from "../pages";
-import { Header } from "../components";
+import "./App.css";
 import { Grid } from "../elements";
 
-import Loading from "./Loading";
+import { Main, Detail, Cart, Login, Signup, NotFound } from "../pages";
+import { Header } from "../components";
 
 function App() {
   const dispatch = useDispatch();
@@ -24,7 +22,7 @@ function App() {
   }, []);
 
   return (
-    <AppGlobal>
+    <React.Fragment>
       <Header />
       <Grid isRoot>
         <ConnectedRouter history={history}>
@@ -33,18 +31,15 @@ function App() {
           <Route exact path="/login" component={Login} />
           <Route exact path="/signup" component={Signup} />
           <Route exact path="/cart" component={Cart} />
+          <Route exact path="/notfound" component={NotFound} />
           {/* 지정하지 않은 주소를 notfound로 가게 하기 */}
           {/* <Switch>
             <Route component={NotFound} />
           </Switch> */}
         </ConnectedRouter>
       </Grid>
-    </AppGlobal>
+    </React.Fragment>
   );
 }
-
-const AppGlobal = styled.div`
-  ${(props) => (props?.onClick || props?._onClick ? "cursor:pointer;" : "")}
-`;
 
 export default App;

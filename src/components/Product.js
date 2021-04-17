@@ -1,17 +1,10 @@
-import React, { useEffect, useState } from "react";
-import { useDispatch } from "react-redux";
+import React from "react";
 import styled from "styled-components";
 import { Grid, Badge } from "../elements/";
 import { useSelector } from "react-redux";
 import { history } from "../redux/configureStore";
-import { actionCreators as commentActions } from "../redux/modules/comment";
 
 const Product = (props) => {
-  const dispatch = useDispatch();
-  const commentList = useSelector((state) => state.comment.comment_list);
-  const reviewList = useSelector((state) => state.product.review_list);
-  console.log(reviewList);
-
   const {
     coffeeName,
     coffeePrice,
@@ -22,13 +15,10 @@ const Product = (props) => {
     createdAt,
     contents,
   } = props;
-  
-  console.log(reviewList[0].contents);
 
-  //가격에 콤마 붙여주는 정규식 표현
-  const coffee_price = coffeePrice
-    .toString()
-    .replace(/\B(?<!\.\d*)(?=(\d{3})+(?!\d))/g, ",");
+  const reviewList = useSelector((state) => state.product.latest_review);
+  console.log(reviewList);
+  console.log(reviewList[0].contents);
 
   return (
     <Card
@@ -45,8 +35,8 @@ const Product = (props) => {
         </Grid>
         <Grid>
           <p>
-            {reviewList[coffeeId]?.contents?
-              reviewList[coffeeId].contents
+            {reviewList[coffeeId]?.contents
+              ? reviewList[coffeeId].contents
               : "첫 리뷰를 써주세요!"}
           </p>
         </Grid>
@@ -54,16 +44,16 @@ const Product = (props) => {
       <CardFooter>
         <Grid>
           <span>
-            {reviewList[coffeeId]?.createdAt?
-              reviewList[coffeeId].createdAt.split("T")[0]
+            {reviewList[coffeeId]?.createdAt
+              ? reviewList[coffeeId].createdAt.split("T")[0]
               : ""}
           </span>
         </Grid>
         <Grid textAlign="right">
           <span>by </span>
-          {reviewList[coffeeId]?.username?
-              reviewList[coffeeId].username
-              : "Coffzag"}
+          {reviewList[coffeeId]?.username
+            ? reviewList[coffeeId].username
+            : "Coffzag"}
         </Grid>
       </CardFooter>
     </Card>
@@ -88,11 +78,12 @@ const Card = styled.div`
   background-color: #fff;
   border-radius: 20px;
   box-shadow: 0 0 10px #0000001a;
+  border: transparent;
+
   transition: box-shadow 0.3s ease-in-out;
   :hover {
     box-shadow: 0 0 10px #00000038;
-    /* 로그인 active랑 색상 통일 or not? */
-    /* box-shadow: 0 0 10px rgba(255, 193, 73, 0.7); */
+    border: inset 0.5px solid #0000001a;
     div {
       transition: background-size 0.3s ease-in-out;
       background-size: 107%;

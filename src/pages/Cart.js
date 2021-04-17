@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React from "react";
 import styled from "styled-components";
 import { Grid, Button } from "../elements/";
 import { history } from "../redux/configureStore";
