@@ -13,12 +13,13 @@ const GET_USER = "GET_USER"; //유저ID 받아오기
 const logIn = createAction(LOG_IN, (user) => ({ user }));
 const logOut = createAction(LOG_OUT, (user) => ({ user }));
 const loginCheck = createAction(LOGIN_CHECK, (cookie) => ({ cookie }));
-const getUser = createAction(GET_USER, (user) => ({ user }));
+const getUser = createAction(GET_USER, (user) => ({ user })); // id 중복체크
 
 //initialState
 const initialState = {
   user: [],
   is_login: false,
+  is_exist: false, // id 중복체크
 };
 
 //api연결
@@ -103,12 +104,8 @@ const IDCheckAPI = (username) => {
       },
     })
       .then((res) => {
-        // state를 하나 만들어서 액션 디스패치 다시 필요
-        if (res.data.ok) {
-          return console.log(res.data.msg);
-        } else {
-          return console.log(res.data.msg);
-        }
+        console.log(res.data);
+        dispatch(getUser(res.data.ok));
       })
       .catch((err) => {
         console.log("IDCheckAPI에서 오류 발생", err);
@@ -137,8 +134,9 @@ export default handleActions(
       }),
     [GET_USER]: (state, action) =>
       produce(state, (draft) => {
-        draft.user = action.payload.user;
-        draft.is_login = true;
+        draft.is_exist = action.payload.user;
+        console.log(action.payload);
+        console.log(action.payload.user);
       }),
   },
   initialState

@@ -18,7 +18,6 @@ const Product = (props) => {
 
   const reviewList = useSelector((state) => state.product.latest_review);
 
-
   return (
     <Card
       onClick={() => {

@@ -1,5 +1,5 @@
 import React, { useCallback, useRef, useState } from "react";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { actionCreators as userActions } from "../redux/modules/user";
 
 import styled from "styled-components";
@@ -15,6 +15,8 @@ const Signup = (props) => {
   const onChangePwd = useCallback((e) => setPwd(e.target.value), []);
   const onChangePwdCheck = useCallback((e) => setPwdCheck(e.target.value), []);
   const onChangeEmail = useCallback((e) => setEmail(e.target.value), []);
+
+  const user_exist = useSelector((state) => state.user.is_exist);
 
   const _id = useRef();
   const _pwd = useRef();
@@ -63,15 +65,14 @@ const Signup = (props) => {
       _email.current.focus();
       return;
     }
+    dispatch(userActions.IDCheckAPI(username));
+    if (!user_exist) {
+      window.alert("이미 존재하는 ID입니다.");
+      _id.current.focus();
+      return;
+    }
     dispatch(userActions.signupAPI(username, pwd, email));
     window.alert("회원가입이 완료되었습니다.");
-  };
-
-  const tryDouble = () => {
-    if (dispatch(userActions.IDCheckAPI(username)) === true) {
-      console.log("가능");
-      window.alert("가능");
-    }
   };
 
   return (
@@ -130,13 +131,6 @@ const Signup = (props) => {
           margin=".5rem 0"
         />
       </Grid>
-
-      <Button
-        _onClick={tryDouble}
-        text="중복쳌"
-        width="102%"
-        margin=".5rem 0"
-      />
     </Grid>
   );
 };
