@@ -2,6 +2,7 @@ import React, { useCallback, useState } from "react";
 import styled from "styled-components";
 import { Button } from "../elements/";
 import { useDispatch, useSelector } from "react-redux";
+import CloseIcon from '@material-ui/icons/Close';
 import { actionCreators as commentActions } from "../redux/modules/comment";
 
 const EditComment = (props) => {
@@ -16,6 +17,7 @@ const EditComment = (props) => {
     if (window.confirm("댓글을 수정합니다.")) {
       dispatch(commentActions.editCommentAPI(coffeeId, reviewId, contents));
       close();
+      setContents("");
     }
   };
 
@@ -24,14 +26,16 @@ const EditComment = (props) => {
       {open ? (
         <OutsideModal>
           <ModalBox>
-            <input
-              type="text"
-              placeholder="리뷰를 수정해주세요!"
-              value={contents}
-              onChange={onChangeContents}
-            />
-            <Button _onClick={editCmt}>수정완료</Button>
-            <Button _onClick={close}>X</Button>
+            <InputBox>
+              <EditBox
+                type="text"
+                placeholder="리뷰를 수정해주세요!"
+                value={contents}
+                onChange={onChangeContents}
+              />
+              <CloseIcon style={{cursor:"pointer"}} onClick={close}/>
+            </InputBox>
+            <Button yellow _onClick={editCmt} text="수정하기"></Button>
           </ModalBox>
         </OutsideModal>
       ) : null}
@@ -50,6 +54,7 @@ const OutsideModal = styled.div`
 
 const ModalBox = styled.div`
   position: absolute;
+  border-radius: 25px;
   top: calc(50vh - 100px);
   left: calc(50vw - 200px);
   background-color: rgba(255, 255, 255, 1);
@@ -59,6 +64,29 @@ const ModalBox = styled.div`
   z-index: 50;
   opacity: 1;
   text-align: center;
+`;
+
+const EditBox = styled.input`
+  width: 70%;
+  height: 2rem;
+  border-radius: 1rem;
+  background-color: #ffffff;
+  box-shadow: 0px 2px 10px rgba(0, 0, 0, 0.07);
+  border: none;
+  outline: none;
+  margin: 1.8rem 1.5rem;
+  padding: 0.3rem 0.8rem;
+  :disabled {
+    background-color: #d2d2d2;
+    ::placeholder {
+      color: #ffffff;
+    }
+`;
+
+const InputBox = styled.div`
+    display: flex;
+    justify-content: center;
+    align-items: center;
 `;
 
 export default EditComment;

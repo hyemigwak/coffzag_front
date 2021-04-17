@@ -17,8 +17,7 @@ const Product = (props) => {
   } = props;
 
   const reviewList = useSelector((state) => state.product.latest_review);
-  console.log(reviewList);
-  console.log(reviewList[0].contents);
+
 
   return (
     <Card

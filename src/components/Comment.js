@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { Grid, Button, Line } from "../elements";
+import Permit from "../shared/Permit";
 import EditComment from "./EditComment";
 import { actionCreators as commentActions } from "../redux/modules/comment";
 import { useDispatch, useSelector } from "react-redux";
@@ -18,6 +19,8 @@ const Comment = (props) => {
     modifiedAt,
   } = props;
   const dispatch = useDispatch();
+  const is_me = localStorage.getItem("user_name") === username;
+
 
   //모달 설정 부분
   const [modalOpen, setModalOpen] = useState(false);
@@ -52,14 +55,21 @@ const Comment = (props) => {
           <Date>{createdAt.split("T")[0] || _createdAt || modifiedAt}</Date>
         </Grid>
         <Grid width="20%" textAlign="right">
-          <DeleteIcon onClick={delCmt} />
-          <EditIcon onClick={openModal} />
-          <EditComment
-            open={modalOpen}
-            close={closeModal}
-            coffeeId={coffeeId}
-            reviewId={reviewId}
-          />
+          <Permit>
+            {is_me? (
+              <>
+            <DeleteIcon onClick={delCmt} />
+            <EditIcon onClick={openModal} />
+            <EditComment
+              open={modalOpen}
+              close={closeModal}
+              coffeeId={coffeeId}
+              reviewId={reviewId}
+            />
+            </>
+            ) : null}
+
+          </Permit>
         </Grid>
       </Grid>
       <Line bottom margin="20px 0" />

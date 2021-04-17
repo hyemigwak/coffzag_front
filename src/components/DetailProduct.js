@@ -184,6 +184,7 @@ const PriceLine = styled.div`
     font-weight: 600;
   }
   div::before {
+    content: "";
     width: 1px;
     height: 5px;
     border-right: 1px solid #aba8a8;
