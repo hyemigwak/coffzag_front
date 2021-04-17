@@ -15,11 +15,11 @@ const ProductList = (props) => {
   }, [coffees]);
 
   return (
-    <Grid>
+    <>
       {coffees.map((coffee, idx) => (
         <Product {...coffee} key={idx} />
       ))}
-    </Grid>
+    </>
   );
 };
 

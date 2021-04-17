@@ -16,9 +16,9 @@ const Main = (props) => {
   }
 
   return (
-    <Grid>
+    <>
       <ProductList />
-    </Grid>
+    </>
   );
 };
 
