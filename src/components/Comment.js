@@ -1,16 +1,19 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Grid, Button, Line } from "../elements";
 import EditComment from "./EditComment";
 import { actionCreators as commentActions } from "../redux/modules/comment";
+import { getCookie } from "../shared/Cookie";
 import { useDispatch, useSelector } from "react-redux";
 import styled from "styled-components";
 import DeleteIcon from "@material-ui/icons/Delete";
 import EditIcon from "@material-ui/icons/Edit";
+import { history } from "../redux/configureStore";
 
 const Comment = (props) => {
-  const { username, contents, createdAt } = props;
+  const { reviewId , contents, _createdAt, coffeeId, username, createdAt, modifiedAt } = props;
   const commentList = useSelector((state) => state.comment.comment_list);
   const dispatch = useDispatch();
+ 
 
   //모달 설정 부분
   const [modalOpen, setModalOpen] = useState(false);
@@ -24,25 +27,17 @@ const Comment = (props) => {
     setModalOpen(false);
     document.body.style.overflow = "unset";
   };
-  // console.log(commentList);
-  // let list = []
-  // list.push({...commentList});
-  // console.log(list);
-  // const _review = list.filter(function(review){
-  //   return review.contents === "contents";
-  // });
-  // console.log(_review[0]);
+
 
   //댓글 삭제 부분
   const delCmt = () => {
     if (window.confirm("정말로 댓글을 삭제하시겠습니까?")) {
-      dispatch(commentActions.deleteCommentAPI(contents));
-      window.alert("삭제되었습니다");
+      dispatch(commentActions.deleteCommentAPI(coffeeId,reviewId));
+
     }
   };
-  // 날짜 시간 단위 삭제
-  const onlyDate = createdAt.split("T")[0];
 
+ 
   return (
     <React.Fragment>
       <Grid is_flex>
@@ -53,16 +48,12 @@ const Comment = (props) => {
           <Content>{contents}</Content>
         </Grid>
         <Grid width="30%" textAlign="right">
-          <Date>{_createdAt}</Date>
-        </Grid>
-        <Grid width="20%" textAlign="right">
-          <DeleteIcon onClick={deleteCmt} />
-          <EditIcon onClick={editCmt} />
+          <Date>{createdAt.split("T")[0] || _createdAt || modifiedAt}</Date>
         </Grid>
         <Grid width="20%" textAlign="right">
           <DeleteIcon onClick={delCmt} />
           <EditIcon onClick={openModal} />
-          <EditComment open={modalOpen} close={closeModal} />
+          <EditComment open={modalOpen} close={closeModal} coffeeId={coffeeId} reviewId={reviewId} />
         </Grid>
       </Grid>
       <Line bottom margin="20px 0" />
@@ -70,11 +61,11 @@ const Comment = (props) => {
   );
 };
 
-Comment.defaultProps = {
-  contents: "좋네요",
-  name: "경미니",
-  onlyDate: "2021-04-14",
-};
+// Comment.defaultProps = {
+//   contents: "좋네요",
+//   username: "경미니",
+//   _createdAt: "2021-04-14",
+// };
 
 const User = styled.div`
   font-weight: bold;

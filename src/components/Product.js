@@ -9,6 +9,8 @@ import { actionCreators as commentActions } from "../redux/modules/comment";
 const Product = (props) => {
   const dispatch = useDispatch();
   const commentList = useSelector((state) => state.comment.comment_list);
+  const reviewList = useSelector((state) => state.product.review_list);
+  console.log(reviewList);
 
   const {
     coffeeName,
@@ -20,13 +22,13 @@ const Product = (props) => {
     createdAt,
     contents,
   } = props;
+  
+  console.log(reviewList[0].contents);
 
   //가격에 콤마 붙여주는 정규식 표현
   const coffee_price = coffeePrice
     .toString()
     .replace(/\B(?<!\.\d*)(?=(\d{3})+(?!\d))/g, ",");
-
-  console.log(commentList[coffeeId]);
 
   return (
     <Card
@@ -40,30 +42,28 @@ const Product = (props) => {
       <CardBody>
         <Grid>
           <h1>{coffeeName}</h1>
-          <h4>{coffee_price} 원</h4>
         </Grid>
         <Grid>
           <p>
-            {commentList[coffeeId]?.length > 0
-              ? commentList[coffeeId][0].contents
-              : ""}
+            {reviewList[coffeeId]?.contents?
+              reviewList[coffeeId].contents
+              : "첫 리뷰를 써주세요!"}
           </p>
         </Grid>
       </CardBody>
-
       <CardFooter>
         <Grid>
           <span>
-            {commentList[coffeeId]?.length > 0
-              ? commentList[coffeeId][0]._createdAt
+            {reviewList[coffeeId]?.createdAt?
+              reviewList[coffeeId].createdAt.split("T")[0]
               : ""}
           </span>
         </Grid>
         <Grid textAlign="right">
           <span>by </span>
-          {commentList[coffeeId]?.length > 0
-            ? commentList[coffeeId][0].username
-            : username}
+          {reviewList[coffeeId]?.username?
+              reviewList[coffeeId].username
+              : "Coffzag"}
         </Grid>
       </CardFooter>
     </Card>
@@ -76,7 +76,7 @@ Product.defaultProps = {
   coffeeImg:
     "https://www.nespresso.com/shared_res/agility/enhancedPDP/vertuo/images/Vertuo_Double-espresso-Scuro_resp.jpg",
   coffeeBrand: "Nespresso",
-  contents: "첫 리뷰어가 되어주세요!",
+  contents: "",
   createdAt: "",
   username: "Coffzag",
 };

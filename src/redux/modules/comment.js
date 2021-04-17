@@ -24,19 +24,10 @@ const getComment = createAction(
   })
 );
 
-const addComment = createAction(ADD_COMMENT, (coffeeId, comment) => ({
-  coffeeId,
-  comment,
-}));
+const addComment = createAction(ADD_COMMENT, (coffeeId, comment) => ({ coffeeId, comment }));
 
-const editComment = createAction(
-  EDIT_COMMENT,
-  (coffeeId, reviewId, comment) => ({ coffeeId, reviewId, comment })
-);
-const deleteComment = createAction(DELETE_COMMENT, (reviewId, comment) => ({
-  reviewId,
-  comment,
-}));
+const editComment = createAction(EDIT_COMMENT,(coffeeId, comment) => ({ coffeeId, comment }));
+const deleteComment = createAction(DELETE_COMMENT, (coffeeId,reviewId) => ({coffeeId, reviewId }));
 
 //initialState
 const initialState = {
@@ -86,15 +77,14 @@ const getCommentAPI = (coffeeId) => {
   };
 };
 
-const addCommentAPI = (coffeeId, contents, createdAt) => {
+const addCommentAPI = (coffeeId, contents, createdAt, _user_name) => {
   return function (dispatch, getState, { history }) {
     let token = getCookie("user_login") || "";
-    const user_info = getState().user.user;
     let comment_data = {
       coffeeId: coffeeId,
-      createdAt: createdAt,
       contents: contents,
-      username: user_info.username,
+      createdAt: createdAt,
+      username: _user_name,
     };
     axios({
       method: "POST",
@@ -120,16 +110,20 @@ const addCommentAPI = (coffeeId, contents, createdAt) => {
 const deleteCommentAPI = (coffeeId, reviewId) => {
   return function (dispatch, getState, { history }) {
     let token = getCookie("user_login");
+    let delete_data = {
+      reviewId : reviewId
+    }
     axios({
       method: "DELETE",
       url: `http://54.180.86.19/api/reviews/${reviewId}`,
       headers: {
         "X-AUTH-TOKEN": token,
       },
+      data: delete_data,
     })
       .then((res) => {
         console.log(res);
-        dispatch(deleteComment(coffeeId, reviewId));
+        dispatch(deleteComment(coffeeId, delete_data));
         window.alert("댓글이 삭제되었습니다.");
       })
       .catch((err) => {
@@ -139,8 +133,32 @@ const deleteCommentAPI = (coffeeId, reviewId) => {
   };
 };
 
-const editCommentAPI = () => {
-  return function (dispatch, getState, { history }) {};
+const editCommentAPI = (coffeeId, reviewId, contents) => {
+  return function (dispatch, getState, { history }) {
+    let token = getCookie("user_login");
+    let edit_data = {
+      reviewId: reviewId,
+      contents: contents,
+
+    };
+    axios({
+      method: "PUT",
+      url: `http://54.180.86.19/api/reviews/${reviewId}`,
+      headers: {
+        "X-AUTH-TOKEN": token,
+      },
+      data: edit_data,
+    })
+      .then((res) => {
+        console.log(res);
+        dispatch(editComment(coffeeId, edit_data));
+        window.alert("댓글이 수정되었습니다.");
+      })
+      .catch((err) => {
+        console.log("editCommentAPI에서 오류발생", err);
+        window.alert("수정실패");
+      });
+  };
 };
 
 //reducer
@@ -166,8 +184,8 @@ export default handleActions(
           draft.comment_list[action.payload.coffeeId] = [
             action.payload.comment,
           ];
-          return;
         }
+        console.log(action.payload.comment)
         draft.comment_list[action.payload.coffeeId].unshift(
           action.payload.comment
         );
@@ -175,21 +193,31 @@ export default handleActions(
 
     [EDIT_COMMENT]: (state, action) =>
       produce(state, (draft) => {
-        let idx = draft.commnet_list.findIndex(
-          (c) => c.reviewId === action.payload.comment
-        );
-
+        console.log(draft.comment_list);
+        console.log(draft.comment_list[action.payload.reviewId])
+        console.log(action.payload.comment);
+        console.log(action.payload.reviewId);
+        console.log(draft.comment_list[action.payload.coffeeId].findIndex((c) => c.reviewId === action.payload.comment.reviewId))
+        let idx = draft.comment_list[action.payload.coffeeId].findIndex((c) => c.reviewId === action.payload.comment.reviewId)
+        console.log(idx);
+        console.log(draft.comment_list[action.payload.coffeeId][idx])
         draft.comment_list[action.payload.coffeeId][idx] = {
           ...draft.comment_list[action.payload.coffeeId][idx],
-          ...action.payload.comment,
+          ...action.payload.comment
         };
       }),
+
     [DELETE_COMMENT]: (state, action) =>
       produce(state, (draft) => {
-        console.log(action.payload);
-        draft.comment_list[action.payload.coffeeId].filter(
-          (c) => c.reviewId !== action.payload.reviewId
-        );
+        console.log(draft.comment_list[action.payload.coffeeId]);
+        console.log(action.payload.reviewId);
+        console.log(draft.comment_list[action.payload.coffeeId].findIndex((c) =>
+         c.reviewId === action.payload.reviewId.reviewId))
+
+        let idx = draft.comment_list[action.payload.coffeeId].findIndex((c) =>
+        c.reviewId === action.payload.reviewId.reviewId)
+
+        draft.comment_list[action.payload.coffeeId].splice(idx,1);
       }),
   },
   initialState

@@ -9,11 +9,12 @@ const SET_PRODUCT = "SET_PRORUCT";
 
 //actionCreators
 const loading = createAction(LOADING, (is_loading) => ({ is_loading }));
-const setProduct = createAction(SET_PRODUCT, (data) => ({ data }));
+const setProduct = createAction(SET_PRODUCT, (products, reviews) => ({ products, reviews }));
 
 //initialState
 const initialState = {
   product_list: [],
+  review_list: {},
   is_loading: false,
 };
 
@@ -26,9 +27,9 @@ const setProductAPI = () => {
     axios
       .get(product_API)
       .then((res) => {
-        // console.log(res.data);
+        console.log(res.data);
         if (res.data.ok) {
-          dispatch(setProduct(res.data.products));
+          dispatch(setProduct(res.data.products, res.data.reviews));
           dispatch(loading(false));
         }
       })
@@ -69,7 +70,11 @@ export default handleActions(
     [SET_PRODUCT]: (state, action) =>
       produce(state, (draft) => {
         draft.is_loading = action.payload.is_loading;
-        draft.product_list = action.payload.data;
+        draft.product_list = action.payload.products;
+        draft.review_list = action.payload.reviews;
+        console.log(draft.product_list);
+        console.log(draft.review_list);
+        
       }),
   },
   initialState

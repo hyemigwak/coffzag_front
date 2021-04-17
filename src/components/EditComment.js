@@ -2,18 +2,20 @@ import React,{ useCallback, useState }  from 'react';
 import styled from "styled-components";
 import { Button } from "../elements/";
 import { useDispatch, useSelector } from "react-redux";
+import { actionCreators as commentActions } from "../redux/modules/comment";
 import { history } from "../redux/configureStore";
 
 const EditComment = (props) => {
 
-    const {open, close} = props;
+    const dispatch = useDispatch();
+    const {open, close, reviewId, coffeeId} = props;
 
     const [contents, setContents] = useState("");
     const onChangeContents = useCallback((e)=> setContents(e.target.value),[]);
 
     const editCmt = () => {
-        window.alert("수정되었습니다!");
-        close();
+        dispatch(commentActions.editCommentAPI(coffeeId, reviewId, contents))
+        close()
     }
 
     return (
@@ -49,7 +51,7 @@ const ModalBox = styled.div`
     background-color:rgba(255, 255, 255, 1);
     width: 30rem;
     height: 10rem;
-    position: relatvie;
+    position: relative;
     z-index: 50;
     opacity:1;
     text-align: center;

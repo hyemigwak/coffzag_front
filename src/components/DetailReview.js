@@ -16,14 +16,18 @@ const DetailReview = (props) => {
   const productInfo = useSelector((state) => state.comment.product_info);
   const commentList = useSelector((state) => state.comment.comment_list);
 
+ 
+  const cookie = getCookie("user_login")
+  console.log(cookie);
+
+  const _user_name = localStorage.getItem("user_name");
+  console.log(_user_name);
+
+
   const is_login = useSelector((state) => state.user.is_login);
-  const createdAt = moment().format("YYYY-MM-DD hh:mm:ss");
+  const createdAt = moment().format("YYYY-MM-DD");
   const [contents, setReview] = useState("");
   const onChangeReview = useCallback((e) => setReview(e.target.value), []);
-
-  if (commentList[coffeeId]) {
-    console.log(commentList[coffeeId][0]);
-  }
 
   useEffect(() => {
     if (!commentList[coffeeId]) {
@@ -44,7 +48,7 @@ const DetailReview = (props) => {
       window.alert("리뷰를 입력해주세요!");
       return;
     }
-    dispatch(commentActions.addCommentAPI(coffeeId, contents, createdAt));
+    dispatch(commentActions.addCommentAPI(coffeeId, contents, createdAt, _user_name));
     setReview("");
   };
 

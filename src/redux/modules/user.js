@@ -7,11 +7,13 @@ import { setCookie, deleteCookie, getCookie } from "../../shared/Cookie";
 const LOG_IN = "LOG_IN"; //로그인
 const LOG_OUT = "LOG_OUT"; //로그아웃
 const LOGIN_CHECK = "LOGIN_CHECK"; //로그인 유지
+const GET_USER = "GET_USER"; //유저ID 받아오기
 
 //actionCreators
 const logIn = createAction(LOG_IN, (user) => ({ user }));
 const logOut = createAction(LOG_OUT, (user) => ({ user }));
-const loginCheck = createAction(LOGIN_CHECK, (cookie) => ({ cookie }));
+const loginCheck = createAction(LOGIN_CHECK, ( cookie ) => ({ cookie }));
+const getUser = createAction(GET_USER, (user) => ({user}));
 
 //initialState
 const initialState = {
@@ -34,7 +36,9 @@ const loginAPI = (username, pwd) => {
         if (res.data.token != null) {
           console.log(res); // response 확인
           const jwtToken = res.data.token;
+          const _user_name = res.data.username;
           setCookie("user_login", jwtToken); //쿠키에 user_login 이라는 이름으로 저장
+          localStorage.setItem("user_name",_user_name); //유저네임을 로컬스토리지에 저장
           axios.defaults.headers.common["Authorization"] = `${jwtToken}`; //디폴트로 헤더에 토큰 담아주기
           dispatch(
             logIn({
@@ -114,6 +118,7 @@ const IDCheckAPI = (username) => {
   };
 };
 
+
 //reducer
 export default handleActions(
   {
@@ -125,6 +130,7 @@ export default handleActions(
     [LOG_OUT]: (state, action) =>
       produce(state, (draft) => {
         deleteCookie("user_login");
+        localStorage.removeItem("user_name");
         draft.user = null;
         draft.is_login = false;
       }),
@@ -132,6 +138,10 @@ export default handleActions(
       produce(state, (draft) => {
         draft.is_login = action.payload.cookie;
       }),
+    [GET_USER]: (state, action) => produce(state, (draft) => {
+      draft.user = action.payload.user;
+      draft.is_login = true;
+    })
   },
   initialState
 );
