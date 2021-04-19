@@ -127,7 +127,6 @@ const GridBox = styled.div`
 
 // App.js 의 Grid isRoot
 const RootContainer = styled.div`
-  overflow-x: hidden;
   z-index: 0;
   background-color: transparent;
   color: #5a5656;

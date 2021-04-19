@@ -129,7 +129,7 @@ const Logo = styled.div`
 const HeaderText = styled.span`
   font-size: 14px;
   margin-left: 2%;
-  font-weight: 700;
+  font-weight: 800;
   cursor: pointer;
 `;
 

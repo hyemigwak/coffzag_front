@@ -10,7 +10,7 @@ import "./App.css";
 import { Grid } from "../elements";
 
 import { Main, Detail, Cart, Login, Signup, NotFound } from "../pages";
-import { Header } from "../components";
+import { Header, Footer } from "../components";
 
 function App() {
   const dispatch = useDispatch();
@@ -23,8 +23,8 @@ function App() {
 
   return (
     <React.Fragment>
-      <Header />
       <Grid isRoot>
+        <Header />
         <ConnectedRouter history={history}>
           <Route exact path="/" component={Main} />
           <Route exact path="/detail/:id" component={Detail} />
@@ -37,6 +37,7 @@ function App() {
             <Route component={NotFound} />
           </Switch> */}
         </ConnectedRouter>
+        <Footer />
       </Grid>
     </React.Fragment>
   );

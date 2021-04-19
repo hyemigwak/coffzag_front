@@ -1,4 +1,5 @@
 import Header from "./Header";
+import Footer from "./Footer";
 import Product from "./Product";
 import ProductList from "./ProductList";
 import CartProduct from "./CartProduct";
@@ -9,6 +10,7 @@ import Comment from "./Comment";
 
 export {
   Header,
+  Footer,
   Product,
   ProductList,
   CartProduct,

@@ -1,6 +1,6 @@
 import React from "react";
 import styled from "styled-components";
-import { Grid, Badge } from "../elements/";
+import { Grid, Badge, Line } from "../elements/";
 import { useSelector } from "react-redux";
 import { history } from "../redux/configureStore";
 
@@ -27,43 +27,63 @@ const Product = (props) => {
       <ProductImg bgimg={coffeeImg}>
         <Badge>{coffeeBrand}</Badge>
       </ProductImg>
-      <CardBody>
-        <Grid>
-          <h1>{coffeeName}</h1>
-        </Grid>
-        <Grid>
-          <p>
-            {reviewList[coffeeId]?.contents
-              ? reviewList[coffeeId].contents
-              : "첫 리뷰를 써주세요!"}
-          </p>
-        </Grid>
-      </CardBody>
-      <CardFooter>
-        <Grid>
-          <span>
-            {reviewList[coffeeId]?.createdAt
-              ? reviewList[coffeeId].createdAt.split("T")[0]
-              : ""}
-          </span>
-        </Grid>
-        <Grid textAlign="right">
-          <span>by </span>
-          {reviewList[coffeeId]?.username
-            ? reviewList[coffeeId].username
-            : "Coffzag"}
-        </Grid>
-      </CardFooter>
+
+      {reviewList[coffeeId]?.username ? (
+        <>
+          <CardBody>
+            <h1>{coffeeName}</h1>
+            <p>
+              {reviewList[coffeeId]?.contents
+                ? reviewList[coffeeId].contents
+                : "첫 리뷰를 써주세요!"}
+            </p>
+          </CardBody>
+          <CardFooter>
+            <Grid>
+              <span>
+                {reviewList[coffeeId]?.createdAt
+                  ? reviewList[coffeeId].createdAt.split("T")[0]
+                  : ""}
+              </span>
+            </Grid>
+            <Grid textAlign="right">
+              <span>by&ensp;</span>
+              {reviewList[coffeeId].username}
+            </Grid>
+          </CardFooter>
+        </>
+      ) : (
+        <>
+          <CardBody Null>
+            <h1>{coffeeName}</h1>
+            <p>
+              {reviewList[coffeeId]?.contents
+                ? reviewList[coffeeId].contents
+                : "첫 리뷰를 써주세요!"}
+            </p>
+          </CardBody>
+          <CardFooter Null>
+            <Grid>
+              <span>
+                {reviewList[coffeeId]?.createdAt
+                  ? reviewList[coffeeId].createdAt.split("T")[0]
+                  : ""}
+              </span>
+            </Grid>
+            <Grid textAlign="right">
+              <span>by&ensp;</span>
+              Coffzag
+            </Grid>
+          </CardFooter>
+        </>
+      )}
     </Card>
   );
 };
 
 Product.defaultProps = {
-  coffeeName: "더블 에스프레소 스쿠로",
-  coffeePrice: 12000,
-  coffeeImg:
-    "https://www.nespresso.com/shared_res/agility/enhancedPDP/vertuo/images/Vertuo_Double-espresso-Scuro_resp.jpg",
-  coffeeBrand: "Nespresso",
+  coffeeName: "Coffee",
+  coffeeBrand: "Brand",
   contents: "",
   createdAt: "",
   username: "Coffzag",
@@ -78,6 +98,8 @@ const Card = styled.div`
   border-radius: 20px;
   box-shadow: 0 0 10px #0000001a;
   border: transparent;
+  display: block;
+
   display: block;
 
   transition: box-shadow 0.3s ease-in-out;
@@ -97,26 +119,10 @@ const ProductImg = styled.div`
   height: 16rem;
   border-top-left-radius: 20px;
   border-top-right-radius: 20px;
-  background-size: 100%;
+  background-size: 101%;
   background-position: center;
   background-repeat: no-repeat;
   text-align: right;
-`;
-
-const CardFooter = styled.footer`
-  display: flex;
-  flex-direction: row;
-  box-sizing: border-box;
-  padding: 0.8rem 1rem 1rem 1rem;
-
-  border-top: 0.5px solid #d2d2d2;
-  font-size: 18px;
-  font-weight: 700;
-  
-  span {
-    font-size: 12px;
-    font-weight: 600;
-  }
 `;
 
 const CardBody = styled.div`
@@ -143,6 +149,42 @@ const CardBody = styled.div`
     -webkit-box-orient: vertical;
     display: -webkit-box;
   }
+  ${(props) =>
+    props.Null
+      ? `
+      p {
+  color:#d2d2d2;}
+  `
+      : ""}
+`;
+
+const CardFooter = styled.div`
+  display: flex;
+  flex-direction: row;
+  box-sizing: border-box;
+  padding: 0.8rem 1rem 1rem 1rem;
+
+  border-top: 0.5px solid #d2d2d2;
+  font-size: 18px;
+  font-weight: 700;
+  // 사용자 => 고유 닉네임 처리
+  text-transform: capitalize;
+  white-space: nowrap;
+  span {
+    text-transform: initial;
+    font-size: 11px;
+    font-weight: 600;
+  }
+  ${(props) =>
+    props.Null
+      ? `
+  background-color: #d2d2d21a;
+  border-bottom-left-radius: 20px;
+  border-bottom-right-radius: 20px;
+  color:#d2d2d2;
+  user-select:none;
+  `
+      : ""}
 `;
 
 export default Product;
