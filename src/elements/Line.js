@@ -17,6 +17,7 @@ const Divider = styled.div`
   ${(props) => (props.margin ? `margin: ${props.margin};` : "")}
   width: 100%;
   height: 1px;
+  z-index: 3;
 `;
 
 export default Line;
