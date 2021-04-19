@@ -21,7 +21,6 @@ const Comment = (props) => {
   const dispatch = useDispatch();
   const is_me = localStorage.getItem("user_name") === username;
 
-
   //모달 설정 부분
   const [modalOpen, setModalOpen] = useState(false);
 

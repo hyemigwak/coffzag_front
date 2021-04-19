@@ -13,7 +13,6 @@ const DetailReview = (props) => {
   const dispatch = useDispatch();
 
   const cookie = getCookie("user_login");
-  console.log(cookie); // user_login 보기 (cookie - token)
   const _user_name = localStorage.getItem("user_name");
   console.log(_user_name); // user_name 보기 (localstorage - username)
 

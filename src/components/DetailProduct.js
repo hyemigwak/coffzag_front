@@ -1,6 +1,10 @@
 import React, { useEffect, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { actionCreators as cartActions } from "../redux/modules/cart";
 import styled from "styled-components";
 import { Grid, Input, Button, Badge } from "../elements";
+import { history } from "../redux/configureStore";
+import {getCookie} from "../shared/Cookie";
 
 import StarRoundedIcon from "@material-ui/icons/StarRounded";
 import StarOutlineRoundedIcon from "@material-ui/icons/StarOutlineRounded";
@@ -9,6 +13,11 @@ import AddCircleOutlineIcon from "@material-ui/icons/AddCircleOutline";
 import RemoveCircleOutlineIcon from "@material-ui/icons/RemoveCircleOutline";
 
 const DetailProduct = (props) => {
+  const dispatch = useDispatch();
+
+  const is_login = useSelector((state) => state.user.is_login);
+  const cookie = getCookie("user_login")? true : false;
+
   const {
     coffeeName,
     coffeePrice,
@@ -16,6 +25,7 @@ const DetailProduct = (props) => {
     coffeeBrand,
     coffeeUnit,
     coffeeInfo,
+    coffeeId,
   } = props;
 
   const [orderCnt, setOrderCnt] = useState(1);
@@ -23,12 +33,25 @@ const DetailProduct = (props) => {
     setOrderCnt(orderCnt + 1);
   }
   const cntMinus = () => {
-    if(orderCnt);
-    setOrderCnt(orderCnt - 1);
+    if(orderCnt > 1){
+      setOrderCnt(orderCnt - 1);
+    }
   }
 
-  console.log(orderCnt);
-
+  const siteaddCart = () => {
+    if(!is_login && !cookie){
+      if(window.confirm("로그인 후 이용해주세요!")){
+        history.push("/login");
+      }
+      return;
+    }
+    dispatch(cartActions.addCartAPI(coffeeId, orderCnt));
+    if(window.confirm("장바구니로 이동하시겠습니까?")){
+      history.push("/cart");
+    }else{
+      return;
+    }
+  }
 
   //가격에 콤마 붙여주는 정규식 표현
   const coffee_price = coffeePrice
@@ -85,7 +108,7 @@ const DetailProduct = (props) => {
               </div>
             </QtyLine>
             <BtnLine>
-              <Button text="장바구니" margin="0 10px 0 0" />
+              <Button _onClick={siteaddCart} text="장바구니" margin="0 10px 0 0" />
               <Button yellow text="구매하기" />
             </BtnLine>
           </CardLeft>
