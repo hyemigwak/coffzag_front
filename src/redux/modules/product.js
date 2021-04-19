@@ -29,7 +29,7 @@ const setProductAPI = () => {
     axios
       .get(product_API)
       .then((res) => {
-        console.log(res.data);
+        console.log(res.data.products);
         if (res.data.ok) {
           dispatch(setProduct(res.data.products, res.data.reviews));
           dispatch(loading(false));

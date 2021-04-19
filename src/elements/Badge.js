@@ -2,11 +2,11 @@ import React from "react";
 import styled from "styled-components";
 
 const Badge = (props) => {
-  const { bg, text, _onClick, children } = props;
+  const { bg, text, scale, _onClick, children } = props;
 
   if (children === "illy") {
     return (
-      <BrandBadge bg="#d12420" onClick={_onClick}>
+      <BrandBadge bg="#d12420" onClick={_onClick} scale={scale}>
         {children}
       </BrandBadge>
     );
@@ -14,7 +14,7 @@ const Badge = (props) => {
 
   if (children === "nespresso") {
     return (
-      <BrandBadge bg="#bd6416" onClick={_onClick}>
+      <BrandBadge bg="#bd6416" onClick={_onClick} scale={scale}>
         {children}
       </BrandBadge>
     );
@@ -22,7 +22,7 @@ const Badge = (props) => {
 
   if (children === "starbucks") {
     return (
-      <BrandBadge bg="#006241" onClick={_onClick}>
+      <BrandBadge bg="#006241" onClick={_onClick} scale={scale}>
         {children}
       </BrandBadge>
     );
@@ -38,6 +38,7 @@ const Badge = (props) => {
 Badge.defaultProps = {
   bg: "#5a5656",
   text: false,
+  scale: false,
   children: null,
   _onClick: () => {},
 };
@@ -53,6 +54,7 @@ const BrandBadge = styled.div`
   font-size: 12px;
   font-weight: 600;
   text-shadow: 0 0 2px #0000004d;
+  ${(props) => (props.scale ? `transform:scale(${props.scale});` : "")}
 `;
 
 export default Badge;

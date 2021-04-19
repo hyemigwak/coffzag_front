@@ -14,7 +14,7 @@ const DetailReview = (props) => {
 
   const cookie = getCookie("user_login");
   const _user_name = localStorage.getItem("user_name");
-  console.log(_user_name); // user_name 보기 (localstorage - username)
+  // console.log(_user_name); // user_name 보기 (localstorage - username)
 
   const commentList = useSelector((state) => state.comment.comment_list);
   const is_login = useSelector((state) => state.user.is_login);

@@ -28,27 +28,27 @@ const Product = (props) => {
         <Badge>{coffeeBrand}</Badge>
       </ProductImg>
 
-      {reviewList[coffeeId-1]?.username ? (
+      {reviewList[coffeeId - 1]?.username ? (
         <>
           <CardBody>
             <h1>{coffeeName}</h1>
             <p>
-              {reviewList[coffeeId-1]?.contents
-                ? reviewList[coffeeId-1].contents
+              {reviewList[coffeeId - 1]?.contents
+                ? reviewList[coffeeId - 1].contents
                 : "첫 리뷰를 써주세요!"}
             </p>
           </CardBody>
           <CardFooter>
             <Grid>
               <span>
-                {reviewList[coffeeId-1]?.createdAt
-                  ? reviewList[coffeeId-1].createdAt.split("T")[0]
+                {reviewList[coffeeId - 1]?.createdAt
+                  ? reviewList[coffeeId - 1].createdAt.split("T")[0]
                   : ""}
               </span>
             </Grid>
             <Grid textAlign="right">
               <span>by&ensp;</span>
-              {reviewList[coffeeId-1].username}
+              {reviewList[coffeeId - 1].username}
             </Grid>
           </CardFooter>
         </>
@@ -57,16 +57,16 @@ const Product = (props) => {
           <CardBody Null>
             <h1>{coffeeName}</h1>
             <p>
-              {reviewList[coffeeId-1]?.contents
-                ? reviewList[coffeeId-1].contents
+              {reviewList[coffeeId - 1]?.contents
+                ? reviewList[coffeeId - 1].contents
                 : "첫 리뷰를 써주세요!"}
             </p>
           </CardBody>
           <CardFooter Null>
             <Grid>
               <span>
-                {reviewList[coffeeId-1]?.createdAt
-                  ? reviewList[coffeeId-1].createdAt.split("T")[0]
+                {reviewList[coffeeId - 1]?.createdAt
+                  ? reviewList[coffeeId - 1].createdAt.split("T")[0]
                   : ""}
               </span>
             </Grid>

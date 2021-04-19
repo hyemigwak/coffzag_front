@@ -9,6 +9,7 @@ import Cart from "./modules/cart";
 
 export const history = createBrowserHistory();
 
+// 리듀서를 추가해주어야 모듈이 작동된다!
 const rootReducer = combineReducers({
   user: User,
   product: Product,
