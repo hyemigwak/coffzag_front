@@ -73,10 +73,12 @@ const Card = styled.div`
   z-index: 1;
   margin: 1rem;
   width: 16rem;
+  min-height: 30rem;
   background-color: #fff;
   border-radius: 20px;
   box-shadow: 0 0 10px #0000001a;
   border: transparent;
+  display: block;
 
   transition: box-shadow 0.3s ease-in-out;
   :hover {
@@ -102,18 +104,15 @@ const ProductImg = styled.div`
 `;
 
 const CardFooter = styled.footer`
-  width: 100%;
-
   display: flex;
   flex-direction: row;
   box-sizing: border-box;
-
-  padding: 0.5em 1em 1em 1em;
+  padding: 0.8rem 1rem 1rem 1rem;
 
   border-top: 0.5px solid #d2d2d2;
-  margin-top: 2rem;
   font-size: 18px;
-  font-weight: 600;
+  font-weight: 700;
+  
   span {
     font-size: 12px;
     font-weight: 600;
@@ -121,9 +120,9 @@ const CardFooter = styled.footer`
 `;
 
 const CardBody = styled.div`
-  width: 100%;
-  box-sizing: border-box;
-  padding: 1rem 1rem 0 1rem;
+  height: 30%;
+  padding: 1rem 1rem 0.5rem 1rem;
+
   h1 {
     font-size: 22px;
     font-weight: 600;
@@ -131,12 +130,6 @@ const CardBody = styled.div`
     word-spacing: -1px;
     text-align: justify;
     line-height: 100%;
-  }
-  h4 {
-    font-size: 12px;
-    font-weight: 600;
-    line-height: 100%;
-    margin-top: -10px;
   }
   p {
     letter-spacing: -1px;

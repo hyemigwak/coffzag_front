@@ -41,6 +41,12 @@ const Signup = (props) => {
   const siteSignup = () => {
     // 이메일 체크 정규 표현식
     const emailPass = /^[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*.[a-zA-Z]{2,3}$/i;
+    dispatch(userActions.IDCheckAPI(username));
+    if (!user_exist) {
+      window.alert("이미 존재하는 ID입니다.");
+      _id.current.focus();
+      return;
+    }
     if (username === "" || pwd === "" || email === "" || pwdCheck === "") {
       window.alert("모두 입력해주세요!");
       return;
@@ -63,12 +69,6 @@ const Signup = (props) => {
     if (!emailPass.test(email)) {
       window.alert("이메일 형식이 아닙니다!");
       _email.current.focus();
-      return;
-    }
-    dispatch(userActions.IDCheckAPI(username));
-    if (!user_exist) {
-      window.alert("이미 존재하는 ID입니다.");
-      _id.current.focus();
       return;
     }
     dispatch(userActions.signupAPI(username, pwd, email));

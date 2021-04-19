@@ -14,6 +14,7 @@ const Permit = (props) => {
             </div>
         )
     }
+    return null;
 }
 
 export default Permit;

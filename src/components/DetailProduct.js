@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 import { Grid, Input, Button, Badge } from "../elements";
 
@@ -17,6 +17,18 @@ const DetailProduct = (props) => {
     coffeeUnit,
     coffeeInfo,
   } = props;
+
+  const [orderCnt, setOrderCnt] = useState(1);
+  const cntPlus = () => {
+    setOrderCnt(orderCnt + 1);
+  }
+  const cntMinus = () => {
+    if(orderCnt);
+    setOrderCnt(orderCnt - 1);
+  }
+
+  console.log(orderCnt);
+
 
   //가격에 콤마 붙여주는 정규식 표현
   const coffee_price = coffeePrice
@@ -65,11 +77,11 @@ const DetailProduct = (props) => {
             </DetailLine>
             <QtyLine>
               <div>
-                <span>개수</span>: 1개
+                <span>개수</span>: {orderCnt}개
               </div>
               <div className="plusminusBtn">
-                <AddCircleOutlineIcon style={{ marginRight: "0.4rem" }} />
-                <RemoveCircleOutlineIcon />
+                <AddCircleOutlineIcon onClick={cntPlus} style={{ marginRight: "0.4rem" }} />
+                <RemoveCircleOutlineIcon onClick={cntMinus} />
               </div>
             </QtyLine>
             <BtnLine>
