@@ -38,7 +38,7 @@ const Badge = (props) => {
 Badge.defaultProps = {
   bg: "#5a5656",
   text: false,
-  scale: false,
+  scale: null,
   children: null,
   _onClick: () => {},
 };

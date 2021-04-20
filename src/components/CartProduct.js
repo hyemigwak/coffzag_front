@@ -22,7 +22,7 @@ const CartProduct = (props) => {
     },
     orderCnt,
   } = props;
-
+  
   const siteDeleteCart = () => {
     dispatch(cartActions.deleteCartAPI(coffeeId));
   };
@@ -37,14 +37,18 @@ const CartProduct = (props) => {
   const [_unitPrice, setUnitPrice] = useState(unitPrice);
 
   const cntPlus = () => {
+    console.log(_orderCnt);
+    console.log(_unitPrice);
     setOrderCnt(_orderCnt + 1);
     setUnitPrice(_unitPrice + coffeePrice);
+    dispatch(cartActions.updateCartAPI(coffeeId, _orderCnt, _unitPrice))
   };
 
   const cntMinus = () => {
     if (_orderCnt > 1) {
       setOrderCnt(_orderCnt - 1);
       setUnitPrice(_unitPrice - coffeePrice);
+      dispatch(cartActions.updateCartAPI(coffeeId, _orderCnt, _unitPrice))
     }
   };
 
@@ -72,7 +76,7 @@ const CartProduct = (props) => {
             style={{ marginRight: "0.4rem" }}
           />
           <span style={{ fontWeight: "700" }}>
-            {_orderCnt
+            {orderCnt
               .toString()
               .replace(/\B(?<!\.\d*)(?=(\d{3})+(?!\d))/g, ",")}
           </span>
@@ -84,7 +88,7 @@ const CartProduct = (props) => {
 
         <Grid width="30%" textAlign="center">
           <span style={{ fontWeight: "700" }}>
-            {_unitPrice
+            {unitPrice
               .toString()
               .replace(/\B(?<!\.\d*)(?=(\d{3})+(?!\d))/g, ",")}{" "}
             원

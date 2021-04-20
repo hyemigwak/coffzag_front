@@ -4,5 +4,6 @@ import Cart from "./Cart";
 import Login from "./Login";
 import Signup from "./Signup";
 import NotFound from "./NotFound";
+import Mypage from "./Mypage";
 
-export { Main, Detail, Cart, Login, Signup, NotFound };
+export { Main, Detail, Cart, Login, Signup, NotFound, Mypage };

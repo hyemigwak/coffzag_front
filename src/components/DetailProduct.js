@@ -28,6 +28,8 @@ const DetailProduct = (props) => {
     coffeeId,
   } = props;
 
+  console.log(props);
+
   const [orderCnt, setOrderCnt] = useState(1);
   const cntPlus = () => {
     setOrderCnt(orderCnt + 1);
@@ -37,7 +39,7 @@ const DetailProduct = (props) => {
       setOrderCnt(orderCnt - 1);
     }
   }
-
+  console.log(orderCnt);
   const siteaddCart = () => {
     if(!is_login && !cookie){
       if(window.confirm("로그인 후 이용해주세요!")){
@@ -45,7 +47,7 @@ const DetailProduct = (props) => {
       }
       return;
     }
-    dispatch(cartActions.addCartAPI(coffeeId, orderCnt,coffeePrice,coffeeName,coffeeImg,coffeeBrand,coffeeUnit));
+    dispatch(cartActions.addCartAPI(coffeeId,orderCnt,coffeePrice,coffeeName,coffeeImg,coffeeBrand,coffeeUnit));
     if(window.confirm("장바구니로 이동하시겠습니까?")){
       history.push("/cart");
     }else{
