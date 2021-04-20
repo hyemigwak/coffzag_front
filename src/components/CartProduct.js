@@ -64,9 +64,6 @@ const CartProduct = (props) => {
               원 <span>{coffeeUnit}</span>
             </h4>
           </Grid>
-          <Grid width="10%">
-            <HighlightOffIcon className="Minus" onClick={siteDeleteCart} />
-          </Grid>
         </Grid>
 
         <Grid width="30%" textAlign="center">
@@ -74,7 +71,7 @@ const CartProduct = (props) => {
             onClick={cntPlus}
             style={{ marginRight: "0.4rem" }}
           />
-          <span>
+          <span style={{ fontWeight: "700" }}>
             {_orderCnt
               .toString()
               .replace(/\B(?<!\.\d*)(?=(\d{3})+(?!\d))/g, ",")}
@@ -85,13 +82,16 @@ const CartProduct = (props) => {
           />
         </Grid>
 
-        <Grid width="30%" textAlign="right">
-          <span>
+        <Grid width="30%" textAlign="center">
+          <span style={{ fontWeight: "700" }}>
             {_unitPrice
               .toString()
               .replace(/\B(?<!\.\d*)(?=(\d{3})+(?!\d))/g, ",")}{" "}
-            원&ensp;&ensp;
+            원
           </span>
+        </Grid>
+        <Grid is_flex width="7%" textAlign="center">
+          <HighlightOffIcon className="Minus" onClick={siteDeleteCart} />
         </Grid>
       </Grid>
     </Container>
@@ -119,6 +119,7 @@ const Container = styled.div`
   width: 100%;
   background-color: #ffffff;
   margin: 0.5rem;
+  padding: 5px;
   box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.07);
   color: #5a5656;
   h3 {
