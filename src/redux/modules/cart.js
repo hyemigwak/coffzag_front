@@ -24,13 +24,13 @@ const initialState = {
 
 //api
 const cart_API = "https://run.mocky.io/v3/a33a1443-2455-4cbe-aaa8-3b84909216ee"
-const rear_API = "http://54.180.86.19/api/order"
+const rear_API = "http://54.180.86.19/api/orders"
 const getCartAPI = () => {
     return function (dispatch, getState, {history}){
         let token = getCookie("user_login") || "";
         axios({
             method: "GET",
-            url: cart_API,
+            url: rear_API,
             headers: {
               "X-AUTH-TOKEN": token,
             },
@@ -56,15 +56,20 @@ const getCartAPI = () => {
 }
 
 // const cart_API = "https://run.mocky.io/v3/a33a1443-2455-4cbe-aaa8-3b84909216ee"
-const addCartAPI = (coffeeId, orderCnt) => {
+const addCartAPI = (coffeeId, orderCnt,coffeePrice,coffeeName,coffeeImg,coffeeBrand,coffeeUnit) => {
     return function (dispatch, getState, {history}){
         let token = getCookie("user_login") || "";
         let addCart_data = {
             orderCnt: orderCnt,
+            coffeePrice: coffeePrice,
+            coffeeName: coffeeName,
+            coffeeImg: coffeeImg,
+            coffeeBrand: coffeeBrand,
+            coffeeUnit: coffeeUnit,
         }
         axios({
             method: "POST",
-            url: `http://54.180.86.19/api/order/${coffeeId}`,
+            url: `http://54.180.86.19/api/orders/${coffeeId}`,
             headers: {
               "X-AUTH-TOKEN": token,
             },
@@ -86,7 +91,7 @@ const deleteCartAPI = (coffeeId) => {
         let token = getCookie("user_login");
         axios({
           method: "DELETE",
-          url: `http://54.180.86.19/api/order/${coffeeId}`,
+          url: `http://54.180.86.19/api/orders/${coffeeId}`,
           headers: {
             "X-AUTH-TOKEN": token,
           },
@@ -110,7 +115,7 @@ const updateCartAPI = (coffeeId,orderCnt) => {
         };
         axios({
           method: "PUT",
-          url: `http://54.180.86.19/api/order/${coffeeId}`,
+          url: `http://54.180.86.19/api/orders/${coffeeId}`,
           headers: {
             "X-AUTH-TOKEN": token,
           },
@@ -132,7 +137,7 @@ const updateCartAPI = (coffeeId,orderCnt) => {
 
 const buyCartAPI = () => {
     return function (dispatch, getState, { history }){
-
+        
     }
 }
 
@@ -143,22 +148,26 @@ export default handleActions({
         draft.cart_list = action.payload.cart_item
     }),
     [ADD_CART]: (state,action) => produce(state,(draft) => {
+      console.log(draft.cart_list);
+      console.log(action.payload);
+      console.log(action.payload.cart_item);
+
         if(!draft.cart_list){
             draft.cart_list = action.payload.cart_item
         }
-        draft.cart_list.unshift(action.payload.cart_item)
+        draft.cart_list.unshift(...action.payload.cart_item)
         console.log(draft.cart_list);
     }),
     [DELETE_CART]: (state,action) => produce(state,(draft) => {
         let idx = draft.cart_list.findIndex((i) => i.coffee.coffeeId === action.payload.coffeeId);
         draft.cart_list.splice(idx,1);
     }),
-    [BUY_CART]: (state,action) => produce(state,(draft) => {
-        draft.list = [];
-    }),
     [UPDATE_CART]: (state,action) => produce(state,(draft) => {
         let idx = draft.cart_list.findIndex((i) => i.coffee.coffeeId === action.payload.coffeeId);
         draft.cart_list[idx] = {...draft.cart_list[idx], ...action.payload.cart_item}
+    }),
+    [BUY_CART]: (state,action) => produce(state,(draft) => {
+        draft.list = [];
     }),
 }, initialState)
 

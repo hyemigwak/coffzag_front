@@ -45,7 +45,7 @@ const DetailProduct = (props) => {
       }
       return;
     }
-    dispatch(cartActions.addCartAPI(coffeeId, orderCnt));
+    dispatch(cartActions.addCartAPI(coffeeId, orderCnt,coffeePrice,coffeeName,coffeeImg,coffeeBrand,coffeeUnit));
     if(window.confirm("장바구니로 이동하시겠습니까?")){
       history.push("/cart");
     }else{
