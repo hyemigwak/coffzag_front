@@ -24,9 +24,15 @@ const Product = (props) => {
         history.push(`/detail/${coffeeId}`);
       }}
     >
-      <ProductImg bgimg={coffeeImg}>
-        <Badge>{coffeeBrand}</Badge>
-      </ProductImg>
+      {coffeeBrand === "nespresso" ? (
+        <ProductImg className="nomargin" NoMargin bgimg={coffeeImg}>
+          <Badge>{coffeeBrand}</Badge>
+        </ProductImg>
+      ) : (
+        <ProductImg bgimg={coffeeImg}>
+          <Badge>{coffeeBrand}</Badge>
+        </ProductImg>
+      )}
 
       {reviewList[coffeeId - 1]?.username ? (
         <>
@@ -107,19 +113,26 @@ const Card = styled.div`
     box-shadow: 0 0 10px #00000038;
     border: inset 0.5px solid #0000001a;
     div {
-      transition: background-size 0.3s ease-in-out;
       background-size: 107%;
+      transition: background-size 0.3s ease-in-out;
+    }
+    .nomargin {
+      background-size: 83%;
+      transition: background-size 0.3s ease-in-out;
     }
   }
 `;
 
 const ProductImg = styled.div`
+  margin: auto;
+  object-fit: contain;
   background-image: ${(props) => `url(${props.bgimg})`};
-  width: 100%;
+  max-width: 100%;
   height: 16rem;
   border-top-left-radius: 20px;
   border-top-right-radius: 20px;
-  background-size: 101%;
+  ${(props) =>
+    props.NoMargin ? "background-size: 75%;" : "background-size: 101%;"}
   background-position: center;
   background-repeat: no-repeat;
   text-align: right;

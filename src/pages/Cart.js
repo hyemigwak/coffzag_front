@@ -25,7 +25,6 @@ const Cart = (props) => {
     .reduce((acc, crr) => acc + crr, 0)
     .toString()
     .replace(/\B(?<!\.\d*)(?=(\d{3})+(?!\d))/g, ",");
-  
 
   const totalPrice = _carts
     .map((_cart) => _cart.coffee.coffeePrice * _cart.orderCnt)
@@ -47,6 +46,7 @@ const Cart = (props) => {
           <Grid width="30%" textAlign="center">
             <Text Bold>상품가격</Text>
           </Grid>
+          <Grid width="7%"> </Grid>
         </Grid>
         <Line bottom />
         {_carts.map((_cart, idx) => (
