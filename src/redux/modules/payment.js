@@ -1,14 +1,17 @@
 import { createAction, handleActions } from "redux-actions";
+import {getCookie} from "../../shared/Cookie";
 import { produce } from "immer";
 import axios from "axios";
 
 //actions
 const LOADING = "LOADING";
-const SET_PAYMENT = "SET_PAYMENT";
+const SET_PAYMENT = "SET_PAYMENT"; //구매페이지 불러오기
+const ADD_PAYMENT = "ADD_PAYMENT" //구매페이지 정보 보내주기(추가)
 
 //actionCreators
 const loading = createAction(LOADING, (is_loading) => ({ is_loading }));
 const setPayment = createAction(SET_PAYMENT, (payment) => ({ payment }));
+const addPayment = createAction(ADD_PAYMENT, (payment) => ({ payment }));
 
 //initialState
 const initialState = {
@@ -40,6 +43,32 @@ const setPaymentAPI = () => {
   };
 };
 
+const addPaymentAPI = (coffeeId) => {
+  return function (dispatch, getState, { history }) {
+    let token = getCookie("user_login") || "";
+    let payment_data = {
+      coffeeId: coffeeId,
+    };
+    axios({
+      method: "POST",
+      url: ``,
+      data: payment_data,
+      headers: {
+        "X-AUTH-TOKEN": token,
+      },
+    })
+      .then((res) => {
+        console.log(res);
+        dispatch(addPayment(coffeeId));
+        window.alert("결제가 완료되었습니다.");
+      })
+      .catch((err) => {
+        console.log("addPaymentAPI에서 오류발생", err);
+      });
+  };
+};
+
+
 //reducer
 export default handleActions(
   {
@@ -52,6 +81,14 @@ export default handleActions(
         draft.is_loading = action.payload.is_loading;
         draft.payment_info = action.payload.payment;
       }),
+    [ADD_PAYMENT]: (state, action) =>
+    produce(state, (draft) => {
+      draft.is_loading = action.payload.is_loading;
+      if(!draft.payment.info){
+        draft.payment_info = action.payload.payment;
+      }
+      draft.payment_info.unshift(action.payload.payment);
+    }),
   },
   initialState
 );
@@ -60,6 +97,8 @@ export default handleActions(
 const actionCreators = {
   setPayment,
   setPaymentAPI,
+  addPayment,
+  addPaymentAPI,
 };
 
 export { actionCreators };
