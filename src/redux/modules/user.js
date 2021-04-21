@@ -35,7 +35,7 @@ const loginAPI = (username, pwd) => {
     })
       .then((res) => {
         if (res.data.token != null) {
-          console.log(res); // response 확인
+          console.log(res.data); // response 확인
           const jwtToken = res.data.token;
           const _user_name = res.data.username;
           setCookie("user_login", jwtToken); //쿠키에 user_login 이라는 이름으로 저장
