@@ -11,7 +11,14 @@ import { actionCreators as paymentActions } from "../redux/modules/payment";
 const Payment = (props) => {
   const dispatch = useDispatch();
 
-  const _carts = useSelector((state) => state.cart.cart_list);
+  // 결제 페이지 불러오기
+  useEffect(() => {
+    dispatch(paymentActions.setPaymentAPI());
+  }, []);
+
+  // payment_info 가져오기
+  const _payment = useSelector((state) => state.payment_info);
+
   //payment 모듈 이후 삭제할 부분
   const username = "나이름";
   const email = "나이멜@네이버.컴";
@@ -20,17 +27,10 @@ const Payment = (props) => {
   //결제 상태 변경
   const [paymentMethod, setPayMethod] = useState("__");
 
-  //디스패치 부분인데 괄호 안에 보낼 정보 추가해야함
-  useEffect(() => {
-    dispatch(paymentActions.setPaymentAPI());
-  }, []);
-
   //구매완료 버튼? 페이지 만들기 전에 빠르게 확인용으로!
   const PaymentSuccess = () => {
-    const PayAlert = window.alert("구매가 완료되었습니다! 감사합니다!");
-    if (PayAlert) {
-      console.log("꺄");
-      history.push("/");
+    if (window.confirm("구매가 완료되었습니다! 감사합니다!")) {
+      return history.push("/");
     }
   };
 
@@ -115,8 +115,8 @@ const Payment = (props) => {
         </Grid>
 
         <Grid textAlign="left">
-          {_carts.map((_cart, idx) => (
-            <PaymentProduct {..._cart} key={idx} />
+          {_payment.map((p, idx) => (
+            <PaymentProduct {...p} key={idx} />
           ))}
         </Grid>
         <h3>

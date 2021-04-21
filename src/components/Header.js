@@ -56,7 +56,6 @@ const Header = (props) => {
             </Logo>
           </Grid>
           <Grid textAlign="right">
-            <HeaderText onClick={siteLogout}>로그아웃</HeaderText>
             <HeaderText>
               <ShoppingBasketRoundedIcon
                 style={{ verticalAlign: "-5px" }}
@@ -65,6 +64,14 @@ const Header = (props) => {
                 }}
               />
             </HeaderText>
+            <HeaderText
+              onClick={() => {
+                history.push("/mypage");
+              }}
+            >
+              마이페이지
+            </HeaderText>
+            <HeaderText onClick={siteLogout}>로그아웃</HeaderText>
           </Grid>
         </Grid>
       </HeaderWrap>
