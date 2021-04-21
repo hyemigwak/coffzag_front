@@ -7,4 +7,4 @@ import NotFound from "./NotFound";
 import Mypage from "./Mypage";
 import Payment from "./Payment";
 
-export { Main, Detail, Cart, Login, Signup, NotFound, Mypage, Payment };
+export { Main, Detail, Cart, Login, Signup, NotFound, Mypage, Payment};

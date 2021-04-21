@@ -23,15 +23,19 @@ const initialState = {
 //mockAPI = "https://run.mocky.io/v3/eca60b5e-b520-427f-8f54-7b88df09acc1"
 const product_API = "http://54.180.86.19/api/products";
 
-const setProductAPI = () => {
+const setProductAPI = (page,size) => {
   return function (dispatch, getState, { history }) {
     dispatch(loading(true));
-    axios
-      .get(product_API)
+    axios.get(`http://54.180.86.19/api/products?page=${page}&size=${size}`, {
+      params: {
+          page: page,
+          size: size,
+      }
+    })
       .then((res) => {
-        console.log(res.data.products);
+        console.log("내려오는 데이터임", res.data);
         if (res.data.ok) {
-          dispatch(setProduct(res.data.products, res.data.reviews));
+          dispatch(setProduct(res.data.product, res.data.reviews));
           dispatch(loading(false));
         } else {
           console.log("data.ok is false"); // API OK TEST
@@ -75,9 +79,15 @@ export default handleActions(
       }),
     [SET_PRODUCT]: (state, action) =>
       produce(state, (draft) => {
+        console.log(action.payload.products);
+
         draft.is_loading = action.payload.is_loading;
-        draft.product_list = action.payload.products;
+        draft.product_list = action.payload.products.content;
         draft.latest_review = action.payload.reviews;
+
+        console.log(draft.product_list);
+
+
       }),
   },
   initialState

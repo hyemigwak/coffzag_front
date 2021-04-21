@@ -2,6 +2,7 @@ import React, { useEffect } from "react";
 import { history } from "../redux/configureStore";
 import { useDispatch, useSelector } from "react-redux";
 import { actionCreators as userActions } from "../redux/modules/user";
+import { actionCreators as productActions } from "../redux/modules/product";
 import "./Header.css";
 import { getCookie } from "../shared/Cookie";
 import { Grid, Text } from "../elements/";
@@ -49,7 +50,8 @@ const Header = (props) => {
           <Grid>
             <Logo
               onClick={() => {
-                history.push("/");
+                history.push("/")
+                dispatch(productActions.setProductAPI(1,8));
               }}
             >
               Coffzag

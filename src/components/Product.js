@@ -3,6 +3,8 @@ import styled from "styled-components";
 import { Grid, Badge, Line } from "../elements/";
 import { useSelector } from "react-redux";
 import { history } from "../redux/configureStore";
+import FavoriteIcon from "@material-ui/icons/Favorite";
+import FavoriteBorderIcon from '@material-ui/icons/FavoriteBorder';
 
 const Product = (props) => {
   const {
@@ -43,6 +45,7 @@ const Product = (props) => {
                 ? reviewList[coffeeId - 1].contents
                 : "첫 리뷰를 써주세요!"}
             </p>
+              <FavoriteBorderIcon className="heartIcon"/>
           </CardBody>
           <CardFooter>
             <Grid>
@@ -169,6 +172,18 @@ const CardBody = styled.div`
   color:#d2d2d2;}
   `
       : ""}
+  .heartIcon {
+    color: #F6AFAF;
+    width: 40px;
+    height: 40px;
+    cursor: pointer;
+    margin: 0.5rem;
+    position: relative;
+    bottom: 10px;
+    left: 180px;
+
+}
+
 `;
 
 const CardFooter = styled.div`

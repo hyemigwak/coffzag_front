@@ -7,16 +7,17 @@ import { ProductList } from "../components/";
 const Main = (props) => {
   const is_loading = useSelector((state) => state.product.is_loading);
 
-  if (is_loading) {
-    return (
-      <>
-        <Loading />
-      </>
-    );
-  }
+  // if (is_loading) {
+  //   return (
+  //     <>
+  //       <Loading />
+  //     </>
+  //   );
+  // }
 
   return (
     <>
+    {/* {is_loading && <Loading/>} */}
       <ProductList />
     </>
   );
