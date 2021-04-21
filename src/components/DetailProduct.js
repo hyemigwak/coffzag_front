@@ -4,7 +4,7 @@ import { actionCreators as cartActions } from "../redux/modules/cart";
 import styled from "styled-components";
 import { Grid, Input, Button, Badge } from "../elements";
 import { history } from "../redux/configureStore";
-import {getCookie} from "../shared/Cookie";
+import { getCookie } from "../shared/Cookie";
 
 import StarRoundedIcon from "@material-ui/icons/StarRounded";
 import StarOutlineRoundedIcon from "@material-ui/icons/StarOutlineRounded";
@@ -16,7 +16,7 @@ const DetailProduct = (props) => {
   const dispatch = useDispatch();
 
   const is_login = useSelector((state) => state.user.is_login);
-  const cookie = getCookie("user_login")? true : false;
+  const cookie = getCookie("user_login") ? true : false;
 
   const {
     coffeeName,
@@ -33,27 +33,37 @@ const DetailProduct = (props) => {
   const [orderCnt, setOrderCnt] = useState(1);
   const cntPlus = () => {
     setOrderCnt(orderCnt + 1);
-  }
+  };
   const cntMinus = () => {
-    if(orderCnt > 1){
+    if (orderCnt > 1) {
       setOrderCnt(orderCnt - 1);
     }
-  }
+  };
   console.log(orderCnt);
   const siteaddCart = () => {
-    if(!is_login && !cookie){
-      if(window.confirm("로그인 후 이용해주세요!")){
+    if (!is_login && !cookie) {
+      if (window.confirm("로그인 후 이용해주세요!")) {
         history.push("/login");
       }
       return;
     }
-    dispatch(cartActions.addCartAPI(coffeeId,orderCnt,coffeePrice,coffeeName,coffeeImg,coffeeBrand,coffeeUnit));
-    if(window.confirm("장바구니로 이동하시겠습니까?")){
+    dispatch(
+      cartActions.addCartAPI(
+        coffeeId,
+        orderCnt,
+        coffeePrice,
+        coffeeName,
+        coffeeImg,
+        coffeeBrand,
+        coffeeUnit
+      )
+    );
+    if (window.confirm("장바구니로 이동하시겠습니까?")) {
       history.push("/cart");
-    }else{
+    } else {
       return;
     }
-  }
+  };
 
   //가격에 콤마 붙여주는 정규식 표현
   const coffee_price = coffeePrice
@@ -101,16 +111,21 @@ const DetailProduct = (props) => {
               <p>{coffeeInfo}</p>
             </DetailLine>
             <QtyLine>
-              <div>
-                <span>개수</span>: {orderCnt}개
-              </div>
               <div className="plusminusBtn">
-                <AddCircleOutlineIcon onClick={cntPlus} style={{ marginRight: "0.4rem" }} />
                 <RemoveCircleOutlineIcon onClick={cntMinus} />
+                &ensp;{orderCnt}개&ensp;
+                <AddCircleOutlineIcon
+                  onClick={cntPlus}
+                  style={{ marginRight: "0.4rem" }}
+                />
               </div>
             </QtyLine>
             <BtnLine>
-              <Button _onClick={siteaddCart} text="장바구니" margin="0 10px 0 0" />
+              <Button
+                _onClick={siteaddCart}
+                text="장바구니"
+                margin="0 10px 0 0"
+              />
               <Button yellow text="구매하기" />
             </BtnLine>
           </CardLeft>
@@ -248,9 +263,9 @@ const DetailLine = styled.div`
 const QtyLine = styled.div`
   display: flex;
   align-items: center;
-  justify-content: flex-start;
+  justify-content: space-evenly;
   font-size: 1.2rem;
-  margin: 1rem 0.5rem;
+  margin: 1rem;
   span {
     font-weight: bold;
   }
