@@ -7,6 +7,7 @@ import DetailProduct from "./DetailProduct";
 import DetailReview from "./DetailReview";
 import EditComment from "./EditComment";
 import Comment from "./Comment";
+import PaymentProduct from "./PaymentProduct";
 
 export {
   Header,
@@ -18,4 +19,5 @@ export {
   DetailReview,
   EditComment,
   Comment,
+  PaymentProduct,
 };

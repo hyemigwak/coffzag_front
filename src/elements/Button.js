@@ -35,6 +35,25 @@ const useStyles = makeStyles({
     margin: props.margin,
     width: props.width,
   }),
+  payment: (props) => ({
+    background: `linear-gradient(45deg, #333131 30%, #5a5656 90%)`,
+    border: 0,
+    borderRadius: 30,
+    boxShadow: "0 2px 5px 2px rgba(90, 86, 86, .2)",
+    color: "white",
+    height: 42,
+    padding: "0 30px",
+    margin: props.margin,
+    width: props.width,
+    "&:hover": {
+      color: "#fff",
+      background: `linear-gradient(45deg, #EE7B10 30%, orange 90%)`,
+    },
+    "&.active": {
+      color: "#fff",
+      background: `linear-gradient(45deg, #EE7B10 30%, orange 90%)`,
+    },
+  }),
 });
 
 Hook.defaultProps = {
@@ -48,7 +67,13 @@ export default function Hook(props) {
   return (
     <Button
       onClick={_onClick}
-      className={props.yellow ? classes.yellow : classes.dark}
+      className={
+        props.payment
+          ? classes.payment
+          : props.yellow
+          ? classes.yellow
+          : classes.dark
+      }
     >
       {props.text ? props.text : props.children}
     </Button>

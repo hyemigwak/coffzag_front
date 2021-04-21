@@ -75,7 +75,14 @@ const Cart = (props) => {
             history.push("/");
           }}
         />
-        <Button yellow text="구매하기" margin="0 0 0 5px" />
+        <Button
+          yellow
+          text="구매하기"
+          margin="0 0 0 5px"
+          _onClick={() => {
+            history.push("/payment");
+          }}
+        />
       </Grid>
     </Grid>
   );

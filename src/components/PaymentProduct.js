@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import styled from "styled-components";
-import { Grid, Badge } from "../elements/";
+import { Grid, Badge } from "../elements";
 
 import { useDispatch } from "react-redux";
 import { actionCreators as cartActions } from "../redux/modules/cart";
@@ -9,7 +9,7 @@ import AddCircleOutlineIcon from "@material-ui/icons/AddCircleOutline";
 import RemoveCircleOutlineIcon from "@material-ui/icons/RemoveCircleOutline";
 import HighlightOffIcon from "@material-ui/icons/HighlightOff";
 
-const CartProduct = (props) => {
+const PaymentProduct = (props) => {
   const dispatch = useDispatch();
   const {
     coffee: {
@@ -56,11 +56,12 @@ const CartProduct = (props) => {
     <Container>
       <Grid is_flex>
         <Grid is_flex>
-          <ProductImg bgimg={coffeeImg}>
-            <Badge scale="0.9">{coffeeBrand}</Badge>
-          </ProductImg>
+          <ProductImg bgimg={coffeeImg}></ProductImg>
           <Grid textAlign="left" padding="10px">
-            <h3>{coffeeName}</h3>
+            <h3>
+              {coffeeName}
+              <Badge scale="0.9">{coffeeBrand}</Badge>
+            </h3>
             <h4>
               {coffeePrice
                 .toString()
@@ -71,19 +72,11 @@ const CartProduct = (props) => {
         </Grid>
 
         <Grid width="30%" textAlign="center">
-          <RemoveCircleOutlineIcon
-            onClick={cntMinus}
-            style={{ marginRight: "0.4rem" }}
-          />
           <span style={{ fontWeight: "700" }}>
             {orderCnt
               .toString()
               .replace(/\B(?<!\.\d*)(?=(\d{3})+(?!\d))/g, ",")}
           </span>
-          <AddCircleOutlineIcon
-            onClick={cntPlus}
-            style={{ marginLeft: "0.4rem" }}
-          />
         </Grid>
 
         <Grid width="30%" textAlign="center">
@@ -94,9 +87,6 @@ const CartProduct = (props) => {
             원
           </span>
         </Grid>
-        <Grid is_flex width="7%" textAlign="center">
-          <HighlightOffIcon className="Minus" onClick={siteDeleteCart} />
-        </Grid>
       </Grid>
     </Container>
   );
@@ -104,10 +94,10 @@ const CartProduct = (props) => {
 
 const ProductImg = styled.div`
   background-image: ${(props) => `url(${props.bgimg})`};
-  width: 12rem;
-  height: 8rem;
+  width: 6rem;
+  height: 5rem;
   margin: 0.5rem;
-  background-size: cover;
+  background-size: 90%;
   background-position: center;
   background-repeat: no-repeat;
   text-align: right;
@@ -122,8 +112,7 @@ const Container = styled.div`
   box-sizing: border-box;
   width: 100%;
   background-color: #ffffff;
-  margin: 0.5rem;
-  padding: 5px;
+  padding: 3px;
   box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.07);
   color: #5a5656;
   h3 {
@@ -132,7 +121,7 @@ const Container = styled.div`
   }
   h4 {
     font-size: 14px;
-    line-height: 60%;
+    line-height: 30%;
     font-weight: 500;
     span::before {
       content: "";
@@ -143,24 +132,6 @@ const Container = styled.div`
       content: none;
     }
   }
-  svg {
-    cursor: pointer;
-    color: #5a5656;
-    vertical-align: -6px;
-    transform: scale(0.8);
-    .disabled {
-      color: #d2d2d2;
-    }
-  }
-  svg.Minus {
-    cursor: pointer;
-    color: #d2d2d2;
-    vertical-align: -6px;
-    transition: color 0.3s ease-in-out;
-    :hover {
-      color: #5a5656;
-    }
-  }
 `;
 
-export default CartProduct;
+export default PaymentProduct;

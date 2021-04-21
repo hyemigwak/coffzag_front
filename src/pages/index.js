@@ -5,6 +5,6 @@ import Login from "./Login";
 import Signup from "./Signup";
 import NotFound from "./NotFound";
 import Mypage from "./Mypage";
-import Test from "./Test";
+import Payment from "./Payment";
 
-export { Main, Detail, Cart, Login, Signup, NotFound, Mypage, Test };
+export { Main, Detail, Cart, Login, Signup, NotFound, Mypage, Payment };

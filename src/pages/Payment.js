@@ -1,68 +1,97 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import styled from "styled-components";
-import { Grid, Badge, Button, Line } from "../elements/";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
+import { Grid, Button, Line, Text } from "../elements/";
 import { history } from "../redux/configureStore";
 
-import { CartProduct } from "../components/";
+import { PaymentProduct } from "../components/";
+
+import { actionCreators as paymentActions } from "../redux/modules/payment";
 
 const Payment = (props) => {
+  const dispatch = useDispatch();
+
+  const _carts = useSelector((state) => state.cart.cart_list);
   //payment 모듈 이후 삭제할 부분
   const username = "나이름";
   const email = "나이멜@네이버.컴";
+  const totalPrice = "!총 금액!";
 
-  const _carts = useSelector((state) => state.cart.cart_list);
+  //결제 상태 변경
+  const [paymentMethod, setPayMethod] = useState("__");
+
+  //디스패치 부분인데 괄호 안에 보낼 정보 추가해야함
+  useEffect(() => {
+    dispatch(paymentActions.setPaymentAPI());
+  }, []);
+
+  //구매완료 버튼? 페이지 만들기 전에 빠르게 확인용으로!
+  const PaymentSuccess = () => {
+    const PayAlert = window.alert("구매가 완료되었습니다! 감사합니다!");
+    if (PayAlert) {
+      console.log("꺄");
+      history.push("/");
+    }
+  };
 
   return (
-    <Grid is_flex column width="75%" padding="4%" text>
+    <Grid is_flex column width="75%">
       <h1>구매하기</h1>
       <Grid>
         <h3>배송정보</h3>
-        <Line bottom />
+        <Line bottom margin="0 0 20px 0" />
         <Grid textAlign="left">
           <Grid is_flex column>
             <Grid is_flex margin="10px">
               <PaymentInfo>주문자</PaymentInfo>
-              <PaymentInput
-                type="text"
-                placeholder="받는 분의 성함을 입력해주세요!"
-                value={username}
-                // onChange={onChangeUsername}
-              />
+              <Grid is_flex column>
+                <Grid is_flex>
+                  <PaymentInput
+                    type="text"
+                    placeholder="받는 분의 성함을 입력해주세요!"
+                    value={username}
+                    // onChange={onChangeUsername}
+                  />
+                </Grid>
+              </Grid>
             </Grid>
             <Grid is_flex margin="10px">
               <PaymentInfo>이메일</PaymentInfo>
-              <PaymentInput
-                type="text"
-                placeholder="받는 분의 이메일을 입력해주세요!"
-                value={email}
-                // onChange={onChangePwd}
-              />
+              <Grid is_flex column>
+                <Grid is_flex>
+                  <PaymentInput
+                    type="text"
+                    placeholder="받는 분의 이메일을 입력해주세요!"
+                    value={email}
+                    // onChange={onChangePwd}
+                  />
+                </Grid>
+              </Grid>
             </Grid>
             <Grid is_flex margin="10px">
               <PaymentInfo>주소</PaymentInfo>
-              <PaymentInfo sub>우편번호</PaymentInfo>
-              <PaymentInput
-                type="text"
-                placeholder="우편 번호"
-                // onChange={onChangePwd}
-              />
-              <Button
-                text="주소 찾기"
-                width="30%"
-                margin="0 0 0 5px"
-                _onClick={() => {
-                  // history.push("/");
-                }}
-              />
-            </Grid>
-            <Grid is_flex margin="10px">
-              <PaymentInfo></PaymentInfo>
-              <PaymentInfo sub>상세주소</PaymentInfo>
-              <PaymentInput
-                type="text"
-                placeholder="상세 주소를 입력해주세요!"
-              />
+              <Grid is_flex column>
+                <Grid is_flex>
+                  <PaymentInput
+                    type="text"
+                    placeholder="우편 번호"
+                    // onChange={onChangePwd}
+                  />
+                  <Button
+                    text="주소 찾기"
+                    margin="0 0 0 5px"
+                    _onClick={() => {
+                      // history.push("/");
+                    }}
+                  />
+                </Grid>
+                <Grid is_flex margin="10px 0">
+                  <PaymentInput
+                    type="text"
+                    placeholder="상세 주소를 입력해주세요!"
+                  />
+                </Grid>
+              </Grid>
             </Grid>
           </Grid>
         </Grid>
@@ -72,34 +101,71 @@ const Payment = (props) => {
           <br />
           상품정보
         </h3>
-        <Line bottom />
+        <Line bottom margin="0 0 10px 0" />
+        <Grid is_flex>
+          <Grid textAlign="center">
+            <Text Bold>상품명</Text>
+          </Grid>
+          <Grid width="30%" textAlign="center">
+            <Text Bold>수량</Text>
+          </Grid>
+          <Grid width="30%" textAlign="center">
+            <Text Bold>상품가격</Text>
+          </Grid>
+        </Grid>
+
         <Grid textAlign="left">
           {_carts.map((_cart, idx) => (
-            <CartProduct {..._cart} key={idx} />
+            <PaymentProduct {..._cart} key={idx} />
           ))}
         </Grid>
         <h3>
           <br />
           결제정보
         </h3>
-        <Line bottom margin="0 0 10px 0" />
-        <Grid textAlign="left">
+        <Line bottom margin="0 0 20px 0" />
+        <Grid is_flex>
+          <Grid textAlign="left">
+            <Button
+              payment
+              text="무통장입금"
+              margin="0 0 0 5px"
+              _onClick={() => {
+                setPayMethod("무통장입금");
+              }}
+            />{" "}
+            <Button
+              payment
+              active
+              text="카드결제"
+              margin="0 0 0 5px"
+              _onClick={() => {
+                setPayMethod("카드결제");
+              }}
+            />
+          </Grid>
+          <Grid textAlign="right">
+            <Text size="22px">
+              총{" "}
+              <Text Black size="22px">
+                {totalPrice}원
+              </Text>
+              을{" "}
+              <Text Black size="22px">
+                {paymentMethod}
+              </Text>
+              합니다.
+            </Text>
+          </Grid>
+        </Grid>
+        <Line bottom margin="20px 0" />
+
+        <Grid textAlign="right">
           <Button
-            payment
-            text="무통장입금"
+            yellow
+            text="구매하기"
             margin="0 0 0 5px"
-            _onClick={() => {
-              // history.push("/");
-            }}
-          />{" "}
-          <Button
-            payment
-            active
-            text="카드 결제"
-            margin="0 0 0 5px"
-            _onClick={() => {
-              // history.push("/");
-            }}
+            _onClick={PaymentSuccess}
           />
         </Grid>
       </Grid>
@@ -110,7 +176,7 @@ const Payment = (props) => {
 Payment.defaultProps = {};
 
 const PaymentInput = styled.input`
-  width: 100%;
+  width: 20em;
   height: 2.4rem;
   border: none;
   outline: none;
@@ -130,18 +196,10 @@ const PaymentInput = styled.input`
 
 const PaymentInfo = styled.span`
   ${(props) =>
-    props.sub
-      ? "width: 110px; padding: 0 0 0  30px;font-weight: 400;"
-      : "width: 80px;font-weight: 600;"}
+    props.sub ? " font-weight: 400; " : "width: 10%;font-weight: 600;"}
   font-size: 14px;
   text-align: left;
   color: #5a5656;
-`;
-
-const PaymentButton = styled.button`
-  :hover {
-    background-color: red;
-  }
 `;
 
 export default Payment;
