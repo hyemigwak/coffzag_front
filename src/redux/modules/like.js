@@ -9,14 +9,10 @@ const ADD_LIKE = "ADD_LIKE"; //좋아요 추가하기
 const DELETE_LIKE = "DELETE_LIKE"; //좋아요 삭제하기
 
 //actionCreators
-const getLike = createAction(GET_LIKE, (like) => ({like}))
+const getLike = createAction(GET_LIKE, (like) => ({ like }));
 
-const addLike = createAction(ADD_LIKE, (like) => ({
-  like,
-}));
-const deleteLike = createAction(DELETE_LIKE, (coffeeId) => ({
-  coffeeId,
-}));
+const addLike = createAction(ADD_LIKE, (like) => ({ like }));
+const deleteLike = createAction(DELETE_LIKE, (coffeeId) => ({ coffeeId }));
 
 //initialState
 const initialState = {
@@ -25,27 +21,27 @@ const initialState = {
 };
 
 const getLikeAPI = () => {
-  return function (dispatch, getState, { history }){
+  return function (dispatch, getState, { history }) {
     let token = getCookie("user_login") || "";
-        axios({
-            method: "GET",
-            url: "http://54.180.86.19/api/myproducts",
-            headers: {
-              "X-AUTH-TOKEN": token,
-            },
-          })
-        .then((res) => {
-          if(res.data.ok){
-            dispatch(getLike(res.data.myProductList));
-          } else {
-            console.log("data.ok is false");
-          }
-        })
-        .catch((err) => {
-              console.log("getLikeAPI에서 오류발생", err);
-        });
-  }
-}
+    axios({
+      method: "GET",
+      url: "http://54.180.86.19/api/myproducts",
+      headers: {
+        "X-AUTH-TOKEN": token,
+      },
+    })
+      .then((res) => {
+        if (res.data.ok) {
+          dispatch(getLike(res.data.myProductList));
+        } else {
+          console.log("data.ok is false");
+        }
+      })
+      .catch((err) => {
+        console.log("getLikeAPI에서 오류발생", err);
+      });
+  };
+};
 
 const addLikeAPI = (coffeeId) => {
   return function (dispatch, getState, { history }) {
@@ -66,8 +62,8 @@ const addLikeAPI = (coffeeId) => {
       },
     })
       .then((res) => {
-        console.log("add로 내려오는 데이터임",res);
-          dispatch(addLike());
+        console.log("add로 내려오는 데이터임", res);
+        dispatch(addLike());
       })
       .catch((e) => {
         console.log("addLikeAPI 오류", e);
@@ -100,12 +96,12 @@ const deleteLikeAPI = (coffeeId) => {
 export default handleActions(
   {
     [GET_LIKE]: (state, action) =>
-    produce(state, (draft) => {
-      if(!draft.like_list){
-        return;
-      }
-      draft.like_list = action.payload.like;
-    }),
+      produce(state, (draft) => {
+        if (!draft.like_list) {
+          return;
+        }
+        draft.like_list = action.payload.like;
+      }),
     [ADD_LIKE]: (state, action) =>
       produce(state, (draft) => {
         // console.log("액션에서 내려오는 좋아요 라이크",action.payload.like);
@@ -117,8 +113,10 @@ export default handleActions(
       }),
     [DELETE_LIKE]: (state, action) =>
       produce(state, (draft) => {
-        let idx = draft.like_list.findIndex((l) => l.product.coffeeId === action.payload.coffeeId)
-        draft.like_list.splice(idx,1)
+        let idx = draft.like_list.findIndex(
+          (l) => l.product.coffeeId === action.payload.coffeeId
+        );
+        draft.like_list.splice(idx, 1);
         draft.is_like = false;
       }),
   },

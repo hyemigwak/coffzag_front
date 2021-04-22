@@ -3,10 +3,13 @@ import styled from "styled-components";
 import { useDispatch, useSelector } from "react-redux";
 import { Grid, Button, Line, Text } from "../elements/";
 import { history } from "../redux/configureStore";
-import AddShoppingCartIcon from '@material-ui/icons/AddShoppingCart';
+import AddShoppingCartIcon from "@material-ui/icons/AddShoppingCart";
 
 import CartProduct from "../components/CartProduct";
 import { actionCreators as cartActions } from "../redux/modules/cart";
+import { PaymentButton } from "../components/";
+
+import HighlightOffIcon from "@material-ui/icons/HighlightOff";
 
 const Cart = (props) => {
   const dispatch = useDispatch();
@@ -33,7 +36,7 @@ const Cart = (props) => {
     .toString()
     .replace(/\B(?<!\.\d*)(?=(\d{3})+(?!\d))/g, ",");
 
-  if(_carts.length === 0){
+  if (_carts.length === 0) {
     return (
       <Grid width="100vmin">
         <Grid is_flex column>
@@ -52,7 +55,7 @@ const Cart = (props) => {
           </Grid>
           <Line bottom />
           <Card>
-            <AddShoppingCartIcon className="cartIcon"/>
+            <AddShoppingCartIcon className="cartIcon" />
             <p>장바구니가 텅 비었어요!</p>
           </Card>
         </Grid>
@@ -111,17 +114,32 @@ const Cart = (props) => {
           <CartProduct {..._cart} key={idx} />
         ))}
       </Grid>
-      <Grid is_flex column margin="2rem 0">
-        <Grid is_flex>
-          <Grid textAlign="right">총 수량:</Grid>
-          <Grid width="15%" textAlign="right">
-            {totalCnt} 개
-          </Grid>
+      <Grid is_flex>
+        <Grid>
+          {_carts.length !== 0 && (
+            <DeleteWrap
+              onClick={() => {
+                dispatch(cartActions.buyCartAPI());
+                window.alert("모두 삭제하였습니다.");
+              }}
+            >
+              <HighlightOffIcon className="Minus" />
+              &ensp;모두삭제
+            </DeleteWrap>
+          )}
         </Grid>
-        <Grid is_flex>
-          <Grid textAlign="right">결제 금액:</Grid>
-          <Grid width="15%" textAlign="right">
-            {totalPrice} 원
+        <Grid is_flex column margin="2rem 0">
+          <Grid is_flex>
+            <Grid textAlign="right">총 수량:</Grid>
+            <Grid width="30%" textAlign="right">
+              {totalCnt} 개
+            </Grid>
+          </Grid>
+          <Grid is_flex>
+            <Grid textAlign="right">결제 금액:</Grid>
+            <Grid width="30%" textAlign="right">
+              {totalPrice} 원
+            </Grid>
           </Grid>
         </Grid>
       </Grid>
@@ -133,14 +151,7 @@ const Cart = (props) => {
             history.push("/");
           }}
         />
-        <Button
-          yellow
-          text="구매하기"
-          margin="0 0 0 5px"
-          _onClick={() => {
-            history.push("/payment");
-          }}
-        />
+        <PaymentButton Cart />
       </Grid>
     </Grid>
   );
@@ -150,8 +161,8 @@ const Card = styled.div`
   width: 35rem;
   background-color: #ffffff;
   box-shadow: 0px 2px 10px rgba(0, 0, 0, 0.07);
-  display:flex;
-  justify-content:center;
+  display: flex;
+  justify-content: center;
   align-items: center;
   border-radius: 20px;
   padding: 1rem;
@@ -166,6 +177,19 @@ const Card = styled.div`
     height: 50px;
     margin-right: 10px;
   }
-  `;
+`;
+const DeleteWrap = styled.span`
+  cursor: pointer;
+  svg.Minus {
+    color: #d2d2d2;
+    vertical-align: -6px;
+    transition: color 0.3s ease-in-out;
+  }
+  :hover {
+    svg.Minus {
+      color: #5a5656;
+    }
+  }
+`;
 
 export default Cart;

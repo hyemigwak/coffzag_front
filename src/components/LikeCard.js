@@ -114,6 +114,7 @@ const ImageBox = styled.div`
     line-height: 120%;
     font-weight: 500;
     text-align: left;
+    // 줄넘김 방지
     overflow: hidden;
     text-overflow: ellipsis;
     -webkit-line-clamp: 2;

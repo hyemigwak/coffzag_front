@@ -8,4 +8,14 @@ import Mypage from "./Mypage";
 import Payment from "./Payment";
 import MyOrders from "./MyOrders";
 
-export { Main, Detail, Cart, Login, Signup, NotFound, Mypage, Payment, MyOrders};
+export {
+  Main,
+  Detail,
+  Cart,
+  Login,
+  Signup,
+  NotFound,
+  Mypage,
+  Payment,
+  MyOrders,
+};

@@ -1,7 +1,5 @@
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { actionCreators as cartActions } from "../redux/modules/cart";
-import { actionCreators as productActions } from "../redux/modules/product";
 import styled from "styled-components";
 import { Grid, Input, Button, Badge } from "../elements";
 import { history } from "../redux/configureStore";
@@ -13,6 +11,10 @@ import StarHalfRoundedIcon from "@material-ui/icons/StarHalfRounded";
 import AddCircleOutlineIcon from "@material-ui/icons/AddCircleOutline";
 import RemoveCircleOutlineIcon from "@material-ui/icons/RemoveCircleOutline";
 
+import { PaymentButton } from "../components/";
+import { actionCreators as cartActions } from "../redux/modules/cart";
+import { actionCreators as productActions } from "../redux/modules/product";
+
 const DetailProduct = (props) => {
   const dispatch = useDispatch();
   const _detail_list = useSelector((state) => state.product.detail_list);
@@ -20,7 +22,19 @@ const DetailProduct = (props) => {
   const cookie = getCookie("user_login") ? true : false;
   console.log(_detail_list);
 
+  const _product = useSelector((state) => state.product.product);
+
+  console.log("dispatch하고 가져온 product", _product.coffeeBrand);
+  console.log("프롭스있는가?", props);
+
+  useEffect(() => {
+    if (!_product) {
+      dispatch(productActions.setOneProductAPI(coffee_idx));
+    }
+  }, [_product]);
+
   const {
+    coffee_idx,
     coffeeName,
     coffeePrice,
     coffeeImg,
@@ -33,8 +47,6 @@ const DetailProduct = (props) => {
   console.log(detailList);
   console.log(coffeeId);
 
-  console.log(props);
-
   const [orderCnt, setOrderCnt] = useState(1);
   const cntPlus = () => {
     setOrderCnt(orderCnt + 1);
@@ -44,7 +56,7 @@ const DetailProduct = (props) => {
       setOrderCnt(orderCnt - 1);
     }
   };
-  console.log(orderCnt);
+
   const siteaddCart = () => {
     if (!is_login && !cookie) {
       if (window.confirm("로그인 후 이용해주세요!")) {
@@ -71,22 +83,32 @@ const DetailProduct = (props) => {
   };
 
   //가격에 콤마 붙여주는 정규식 표현
-  // const coffee_price = detailList[0].coffeePrice
-  //   .toString()
-  //   .replace(/\B(?<!\.\d*)(?=(\d{3})+(?!\d))/g, ",");
+  const coffee_price = (_product.coffeePrice || coffeePrice)
+    .toString()
+    .replace(/\B(?<!\.\d*)(?=(\d{3})+(?!\d))/g, ",");
+
+  // 정보 묶어서 PaymentButton 컴포넌트에 보냄
+  const buy_oneproduct_info = {
+    coffeeBrand,
+    coffeeName,
+    coffee_price,
+    coffeeUnit,
+    coffeeInfo,
+    orderCnt,
+  };
 
   return (
     <Grid margin="0 auto">
       <Container>
-        <CurrentBuy>
+        {/* <CurrentBuy>
           <span>50</span>명 구매 완료!
-        </CurrentBuy>
+        </CurrentBuy> */}
         <Contents>
           <CardRight>
             <CircleImage>
-              {/* <img src={detailList[0].coffeeImg} alt="커피이미지" /> */}
+              <img src={_product.coffeeImg || coffeeImg} alt="커피이미지" />
             </CircleImage>
-            <StarArea>
+            {/* <StarArea>
               <div className="starRank">
                 <StarRoundedIcon style={{ color: "#FFC149" }} />
                 <StarRoundedIcon style={{ color: "#FFC149" }} />
@@ -97,23 +119,25 @@ const DetailProduct = (props) => {
               <div className="startNum">
                 <span>2.5</span> 점
               </div>
-            </StarArea>
+            </StarArea> */}
           </CardRight>
           <CardLeft>
             <BrandNameArea>
               <div className="Btn">
-                <Badge>{detailList[0].coffeeBrand}</Badge>
+                <Badge>{_product.coffeeBrand || coffeeBrand}</Badge>
               </div>
             </BrandNameArea>
             <ProductName>
-              <div className="Pname">{detailList[0].coffeeName}</div>
+              <div className="Pname">{_product.coffeeName || coffeeName}</div>
             </ProductName>
             <PriceLine>
-              <div className="Pprice">{detailList[0].coffeePrice} 원</div>
-              <div className="capsulePack">{detailList[0].coffeeUnit}</div>
+              <div className="Pprice">{coffee_price} 원</div>
+              <div className="capsulePack">
+                {_product.coffeeUnit || coffeeUnit}
+              </div>
             </PriceLine>
             <DetailLine>
-              <p>{detailList[0].coffeeInfo}</p>
+              <p>{_product.coffeeInfo || coffeeInfo}</p>
             </DetailLine>
             <QtyLine>
               <div className="plusminusBtn">
@@ -131,7 +155,7 @@ const DetailProduct = (props) => {
                 text="장바구니"
                 margin="0 10px 0 0"
               />
-              <Button yellow text="구매하기" />
+              <PaymentButton DetailProduct {...buy_oneproduct_info} />
             </BtnLine>
           </CardLeft>
         </Contents>

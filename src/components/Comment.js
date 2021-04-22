@@ -3,7 +3,7 @@ import { Grid, Button, Line } from "../elements";
 import Permit from "../shared/Permit";
 import EditComment from "./EditComment";
 import { actionCreators as commentActions } from "../redux/modules/comment";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import styled from "styled-components";
 import DeleteIcon from "@material-ui/icons/Delete";
 import EditIcon from "@material-ui/icons/Edit";
@@ -55,19 +55,18 @@ const Comment = (props) => {
         </Grid>
         <Grid width="20%" textAlign="right">
           <Permit>
-            {is_me? (
+            {is_me ? (
               <>
-            <DeleteIcon onClick={delCmt} />
-            <EditIcon onClick={openModal} />
-            <EditComment
-              open={modalOpen}
-              close={closeModal}
-              coffeeId={coffeeId}
-              reviewId={reviewId}
-            />
-            </>
+                <DeleteIcon onClick={delCmt} />
+                <EditIcon onClick={openModal} />
+                <EditComment
+                  open={modalOpen}
+                  close={closeModal}
+                  coffeeId={coffeeId}
+                  reviewId={reviewId}
+                />
+              </>
             ) : null}
-
           </Permit>
         </Grid>
       </Grid>

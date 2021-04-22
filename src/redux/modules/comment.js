@@ -54,7 +54,7 @@ const getCommentAPI = (coffeeId) => {
     axios
       .get(`http://54.180.86.19/api/details/${coffeeId}`)
       .then((res) => {
-        console.log(res.data);
+        // console.log(res.data);
         if (res.data.ok) {
           const product_info = res.data.products;
 

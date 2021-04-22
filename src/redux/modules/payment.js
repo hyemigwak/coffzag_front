@@ -1,73 +1,80 @@
 import { createAction, handleActions } from "redux-actions";
-import {getCookie} from "../../shared/Cookie";
+import { getCookie } from "../../shared/Cookie";
 import { produce } from "immer";
 import axios from "axios";
 
 //actions
 const LOADING = "LOADING";
-const SET_PAYMENT = "SET_PAYMENT"; //구매페이지 불러오기
-const ADD_PAYMENT = "ADD_PAYMENT" //구매페이지 정보 보내주기(추가)
+const GET_PAYMENT_USER = "GET_PAYMENT_USER"; //구매페이지 사용자 불러오기
+const ADD_PAYMENT = "ADD_PAYMENT"; // 결제시키기 (변수명 뭘로 할지 곰인)
 
 //actionCreators
 const loading = createAction(LOADING, (is_loading) => ({ is_loading }));
-const setPayment = createAction(SET_PAYMENT, (payment) => ({ payment }));
-const addPayment = createAction(ADD_PAYMENT, (payment) => ({ payment }));
+const getPaymentUser = createAction(GET_PAYMENT_USER, (user) => ({ user }));
+const addPayment = createAction(ADD_PAYMENT, () => ({}));
 
 //initialState
 const initialState = {
-  payment_info: {},
+  user: [],
   is_loading: false,
 };
 
-//mock API
-const payment_API =
-  "https://run.mocky.io/v3/e43fb28b-19cc-4b8e-849a-8723a08fe6f3";
+// https://run.mocky.io/v3/e43fb28b-19cc-4b8e-849a-8723a08fe6f3
+const payment_API = "http://54.180.86.19/api/payments/";
 
-const setPaymentAPI = () => {
+const getPaymentUserAPI = () => {
   return function (dispatch, getState, { history }) {
+    let token = getCookie("user_login") || "";
     dispatch(loading(true));
-    axios
-      .get(payment_API)
+    axios({
+      method: "GET",
+      url: "http://54.180.86.19/api/payments/userInfo",
+      headers: {
+        "X-AUTH-TOKEN": token,
+      },
+    })
       .then((res) => {
-        console.log(res.data.results);
         if (res.data.ok) {
-          dispatch(setPayment(res.data.results));
+          dispatch(getPaymentUser(res.data));
           dispatch(loading(false));
         } else {
           console.log("data.ok is false");
         }
       })
       .catch((e) => {
-        console.log("setPaymentAPI 오류", e);
+        console.log("getPaymentUserAPI 오류", e);
       });
   };
 };
 
-const addPaymentAPI = (coffeeId) => {
+const addPaymentAPI = (userPhone, userAddress, totalPrice, payMethod) => {
   return function (dispatch, getState, { history }) {
     let token = getCookie("user_login") || "";
-    let payment_data = {
-      coffeeId: coffeeId,
+    let addPayment_data = {
+      userPhone: userPhone,
+      userAddress: userAddress,
+      totalPrice: totalPrice,
+      payMethod: payMethod,
     };
+    dispatch(loading(true));
     axios({
       method: "POST",
-      url: ``,
-      data: payment_data,
+      url: "http://54.180.86.19/api/payments",
       headers: {
         "X-AUTH-TOKEN": token,
       },
+      data: addPayment_data,
     })
       .then((res) => {
-        console.log(res);
-        dispatch(addPayment(coffeeId));
-        window.alert("결제가 완료되었습니다.");
+        console.log(res.data.msg);
+        dispatch(addPayment("구매하기: ", res.data.results));
+        dispatch(loading(false));
       })
-      .catch((err) => {
-        console.log("addPaymentAPI에서 오류발생", err);
+      .catch((e) => {
+        console.log("addPaymentAPI 오류", e);
       });
   };
 };
-
 
 //reducer
 export default handleActions(
@@ -76,27 +83,24 @@ export default handleActions(
       produce(state, (draft) => {
         draft.is_loading = action.payload.is_loading;
       }),
-    [SET_PAYMENT]: (state, action) =>
+    [GET_PAYMENT_USER]: (state, action) =>
+      produce(state, (draft) => {
+        draft.user = action.payload.user;
+        console.log(draft.user);
+      }),
+    [ADD_PAYMENT]: (state, action) =>
       produce(state, (draft) => {
         draft.is_loading = action.payload.is_loading;
         draft.payment_info = action.payload.payment;
       }),
-    [ADD_PAYMENT]: (state, action) =>
-    produce(state, (draft) => {
-      draft.is_loading = action.payload.is_loading;
-      if(!draft.payment.info){
-        draft.payment_info = action.payload.payment;
-      }
-      draft.payment_info.unshift(action.payload.payment);
-    }),
   },
   initialState
 );
 
 //actionCreators export
 const actionCreators = {
-  setPayment,
-  setPaymentAPI,
+  getPaymentUser,
+  getPaymentUserAPI,
   addPayment,
   addPaymentAPI,
 };

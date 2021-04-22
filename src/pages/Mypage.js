@@ -1,9 +1,9 @@
-import React, {useEffect} from "react";
+import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Grid, Button, Line } from "../elements/";
 import styled from "styled-components";
 import LikeCard from "../components/LikeCard";
-import FavoriteIcon from '@material-ui/icons/Favorite';
+import FavoriteIcon from "@material-ui/icons/Favorite";
 import { actionCreators as likeActions } from "../redux/modules/like";
 
 const Mypage = (props) => {
@@ -12,14 +12,14 @@ const Mypage = (props) => {
 
   const likeList = useSelector((state) => state.like.like_list);
   console.log("라이크리스트임", likeList);
-  console.log("배열의길이임",likeList.length);
+  console.log("배열의길이임", likeList.length);
 
-   // 찜리스트 GET
+  // 찜리스트 GET
   useEffect(() => {
     dispatch(likeActions.getLikeAPI());
-  }, []);
+  }, [likeList]);
 
-  if(likeList.length === 0){
+  if (likeList.length === 0) {
     return (
       <Grid width="100vmin">
         <Grid is_flex column>
@@ -33,7 +33,7 @@ const Mypage = (props) => {
           <LikeCardWrap>
             <Card>
               <p>찜리스트를 추가해주세요</p>
-              <FavoriteIcon className="heart"/>
+              <FavoriteIcon className="heart" />
             </Card>
           </LikeCardWrap>
         </Grid>
@@ -78,8 +78,8 @@ const Card = styled.div`
   width: 34rem;
   background-color: #ffffff;
   box-shadow: 0px 2px 10px rgba(0, 0, 0, 0.07);
-  display:flex;
-  justify-content:center;
+  display: flex;
+  justify-content: center;
   align-items: center;
   border-radius: 20px;
   padding: 1rem;

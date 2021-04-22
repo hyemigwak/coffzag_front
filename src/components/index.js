@@ -8,6 +8,7 @@ import DetailReview from "./DetailReview";
 import EditComment from "./EditComment";
 import Comment from "./Comment";
 import PaymentProduct from "./PaymentProduct";
+import PaymentButton from "./PaymentButton";
 
 export {
   Header,
@@ -20,4 +21,5 @@ export {
   EditComment,
   Comment,
   PaymentProduct,
+  PaymentButton,
 };

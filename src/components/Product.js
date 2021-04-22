@@ -5,13 +5,12 @@ import { useDispatch, useSelector } from "react-redux";
 import { history } from "../redux/configureStore";
 import { actionCreators as likeActions } from "../redux/modules/like";
 import FavoriteIcon from "@material-ui/icons/Favorite";
-import FavoriteBorderIcon from '@material-ui/icons/FavoriteBorder';
+import FavoriteBorderIcon from "@material-ui/icons/FavoriteBorder";
 
 const Product = (props) => {
   const dispatch = useDispatch();
   const likeList = useSelector((state) => state.like.like_list);
   const is_login = useSelector((state) => state.user.is_login);
-
 
   const {
     coffeeName,
@@ -27,40 +26,49 @@ const Product = (props) => {
   } = props;
 
   const reviewList = useSelector((state) => state.product.latest_review);
-  const like = {coffeeName, coffeePrice, coffeeImg, coffeeBrand, coffeeId, coffeeInfo}
+  const like = {
+    coffeeName,
+    coffeePrice,
+    coffeeImg,
+    coffeeBrand,
+    coffeeId,
+    coffeeInfo,
+  };
 
   const addheart = () => {
-    if(is_login){
-      dispatch(likeActions.addLikeAPI(coffeeId))
-      if(window.confirm("찜리스트에 추가되었습니다. 마이페이지로 이동할까요?")){
-        history.replace('/mypage')
-      }else{
+    if (is_login) {
+      dispatch(likeActions.addLikeAPI(coffeeId));
+      if (
+        window.confirm("찜리스트에 추가되었습니다. 마이페이지로 이동할까요?")
+      ) {
+        history.replace("/mypage");
+      } else {
         return;
       }
-    }else{
-      window.alert("로그인해주세요!")
+    } else {
+      window.alert("로그인해주세요!");
     }
-    
-
-  }
+  };
   const deleteheart = () => {
-    if(is_login){
+    if (is_login) {
       dispatch(likeActions.deleteLikeAPI(coffeeId));
       window.alert("삭제완료!");
-    }else{
-      window.alert("로그인해주세요!")
+    } else {
+      window.alert("로그인해주세요!");
     }
-  }
+  };
 
   return (
     <Card
-      // onClick={() => {
-      //   history.push(`/detail/${coffeeId}`);
-      // }}
+    // onClick={() => {
+    //   history.push(`/detail/${coffeeId}`);
+    // }}
     >
-      <div onClick={() => {
-        history.push(`/detail/${coffeeId}`);
-      }}>
+      <div
+        onClick={() => {
+          history.push(`/detail/${coffeeId}`);
+        }}
+      >
         {coffeeBrand === "nespresso" ? (
           <ProductImg className="nomargin" NoMargin bgimg={coffeeImg}>
             <Badge>{coffeeBrand}</Badge>
@@ -74,9 +82,11 @@ const Product = (props) => {
       {reviewList[idx]?.username ? (
         <>
           <CardBody>
-            <div onClick={() => {
-              history.push(`/detail/${coffeeId}`);
-            }}>
+            <div
+              onClick={() => {
+                history.push(`/detail/${coffeeId}`);
+              }}
+            >
               <h1>{coffeeName}</h1>
               <p>
                 {reviewList[idx]?.contents
@@ -84,20 +94,20 @@ const Product = (props) => {
                   : "첫 리뷰를 써주세요!"}
               </p>
             </div>
-          <>
-            {
-            likeList.findIndex((l) => l.product.coffeeId === coffeeId) >= 0?
-            (
-              <FavoriteIcon onClick={deleteheart} className="heartIcon2"/>
-            ):(
-              <FavoriteBorderIcon onClick={addheart} className="heartIcon"/>
-            )
-            }
-          </>  
+            <>
+              {likeList.findIndex((l) => l.product.coffeeId === coffeeId) >=
+              0 ? (
+                <FavoriteIcon onClick={deleteheart} className="heartIcon2" />
+              ) : (
+                <FavoriteBorderIcon onClick={addheart} className="heartIcon" />
+              )}
+            </>
           </CardBody>
-          <CardFooter onClick={() => {
-            history.push(`/detail/${coffeeId}`);
-          }}>
+          <CardFooter
+            onClick={() => {
+              history.push(`/detail/${coffeeId}`);
+            }}
+          >
             <Grid>
               <span>
                 {reviewList[idx]?.createdAt
@@ -121,16 +131,13 @@ const Product = (props) => {
                 : "첫 리뷰를 써주세요!"}
             </p>
             <>
-            {
-            likeList.findIndex((l) => l.product.coffeeId === coffeeId) >= 0 ?
-            (
-              <FavoriteIcon onClick={deleteheart} className="heartIcon2"/>
-            ):(
-              
-              <FavoriteBorderIcon onClick={addheart} className="heartIcon"/>
-            )
-            }
-          </>
+              {likeList.findIndex((l) => l.product.coffeeId === coffeeId) >=
+              0 ? (
+                <FavoriteIcon onClick={deleteheart} className="heartIcon2" />
+              ) : (
+                <FavoriteBorderIcon onClick={addheart} className="heartIcon" />
+              )}
+            </>
           </CardBody>
           <CardFooter Null>
             <Grid>
@@ -234,7 +241,7 @@ const CardBody = styled.div`
   `
       : ""}
   .heartIcon {
-    color: #F6AFAF;
+    color: #f6afaf;
     width: 40px;
     height: 40px;
     cursor: pointer;
@@ -242,12 +249,11 @@ const CardBody = styled.div`
     position: relative;
     bottom: 10px;
     left: 180px;
-    z-index: 3000,
+    z-index: 3000;
   }
 
-
   .heartIcon2 {
-    color: #F6AFAF;
+    color: #f6afaf;
     width: 40px;
     height: 40px;
     cursor: pointer;
@@ -255,9 +261,8 @@ const CardBody = styled.div`
     position: relative;
     bottom: 10px;
     left: 180px;
-    z-index: 3000,
-    }
-
+    z-index: 3000;
+  }
 `;
 
 const CardFooter = styled.div`
