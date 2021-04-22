@@ -17,7 +17,7 @@ const Payment = (props) => {
   }, []);
 
   // payment_info 가져오기
-  const _payment = useSelector((state) => state.payment_info);
+  const _payment = useSelector((state) => state.payment.payment_info);
 
   //payment 모듈 이후 삭제할 부분
   const username = "나이름";
@@ -115,9 +115,9 @@ const Payment = (props) => {
         </Grid>
 
         <Grid textAlign="left">
-          {_payment.map((p, idx) => (
+          {/* {_payment.map((p, idx) => (
             <PaymentProduct {...p} key={idx} />
-          ))}
+          ))} */}
         </Grid>
         <h3>
           <br />

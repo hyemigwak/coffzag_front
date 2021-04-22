@@ -18,7 +18,7 @@ import {
   NotFound,
   Mypage,
   Payment,
-  Test,
+  MyOrders,
 } from "../pages";
 import { Header, Footer } from "../components";
 
@@ -43,6 +43,7 @@ function App() {
           <Route exact path="/cart" component={Cart} />
           <Route exact path="/mypage" component={Mypage} />
           <Route exact path="/payment" component={Payment} />
+          <Route exact path="/myorders" component={MyOrders}/>
           <Route exact path="/notfound" component={NotFound} />
           {/* 지정하지 않은 주소를 notfound로 가게 하기 */}
           {/* <Switch>

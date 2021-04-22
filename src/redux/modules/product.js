@@ -5,6 +5,7 @@ import axios from "axios";
 //actions
 const LOADING = "LOADING";
 const SET_PRODUCT = "SET_PRORUCT";
+const SET_ONE_PRODUCT = "SET_ONE_PRODUCT";
 
 //actionCreators
 const loading = createAction(LOADING, (is_loading) => ({ is_loading }));
@@ -12,10 +13,12 @@ const setProduct = createAction(SET_PRODUCT, (products, reviews) => ({
   products,
   reviews,
 }));
+const setOneProduct = createAction(SET_ONE_PRODUCT, (products) => ({products}));
 
 //initialState
 const initialState = {
   product_list: [],
+  detail_list: [],
   latest_review: {},
   is_loading: false,
 };
@@ -33,7 +36,6 @@ const setProductAPI = (page,size) => {
       }
     })
       .then((res) => {
-        console.log("내려오는 데이터임", res.data);
         if (res.data.ok) {
           dispatch(setProduct(res.data.product, res.data.reviews));
           dispatch(loading(false));
@@ -49,19 +51,19 @@ const setProductAPI = (page,size) => {
 
 const setOneProductAPI = (id) => {
   return function (dispatch, getState, { history }) {
-    dispatch(loading(true));
     axios
-      .get(product_API)
-      .then((res) => {
-        const product_list = res.data.products;
-        const product_idx = product_list.findIndex(
-          (p) => p.coffeeId === Number(id)
-        );
-        const product = product_list[product_idx];
+      .get(`http://54.180.86.19/api/details/${id}`)
+      // .then((res) => {
+      //   const product_list = res.data.products;
+      //   const product_idx = product_list.findIndex(
+      //     (p) => p.coffeeId === Number(id)
+      //   );
+      //   const product = product_list[product_idx];
         // console.log(product);
+      .then((res) => {
+        console.log(res);
         if (res.data.ok) {
-          dispatch(setProduct([product]));
-          dispatch(loading(false));
+          dispatch(setOneProduct(res.data.products));
         } else {
           console.log("data.ok is false");
         }
@@ -79,16 +81,17 @@ export default handleActions(
       }),
     [SET_PRODUCT]: (state, action) =>
       produce(state, (draft) => {
-        console.log(action.payload.products);
-
         draft.is_loading = action.payload.is_loading;
         draft.product_list = action.payload.products.content;
         draft.latest_review = action.payload.reviews;
-
-        console.log(draft.product_list);
-
-
       }),
+    [SET_ONE_PRODUCT]: (state, action) =>
+      produce(state, (draft) => {
+      console.log(action.payload.products);
+      draft.detail_list = action.payload.products;
+    }),
+
+
   },
   initialState
 );

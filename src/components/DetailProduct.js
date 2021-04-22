@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { actionCreators as cartActions } from "../redux/modules/cart";
+import { actionCreators as productActions } from "../redux/modules/product";
 import styled from "styled-components";
 import { Grid, Input, Button, Badge } from "../elements";
 import { history } from "../redux/configureStore";
@@ -14,9 +15,10 @@ import RemoveCircleOutlineIcon from "@material-ui/icons/RemoveCircleOutline";
 
 const DetailProduct = (props) => {
   const dispatch = useDispatch();
-
+  const _detail_list = useSelector((state) => state.product.detail_list);
   const is_login = useSelector((state) => state.user.is_login);
   const cookie = getCookie("user_login") ? true : false;
+  console.log(_detail_list);
 
   const {
     coffeeName,
@@ -26,7 +28,10 @@ const DetailProduct = (props) => {
     coffeeUnit,
     coffeeInfo,
     coffeeId,
+    detailList,
   } = props;
+  console.log(detailList);
+  console.log(coffeeId);
 
   console.log(props);
 
@@ -66,9 +71,9 @@ const DetailProduct = (props) => {
   };
 
   //가격에 콤마 붙여주는 정규식 표현
-  const coffee_price = coffeePrice
-    .toString()
-    .replace(/\B(?<!\.\d*)(?=(\d{3})+(?!\d))/g, ",");
+  // const coffee_price = detailList[0].coffeePrice
+  //   .toString()
+  //   .replace(/\B(?<!\.\d*)(?=(\d{3})+(?!\d))/g, ",");
 
   return (
     <Grid margin="0 auto">
@@ -79,7 +84,7 @@ const DetailProduct = (props) => {
         <Contents>
           <CardRight>
             <CircleImage>
-              <img src={coffeeImg} alt="커피이미지" />
+              {/* <img src={detailList[0].coffeeImg} alt="커피이미지" /> */}
             </CircleImage>
             <StarArea>
               <div className="starRank">
@@ -97,18 +102,18 @@ const DetailProduct = (props) => {
           <CardLeft>
             <BrandNameArea>
               <div className="Btn">
-                <Badge>{coffeeBrand}</Badge>
+                <Badge>{detailList[0].coffeeBrand}</Badge>
               </div>
             </BrandNameArea>
             <ProductName>
-              <div className="Pname">{coffeeName}</div>
+              <div className="Pname">{detailList[0].coffeeName}</div>
             </ProductName>
             <PriceLine>
-              <div className="Pprice">{coffee_price} 원</div>
-              <div className="capsulePack">{coffeeUnit}</div>
+              <div className="Pprice">{detailList[0].coffeePrice} 원</div>
+              <div className="capsulePack">{detailList[0].coffeeUnit}</div>
             </PriceLine>
             <DetailLine>
-              <p>{coffeeInfo}</p>
+              <p>{detailList[0].coffeeInfo}</p>
             </DetailLine>
             <QtyLine>
               <div className="plusminusBtn">

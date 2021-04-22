@@ -8,6 +8,7 @@ import Comment from "./modules/comment";
 import Cart from "./modules/cart";
 import Payment from "./modules/payment";
 import Like from "./modules/like";
+import Order from "./modules/order";
 
 export const history = createBrowserHistory();
 
@@ -19,6 +20,7 @@ const rootReducer = combineReducers({
   cart: Cart,
   payment: Payment,
   like: Like,
+  order: Order,
   router: connectRouter(history),
 });
 

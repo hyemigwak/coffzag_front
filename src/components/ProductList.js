@@ -3,6 +3,7 @@ import { useDispatch, useSelector } from "react-redux";
 import styled from "styled-components";
 import Product from "./Product";
 import { actionCreators as productActions } from "../redux/modules/product";
+import { actionCreators as likeActions } from "../redux/modules/like";
 import { Grid, Line } from "../elements/";
 import ArrowRightIcon from '@material-ui/icons/ArrowRight';
 import ArrowLeftIcon from '@material-ui/icons/ArrowLeft';
@@ -11,13 +12,12 @@ import ArrowLeftIcon from '@material-ui/icons/ArrowLeft';
 const ProductList = (props) => {
   const dispatch = useDispatch();
   const coffees = useSelector((state) => state.product.product_list);
-  console.log(coffees);
   //커피 정보 8개씩만 받아온다
 
 	const [page, setPage] = useState(1); //현재페이지, 1부터 시작
 	const [size, setSize] = useState(8); //페이지당 post갯수 = 8개씩(고정값) 사실상 setSize 안써도 됨, 지워도 작동o
 
-  //pageNumber = [1,2,3,4,5,6,7]
+  //pageNumber = [1,2,3,4,5,6,7], length로 표시해라 상수로 표시 x 
   const pageNumber = [];
   for (let i = 1; i <= Math.ceil(51/size); i++){
       pageNumber.push(i);
@@ -26,10 +26,10 @@ const ProductList = (props) => {
   //paginate : page 바꾸기 setPage로 바꾼다
   const paginate = (PageNumber) => setPage(PageNumber);
   
-    
-
+  
   useEffect(() => {
       dispatch(productActions.setProductAPI(page,size));
+      dispatch(likeActions.getLikeAPI());
   }, [page]);
 
   //페이지네이션 화살표 함수
@@ -55,7 +55,7 @@ const ProductList = (props) => {
     <ScreenArea>
       <CoffeeBox>
         {coffees.map((coffee, idx) => (
-          <Product {...coffee} key={idx} />
+          <Product {...coffee} idx={idx} key={idx} />
         ))}
       </CoffeeBox>
       <Container>
@@ -65,7 +65,7 @@ const ProductList = (props) => {
           <li key={pageNum}
             className="pagination_item">
             <PageSpan onClick={()=>paginate(pageNum)}>
-              <div className="active">{pageNum}</div>
+              <div>{pageNum}</div>
             </PageSpan>
           </li>
         ))}
@@ -99,6 +99,7 @@ const Container = styled.div`
 
 `;
 
+//연구해보기 -혜미-
 const PageSpan = styled.span`
     /* div.hover {
       background-color: #0000001A;

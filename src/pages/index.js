@@ -6,5 +6,6 @@ import Signup from "./Signup";
 import NotFound from "./NotFound";
 import Mypage from "./Mypage";
 import Payment from "./Payment";
+import MyOrders from "./MyOrders";
 
-export { Main, Detail, Cart, Login, Signup, NotFound, Mypage, Payment};
+export { Main, Detail, Cart, Login, Signup, NotFound, Mypage, Payment, MyOrders};

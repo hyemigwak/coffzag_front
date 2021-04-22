@@ -1,5 +1,5 @@
 //쿠키생성
-const setCookie = (name, value, exp = 5) => {
+const setCookie = (name, value, exp = 1) => {
   let date = new Date();
   date.setTime(date.getTime() + exp * 1000 * 60 * 60 * 24);
   document.cookie = `${name}=${value};expires=${date.toUTCString()};path=/`;

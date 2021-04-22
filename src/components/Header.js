@@ -71,7 +71,14 @@ const Header = (props) => {
                 history.push("/mypage");
               }}
             >
-              마이페이지
+              찜리스트
+            </HeaderText>
+            <HeaderText
+              onClick={() => {
+                history.push("/myorders");
+              }}
+            >
+              구매목록
             </HeaderText>
             <HeaderText onClick={siteLogout}>로그아웃</HeaderText>
           </Grid>
