@@ -4,17 +4,20 @@ import styled from "styled-components";
 import coffee from "../images/coffee.JPG";
 import CoffeeCard from "./CoffeeCard";
 
+
 const OrderCard = (props) => {
+
+    const user_name = localStorage.getItem("user_name")
+
     console.log("오더프롭스",props); 
     const {createdAt, payMethod, totalPrice, userAddress,
         userPhone, username, coffeeInfo, idx} = props;
     console.log("커피인포",coffeeInfo);
     console.log(idx);
-    console.log(coffeeInfo[1][0].product.coffeeName);
 
     const productList = [];
     coffeeInfo.map((coffeeP,idx) => 
-    productList.push(coffeeP[idx].product)
+    productList.push(coffeeP[0].product)
     );
     console.log(productList);
 
@@ -39,7 +42,7 @@ const OrderCard = (props) => {
             <Line bottom/>
             <DeliverTable>
                 <div className="delivertext">배송지 정보</div>
-                <div><span>주문자:</span> {username}</div>
+                <div><span>주문자:</span> {user_name}</div>
                 <div><span>연락처:</span> {userPhone}</div>
                 <div><span>주소:</span> {userAddress}</div>
             </DeliverTable>

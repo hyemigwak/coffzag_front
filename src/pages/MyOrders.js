@@ -22,6 +22,30 @@ const MyOrders = (props) => {
         dispatch(orderActions.getOrderAPI());
     },[])
 
+  if(orderList.length === 0){
+    return (
+      <div>
+        <Grid width="100vmin">
+          <Grid is_flex column>
+            <h1>구매 목록</h1>
+            <Grid is_flex>
+              <Grid textAlign="right" margin="0.5rem 0">
+                <UserName>{username}</UserName>님 안녕하세요!
+              </Grid>
+            </Grid>
+            <Line bottom />
+            <LikeCardWrap>
+              <Card>
+                <p>구매목록이 비었어요</p>
+                <ShoppingCartIcon className="cartIcon"/>
+              </Card>
+            </LikeCardWrap>
+  
+          </Grid>
+        </Grid>
+      </div>
+    );
+  }
   return (
     <div>
       <Grid width="100vmin">
@@ -34,10 +58,6 @@ const MyOrders = (props) => {
           </Grid>
           <Line bottom />
           <LikeCardWrap>
-            <Card>
-              <p>구매목록이 비었어요</p>
-              <ShoppingCartIcon className="cartIcon"/>
-            </Card>
             {orderList.map((order,idx) => (
                 <OrderCard {...order} coffeeInfo={coffee_info} idx={idx}/>
             ))}
