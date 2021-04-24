@@ -1,9 +1,11 @@
 import React, { useCallback, useState } from "react";
 import styled from "styled-components";
 import { Button } from "../elements/";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import CloseIcon from '@material-ui/icons/Close';
 import { actionCreators as commentActions } from "../redux/modules/comment";
+
+//댓글 수정 모달창입니다.
 
 const EditComment = (props) => {
   const { coffeeId, reviewId, open, close } = props;
@@ -12,6 +14,8 @@ const EditComment = (props) => {
   const [contents, setContents] = useState("");
   const onChangeContents = useCallback((e) => setContents(e.target.value), []);
 
+  //수정하기 버튼 클릭시 실행되는 댓글 수정 함수입니다.
+  //수정 api 디스패치 후, 모달창 닫고, 코멘트창 비워줍니다.
   const editCmt = () => {
     console.log(coffeeId, reviewId);
     if (window.confirm("댓글을 수정합니다.")) {

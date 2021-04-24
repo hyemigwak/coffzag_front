@@ -11,11 +11,8 @@ import { actionCreators as likeActions } from "../redux/modules/like";
 const LikeCard = (props) => {
   const dispatch = useDispatch();
 
-  console.log("프롭스체크", props);
   const {
-    myProductId,
     product: {coffeeBrand, coffeeId, coffeeImg, coffeeInfo, coffeeName, coffeePrice},
-    idx,
   } = props;
   
   console.log(coffeeBrand);
@@ -29,18 +26,13 @@ const LikeCard = (props) => {
   // => 하트 만들기!
 
   // 좋아요 삭제
-
   const deleteLike = () => {
     dispatch(likeActions.deleteLikeAPI(coffeeId));
   };
 
   return (
     <>
-      <Card
-        // onClick={() => {
-        //   history.push(`/detail/`);
-        // }}
-      >
+      <Card>
         <ImageBox>
           <ProductImg bgimg={coffeeImg}>
             <Badge scale="0.9" margin="0.5vmin 0.5vmin auto auto">

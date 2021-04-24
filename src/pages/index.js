@@ -6,7 +6,6 @@ import Signup from "./Signup";
 import NotFound from "./NotFound";
 import Mypage from "./Mypage";
 import Payment from "./Payment";
-import MyOrders from "./MyOrders";
 
 export {
   Main,
@@ -17,5 +16,4 @@ export {
   NotFound,
   Mypage,
   Payment,
-  MyOrders,
 };

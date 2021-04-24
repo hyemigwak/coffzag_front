@@ -10,31 +10,19 @@ import FavoriteBorderIcon from "@material-ui/icons/FavoriteBorder";
 const Product = (props) => {
   const dispatch = useDispatch();
   const likeList = useSelector((state) => state.like.like_list);
+  const reviewList = useSelector((state) => state.product.latest_review);
   const is_login = useSelector((state) => state.user.is_login);
 
   const {
     coffeeName,
-    coffeePrice,
     coffeeImg,
     coffeeBrand,
     coffeeId,
-    coffeeInfo,
-    username,
-    createdAt,
-    contents,
     idx,
   } = props;
 
-  const reviewList = useSelector((state) => state.product.latest_review);
-  const like = {
-    coffeeName,
-    coffeePrice,
-    coffeeImg,
-    coffeeBrand,
-    coffeeId,
-    coffeeInfo,
-  };
-
+  
+  //하트 눌렀을때, 찜리스트에 추가하기 (로그인 되어있을때만)
   const addheart = () => {
     if (is_login) {
       dispatch(likeActions.addLikeAPI(coffeeId));
@@ -49,6 +37,8 @@ const Product = (props) => {
       window.alert("로그인해주세요!");
     }
   };
+
+  //하트 삭제할때 마이페이지에서 제거
   const deleteheart = () => {
     if (is_login) {
       dispatch(likeActions.deleteLikeAPI(coffeeId));
@@ -58,12 +48,9 @@ const Product = (props) => {
     }
   };
 
+  //디테일에 리뷰가 있으면 최근 리뷰를 가져오고, 없으면 "첫리뷰를 작성하세요" 가 뜰 수 있게 분기 
   return (
-    <Card
-    // onClick={() => {
-    //   history.push(`/detail/${coffeeId}`);
-    // }}
-    >
+    <Card>
       <div
         onClick={() => {
           history.push(`/detail/${coffeeId}`);

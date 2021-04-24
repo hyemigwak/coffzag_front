@@ -21,15 +21,15 @@ const setOneProduct = createAction(SET_ONEPRODUCT, (product) => ({
 const initialState = {
   // 메인
   product_list: [],
-  detail_list: [],
   latest_review: {},
   // 상세
   product: {},
   is_loading: false,
 };
 
-//mockAPI = "https://run.mocky.io/v3/eca60b5e-b520-427f-8f54-7b88df09acc1"
 
+
+//메인페이지 상품 불러오기(페이징)
 const setProductAPI = (page, size) => {
   return function (dispatch, getState, { history }) {
     dispatch(loading(true));
@@ -54,10 +54,11 @@ const setProductAPI = (page, size) => {
   };
 };
 
-const setOneProductAPI = (coffee_idx) => {
+//디테일 페이지 상품 하나 불러오기
+const setOneProductAPI = (coffeeId) => {
   return function (dispatch, getState, { history }) {
     axios
-      .get(`http://54.180.86.19/api/details/${coffee_idx}`)
+      .get(`http://54.180.86.19/api/details/${coffeeId}`)
       .then((res) => {
         console.log("이거", res.data);
         if (res.data.ok) {

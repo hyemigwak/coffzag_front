@@ -3,6 +3,8 @@ import { makeStyles } from "@material-ui/core/styles";
 import CircularProgress from "@material-ui/core/CircularProgress";
 import { Grid } from "../elements/";
 
+//로딩스피너 만들기
+
 const useStyles = makeStyles((theme) => ({
   root: {
     position: "relative",

@@ -5,10 +5,6 @@ import { Grid, Badge } from "../elements";
 import { useDispatch } from "react-redux";
 import { actionCreators as cartActions } from "../redux/modules/cart";
 
-import AddCircleOutlineIcon from "@material-ui/icons/AddCircleOutline";
-import RemoveCircleOutlineIcon from "@material-ui/icons/RemoveCircleOutline";
-import HighlightOffIcon from "@material-ui/icons/HighlightOff";
-
 const PaymentProduct = (props) => {
   const dispatch = useDispatch();
   const {
@@ -23,34 +19,8 @@ const PaymentProduct = (props) => {
     orderCnt,
   } = props;
 
-  const siteDeleteCart = () => {
-    dispatch(cartActions.deleteCartAPI(coffeeId));
-  };
 
-  // 판매 단위 정규 표현식
   const unitPrice = orderCnt * coffeePrice;
-
-  // 수량 체크
-  const [_orderCnt, setOrderCnt] = useState(orderCnt);
-
-  // 수량 * 가격 체크
-  const [_unitPrice, setUnitPrice] = useState(unitPrice);
-
-  const cntPlus = () => {
-    console.log(_orderCnt);
-    console.log(_unitPrice);
-    setOrderCnt(_orderCnt + 1);
-    setUnitPrice(_unitPrice + coffeePrice);
-    dispatch(cartActions.updateCartAPI(coffeeId, _orderCnt, _unitPrice));
-  };
-
-  const cntMinus = () => {
-    if (_orderCnt > 1) {
-      setOrderCnt(_orderCnt - 1);
-      setUnitPrice(_unitPrice - coffeePrice);
-      dispatch(cartActions.updateCartAPI(coffeeId, _orderCnt, _unitPrice));
-    }
-  };
 
   return (
     <Container>

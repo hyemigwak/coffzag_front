@@ -1,11 +1,9 @@
-import React, { useState, useEffect } from "react";
-import styled from "styled-components";
-import { useDispatch, useSelector } from "react-redux";
-import { Grid, Button, Line, Text } from "../elements/";
+import React from "react";
+import { useDispatch } from "react-redux";
+import {Button } from "../elements/";
 import { history } from "../redux/configureStore";
 
 import { actionCreators as paymentActions } from "../redux/modules/payment";
-import { actionCreators as cartActions } from "../redux/modules/cart";
 
 const PaymentButton = (props) => {
   const dispatch = useDispatch();
@@ -20,10 +18,8 @@ const PaymentButton = (props) => {
     payMethod,
   } = props;
 
-  // console.log("넘어오는 props", props); // props 확인
-
   const DetailtoGoPayment = () => {
-    // props.history.push({pathname:"/payment", state : });
+    // 구현하지 않음
   };
 
   const GoPayment = () => {

@@ -11,6 +11,7 @@ const Signup = (props) => {
   const [pwd, setPwd] = useState("");
   const [pwdCheck, setPwdCheck] = useState("");
   const [email, setEmail] = useState("");
+
   const onChangeUsername = useCallback((e) => setUsername(e.target.value), []);
   const onChangePwd = useCallback((e) => setPwd(e.target.value), []);
   const onChangePwdCheck = useCallback((e) => setPwdCheck(e.target.value), []);
@@ -23,34 +24,23 @@ const Signup = (props) => {
   const _pwdChk = useRef();
   const _email = useRef();
 
-  // const [alertDouble, setAlert] = useState("사용 가능한 ID입니다.");
-  // === 값, 타입 같은지
-  // 디스패치(스토어 상태값을 바꾸는것) 반환 값x
-  // const doubleCheckLive = () => {
-  //   if (dispatch(userActions.IDCheckAPI(username)) === false) {
-  //     console.log("중복!");
-  //     // return setAlert("이미 존재하는 ID입니다.");
-  //   } else {
-  //     // console.log("중복임!");
-  //     // return setAlert("사용 가능한 ID입니다.");
-  //   }
-  //   return;
-  // };
-  // doubleCheckLive();
-
   const siteSignup = () => {
     // 이메일 체크 정규 표현식
     const emailPass = /^[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*.[a-zA-Z]{2,3}$/i;
+    
+    //id중복체크 
     dispatch(userActions.IDCheckAPI(username));
     if (!user_exist) {
       window.alert("이미 존재하는 ID입니다.");
       _id.current.focus();
       return;
     }
+    //하나라도 공란일경우 
     if (username === "" || pwd === "" || email === "" || pwdCheck === "") {
       window.alert("모두 입력해주세요!");
       return;
     }
+    //3자리 미만일경우
     if (username.length < 3) {
       window.alert("아이디를 3자리 이상 입력해주세요.");
       _id.current.focus();
@@ -61,11 +51,13 @@ const Signup = (props) => {
       _pwd.current.focus();
       return;
     }
+    //비밀번호 일치하지 않을경우
     if (pwd !== pwdCheck) {
       window.alert("비밀번호가 일치하지 않습니다!");
       _pwdChk.current.focus();
       return;
     }
+    //이메일 형식 틀릴 경우
     if (!emailPass.test(email)) {
       window.alert("이메일 형식이 아닙니다!");
       _email.current.focus();
@@ -89,7 +81,6 @@ const Signup = (props) => {
             onChange={onChangeUsername}
           />
         </Grid>
-        {/* {alertDouble} */}
         <Grid is_flex margin="3%">
           <SignupInfo>PWD</SignupInfo>
           <Input

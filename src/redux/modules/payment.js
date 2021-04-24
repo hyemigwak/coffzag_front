@@ -6,7 +6,7 @@ import axios from "axios";
 //actions
 const LOADING = "LOADING";
 const GET_PAYMENT_USER = "GET_PAYMENT_USER"; //구매페이지 사용자 불러오기
-const ADD_PAYMENT = "ADD_PAYMENT"; // 결제시키기 (변수명 뭘로 할지 곰인)
+const ADD_PAYMENT = "ADD_PAYMENT"; // 결제 추가
 
 //actionCreators
 const loading = createAction(LOADING, (is_loading) => ({ is_loading }));
@@ -18,9 +18,6 @@ const initialState = {
   user: [],
   is_loading: false,
 };
-
-// https://run.mocky.io/v3/e43fb28b-19cc-4b8e-849a-8723a08fe6f3
-const payment_API = "http://54.180.86.19/api/payments/";
 
 const getPaymentUserAPI = () => {
   return function (dispatch, getState, { history }) {

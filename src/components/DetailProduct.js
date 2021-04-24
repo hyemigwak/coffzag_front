@@ -1,13 +1,10 @@
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import styled from "styled-components";
-import { Grid, Input, Button, Badge } from "../elements";
+import { Grid, Button, Badge } from "../elements";
 import { history } from "../redux/configureStore";
 import { getCookie } from "../shared/Cookie";
 
-import StarRoundedIcon from "@material-ui/icons/StarRounded";
-import StarOutlineRoundedIcon from "@material-ui/icons/StarOutlineRounded";
-import StarHalfRoundedIcon from "@material-ui/icons/StarHalfRounded";
 import AddCircleOutlineIcon from "@material-ui/icons/AddCircleOutline";
 import RemoveCircleOutlineIcon from "@material-ui/icons/RemoveCircleOutline";
 
@@ -17,24 +14,17 @@ import { actionCreators as productActions } from "../redux/modules/product";
 
 const DetailProduct = (props) => {
   const dispatch = useDispatch();
-  const _detail_list = useSelector((state) => state.product.detail_list);
-  const is_login = useSelector((state) => state.user.is_login);
   const cookie = getCookie("user_login") ? true : false;
-  console.log(_detail_list);
-
+  const is_login = useSelector((state) => state.user.is_login);
   const _product = useSelector((state) => state.product.product);
-
-  console.log("dispatch하고 가져온 product", _product.coffeeBrand);
-  console.log("프롭스있는가?", props);
 
   useEffect(() => {
     if (!_product) {
-      dispatch(productActions.setOneProductAPI(coffee_idx));
+      dispatch(productActions.setOneProductAPI(coffeeId));
     }
   }, [_product]);
 
   const {
-    coffee_idx,
     coffeeName,
     coffeePrice,
     coffeeImg,
@@ -42,10 +32,9 @@ const DetailProduct = (props) => {
     coffeeUnit,
     coffeeInfo,
     coffeeId,
-    detailList,
   } = props;
-  console.log(detailList);
-  console.log(coffeeId);
+
+  console.log(props);
 
   const [orderCnt, setOrderCnt] = useState(1);
   const cntPlus = () => {
@@ -100,44 +89,29 @@ const DetailProduct = (props) => {
   return (
     <Grid margin="0 auto">
       <Container>
-        {/* <CurrentBuy>
-          <span>50</span>명 구매 완료!
-        </CurrentBuy> */}
         <Contents>
           <CardRight>
             <CircleImage>
-              <img src={_product.coffeeImg || coffeeImg} alt="커피이미지" />
+              <img src={coffeeImg} alt="커피이미지" />
             </CircleImage>
-            {/* <StarArea>
-              <div className="starRank">
-                <StarRoundedIcon style={{ color: "#FFC149" }} />
-                <StarRoundedIcon style={{ color: "#FFC149" }} />
-                <StarHalfRoundedIcon style={{ color: "#FFC149" }} />
-                <StarOutlineRoundedIcon style={{ color: "#FFC149" }} />
-                <StarOutlineRoundedIcon style={{ color: "#FFC149" }} />
-              </div>
-              <div className="startNum">
-                <span>2.5</span> 점
-              </div>
-            </StarArea> */}
           </CardRight>
           <CardLeft>
             <BrandNameArea>
               <div className="Btn">
-                <Badge>{_product.coffeeBrand || coffeeBrand}</Badge>
+                <Badge>{coffeeBrand}</Badge>
               </div>
             </BrandNameArea>
             <ProductName>
-              <div className="Pname">{_product.coffeeName || coffeeName}</div>
+              <div className="Pname">{coffeeName}</div>
             </ProductName>
             <PriceLine>
               <div className="Pprice">{coffee_price} 원</div>
               <div className="capsulePack">
-                {_product.coffeeUnit || coffeeUnit}
+                {coffeeUnit}
               </div>
             </PriceLine>
             <DetailLine>
-              <p>{_product.coffeeInfo || coffeeInfo}</p>
+              <p>{coffeeInfo}</p>
             </DetailLine>
             <QtyLine>
               <div className="plusminusBtn">
@@ -183,17 +157,6 @@ const Container = styled.div`
   color: #5a5656;
 `;
 
-const CurrentBuy = styled.div`
-  display: flex;
-  justify-content: flex-start;
-  align-items: center;
-  margin: 1rem 1rem;
-  span {
-    font-weight: bold;
-    font-size: 1.4rem;
-  }
-`;
-
 const Contents = styled.div`
   display: flex;
   justify-content: center;
@@ -217,16 +180,6 @@ const CircleImage = styled.div`
     max-width: 100%;
     margin: auto;
     object-fit: contain;
-  }
-`;
-
-const StarArea = styled.div`
-  padding-top: 1.4rem;
-  span {
-    font-weight: bold;
-  }
-  .startNum {
-    padding-top: 0.4rem;
   }
 `;
 

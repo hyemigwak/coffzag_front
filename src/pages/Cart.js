@@ -2,40 +2,45 @@ import React, { useEffect } from "react";
 import styled from "styled-components";
 import { useDispatch, useSelector } from "react-redux";
 import { Grid, Button, Line, Text } from "../elements/";
+import { PaymentButton, CartProduct } from "../components/";
 import { history } from "../redux/configureStore";
 import AddShoppingCartIcon from "@material-ui/icons/AddShoppingCart";
-
-import CartProduct from "../components/CartProduct";
-import { actionCreators as cartActions } from "../redux/modules/cart";
-import { PaymentButton } from "../components/";
-
 import HighlightOffIcon from "@material-ui/icons/HighlightOff";
+
+import { actionCreators as cartActions } from "../redux/modules/cart";
+
+
+
 
 const Cart = (props) => {
   const dispatch = useDispatch();
 
+  //장바구니 리스트 불러오기
   useEffect(() => {
     dispatch(cartActions.getCartAPI());
   }, []);
 
   const _carts = useSelector((state) => state.cart.cart_list);
-  console.log(_carts);
 
   // typedarray.reduce(callback[, initialValue])
   // acc: accumulator & crr: current
   // 가격 "," 정규 표현 바로 붙이기
+
+  //장바구니 총 갯수 누산하기, 정규표현식
   const totalCnt = _carts
     .map((_cart) => _cart.orderCnt)
     .reduce((acc, crr) => acc + crr, 0)
     .toString()
     .replace(/\B(?<!\.\d*)(?=(\d{3})+(?!\d))/g, ",");
 
+  //장바구니 총 가격 누산하기, 정규표현식
   const totalPrice = _carts
     .map((_cart) => _cart.coffee.coffeePrice * _cart.orderCnt)
     .reduce((acc, crr) => acc + crr, 0)
     .toString()
     .replace(/\B(?<!\.\d*)(?=(\d{3})+(?!\d))/g, ",");
 
+  //장바구니에 상품이 없으면 비었다는 문구 보여줄 수 있도록 분기
   if (_carts.length === 0) {
     return (
       <Grid width="100vmin">

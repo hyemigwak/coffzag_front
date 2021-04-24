@@ -1,5 +1,4 @@
 import React, { useState, useEffect, useCallback } from "react";
-import { getCookie } from "../shared/Cookie";
 import { history } from "../redux/configureStore";
 import { useDispatch, useSelector } from "react-redux";
 import styled from "styled-components";
@@ -12,17 +11,18 @@ const DetailReview = (props) => {
   const { coffeeId } = props;
   const dispatch = useDispatch();
 
-  const cookie = getCookie("user_login");
+  //토큰받을때 username은 로컬스토리지에 저장
   const _user_name = localStorage.getItem("user_name");
-  // console.log(_user_name); // user_name 보기 (localstorage - username)
 
   const commentList = useSelector((state) => state.comment.comment_list);
   const is_login = useSelector((state) => state.user.is_login);
 
   const createdAt = moment().format("YYYY-MM-DD"); // 작성된 시점의 시간을 보냄
+
   const onChangeReview = useCallback((e) => setReview(e.target.value), []);
   const [contents, setReview] = useState("");
 
+  //댓글이 변경될때마다 리렌더링
   useEffect(() => {
     if (!commentList[coffeeId]) {
       dispatch(commentActions.getCommentAPI(coffeeId));
@@ -82,7 +82,6 @@ const DetailReview = (props) => {
         {commentList[coffeeId]?.map((c, idx) => {
           const commentProductId = commentList[coffeeId][0].coffeeId;
           if (coffeeId === commentProductId) {
-            // console.log("")
             return <Comment key={idx} {...c} />;
           }
         })}

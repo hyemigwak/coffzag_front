@@ -16,7 +16,8 @@ const ProductList = (props) => {
   const [page, setPage] = useState(1); //현재페이지, 1부터 시작
   const [size, setSize] = useState(8); //페이지당 post갯수 = 8개씩(고정값) 사실상 setSize 안써도 됨, 지워도 작동o
 
-  //pageNumber = [1,2,3,4,5,6,7], length로 표시해라 상수로 표시 x
+  //pageNumber = [1,2,3,4,5,6,7]
+  // 51개는 총 상품 갯수
   const pageNumber = [];
   for (let i = 1; i <= Math.ceil(51 / size); i++) {
     pageNumber.push(i);
@@ -25,6 +26,7 @@ const ProductList = (props) => {
   //paginate : page 바꾸기 setPage로 바꾼다
   const paginate = (PageNumber) => setPage(PageNumber);
 
+  // 페이지와 size만큼만 상품을 불러오고, 불러올때 좋아요도 같이 불러옴(상품 api에 별도 추가가 안되어 따로 부름)
   useEffect(() => {
     dispatch(productActions.setProductAPI(page, size));
     dispatch(likeActions.getLikeAPI());

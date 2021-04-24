@@ -10,7 +10,6 @@ const DELETE_LIKE = "DELETE_LIKE"; //좋아요 삭제하기
 
 //actionCreators
 const getLike = createAction(GET_LIKE, (like) => ({ like }));
-
 const addLike = createAction(ADD_LIKE, (like) => ({ like }));
 const deleteLike = createAction(DELETE_LIKE, (coffeeId) => ({ coffeeId }));
 
@@ -20,6 +19,7 @@ const initialState = {
   is_like: false,
 };
 
+//마이페이지에 좋아요 불러오기, 메인에 좋아요 리스트 부르기
 const getLikeAPI = () => {
   return function (dispatch, getState, { history }) {
     let token = getCookie("user_login") || "";
@@ -43,17 +43,10 @@ const getLikeAPI = () => {
   };
 };
 
+//찜리스트 추가하기
 const addLikeAPI = (coffeeId) => {
   return function (dispatch, getState, { history }) {
     let token = getCookie("user_login") || "";
-    // let data = {
-    //   coffeeId: like.coffeeId,
-    //   coffeeImg: like.coffeeImg,
-    //   coffeeName: like.coffeeName,
-    //   coffeePrice: like.coffeePrice,
-    //   coffeeInfo: like.coffeeInfo,
-    //   coffeeBrand: like.coffeeBrand,
-    // }
     axios({
       method: "POST",
       url: `http://54.180.86.19/api/myproducts/${coffeeId}`,
@@ -71,6 +64,7 @@ const addLikeAPI = (coffeeId) => {
   };
 };
 
+//찜리스트에서 삭제하기
 const deleteLikeAPI = (coffeeId) => {
   return function (dispatch, getState, { history }) {
     let token = getCookie("user_login") || "";
@@ -84,7 +78,6 @@ const deleteLikeAPI = (coffeeId) => {
       .then((res) => {
         console.log(res);
         dispatch(deleteLike(coffeeId));
-        // history.replace("/mypage")
       })
       .catch((err) => {
         console.log("deleteLikeAPI에서 오류발생", err);
@@ -104,12 +97,6 @@ export default handleActions(
       }),
     [ADD_LIKE]: (state, action) =>
       produce(state, (draft) => {
-        // console.log("액션에서 내려오는 좋아요 라이크",action.payload.like);
-        // if(!draft.like_list){
-        //   draft.like_list = [...action.payload.like]
-        // }
-        // draft.like_list.unshift(action.payload.like);
-        // draft.is_like = true;
       }),
     [DELETE_LIKE]: (state, action) =>
       produce(state, (draft) => {

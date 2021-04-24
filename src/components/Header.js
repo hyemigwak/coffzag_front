@@ -5,14 +5,14 @@ import { actionCreators as userActions } from "../redux/modules/user";
 import { actionCreators as productActions } from "../redux/modules/product";
 import "./Header.css";
 import { getCookie } from "../shared/Cookie";
-import { Grid, Text } from "../elements/";
+import { Grid } from "../elements/";
 
 import styled from "styled-components";
 import ShoppingBasketRoundedIcon from "@material-ui/icons/ShoppingBasketRounded";
 
 const Header = (props) => {
-  const dispatch = useDispatch(); // 액션을 디스패치를 타고 와서 뿌려줌
-  const is_login = useSelector((state) => state.user.is_login); // state를 가져오는 것
+  const dispatch = useDispatch();
+  const is_login = useSelector((state) => state.user.is_login);
   const cookie = getCookie("user_login") ? true : false;
 
   const siteLogout = () => {
@@ -24,6 +24,7 @@ const Header = (props) => {
     }
   };
 
+  //스티키 헤더
   const headerChange = () => {
     const navbox = document.querySelector(".nav");
     if (window.scrollY > 35) {
@@ -43,6 +44,8 @@ const Header = (props) => {
     return () => window.removeEventListener("scroll", headerChange);
   }, []);
 
+  //로그인 시 헤더 분기
+  //헤더 로고 눌렀을때 메인화면은 1페이지, 상품 8개 항상 보여주도록 함(페이지네이션)
   if (cookie && is_login) {
     return (
       <HeaderWrap className="nav">
@@ -72,13 +75,6 @@ const Header = (props) => {
               }}
             >
               찜리스트
-            </HeaderText>
-            <HeaderText
-              onClick={() => {
-                history.push("/myorders");
-              }}
-            >
-              구매목록
             </HeaderText>
             <HeaderText onClick={siteLogout}>로그아웃</HeaderText>
           </Grid>

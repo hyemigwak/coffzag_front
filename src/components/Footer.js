@@ -1,6 +1,5 @@
 import React from "react";
-import { Grid, Text, Button } from "../elements/";
-import styled from "styled-components";
+import { Grid } from "../elements/";
 
 const Footer = (props) => {
   return (

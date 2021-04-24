@@ -62,6 +62,8 @@ const getCommentAPI = (coffeeId) => {
           const response_data_reviews = res.data.reviews;
           response_data_reviews.forEach((c) => {
             commentList.push({ ...c });
+
+            //최신순으로 정렬
             commentList.sort(function (a, b) {
               return a.createdAt > b.createdAt
                 ? -1
@@ -86,6 +88,7 @@ const getCommentAPI = (coffeeId) => {
   };
 };
 
+//댓글 추가 api
 const addCommentAPI = (coffeeId, contents, createdAt, _user_name) => {
   return function (dispatch, getState, { history }) {
     let token = getCookie("user_login") || "";
@@ -114,6 +117,7 @@ const addCommentAPI = (coffeeId, contents, createdAt, _user_name) => {
   };
 };
 
+//댓글 삭제 api
 const deleteCommentAPI = (coffeeId, reviewId) => {
   return function (dispatch, getState, { history }) {
     let token = getCookie("user_login");
@@ -140,6 +144,7 @@ const deleteCommentAPI = (coffeeId, reviewId) => {
   };
 };
 
+//댓글수정 api
 const editCommentAPI = (coffeeId, reviewId, contents) => {
   return function (dispatch, getState, { history }) {
     let token = getCookie("user_login");
@@ -177,7 +182,6 @@ export default handleActions(
     //[]리스트로 아예 갈아끼우면 매번 서버에 요청해야한다. 서버 과부하. 딕셔너리로 리덕스에 저장해두기
     [GET_COMMENT]: (state, action) =>
       produce(state, (draft) => {
-        // let data = {[coffeeId]:comment_list, ...}
         draft.is_loading = action.payload.is_loading;
         draft.comment_list[action.payload.coffeeId] =
           action.payload.comment_list;
@@ -186,8 +190,7 @@ export default handleActions(
       }),
     [ADD_COMMENT]: (state, action) =>
       produce(state, (draft) => {
-        // coffeeId로 찾은 comment_list가 없으면
-        // 배열에 넣기
+        // coffeeId로 찾은 comment_list가 없으면 배열에 넣기
         if (!draft.comment_list[action.payload.coffeeId]) {
           draft.comment_list[action.payload.coffeeId] = [
             action.payload.comment,

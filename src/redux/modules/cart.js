@@ -7,21 +7,16 @@ import { getCookie } from "../../shared/Cookie";
 const ADD_CART = "ADD_CART"; //카트에 추가
 const GET_CART = "GET_CART"; //카트에서 불러오기
 const DELETE_CART = "DELETE_CART"; //카트에서 삭제하기
-const BUY_CART = "BUY_CART"; //카트에서 구매하기 누를때 카트 비워주기, 데이터 보내기
 const UPDATE_CART = "UPDATE_CART"; //카트에서 수량 조절할때
+const BUY_CART = "BUY_CART"; //카트에서 구매하기 누를때 카트 비워주기, 데이터 보내기
+
 
 //action creators
-const addCart = createAction(ADD_CART, (coffeeId, cart_item) => ({
-  coffeeId,
-  cart_item,
-}));
+const addCart = createAction(ADD_CART, (coffeeId, cart_item) => ({coffeeId,cart_item}));
 const getCart = createAction(GET_CART, (cart_item) => ({ cart_item }));
 const deleteCart = createAction(DELETE_CART, (coffeeId) => ({ coffeeId }));
 const buyCart = createAction(BUY_CART, () => ({}));
-const updateCart = createAction(UPDATE_CART, (coffeeId, cart_item) => ({
-  coffeeId,
-  cart_item,
-}));
+const updateCart = createAction(UPDATE_CART, (coffeeId, cart_item) => ({coffeeId,cart_item}));
 
 //initialState
 const initialState = {
@@ -29,7 +24,6 @@ const initialState = {
 };
 
 //api
-// const cart_API = "https://run.mocky.io/v3/a33a1443-2455-4cbe-aaa8-3b84909216ee";
 const rear_API = "http://54.180.86.19/api/orders";
 const getCartAPI = () => {
   return function (dispatch, getState, { history }) {
@@ -61,7 +55,6 @@ const getCartAPI = () => {
   };
 };
 
-// const cart_API = "https://run.mocky.io/v3/a33a1443-2455-4cbe-aaa8-3b84909216ee"
 const addCartAPI = (
   coffeeId,
   orderCnt,
@@ -73,9 +66,6 @@ const addCartAPI = (
 ) => {
   return function (dispatch, getState, { history }) {
     let token = getCookie("user_login") || "";
-
-    // console.log("id",coffeeId,"cnt",orderCnt,
-    // "가격",coffeePrice,"이름",coffeeName,"이미지",coffeeImg,"브랜드",coffeeBrand,"단위",coffeeUnit);
 
     let addCart_data = {
       orderCnt: orderCnt,
@@ -99,7 +89,7 @@ const addCartAPI = (
         console.log(res);
         if (res.data.ok) {
           console.log(res.data.order.coffee);
-          console.log(res.data.order.orderCnt);
+          console.log(res.data.order);
           dispatch(addCart(coffeeId, res.data.order));
         } else {
           console.log("data.ok is false");
@@ -157,10 +147,7 @@ const updateCartAPI = (coffeeId, _orderCnt, _unitPrice) => {
         );
         console.log(idx);
         let cart = cartList[idx];
-        console.log(cart);
-        console.log(_orderCnt);
         const updated_cart = { ...cart, orderCnt: _orderCnt };
-        console.log(updated_cart);
         dispatch(updateCart(coffeeId, updated_cart));
       })
       .catch((err) => {
@@ -193,16 +180,10 @@ export default handleActions(
   {
     [GET_CART]: (state, action) =>
       produce(state, (draft) => {
-        console.log(draft.cart_list);
-        console.log(action.payload.cart_item);
         draft.cart_list = action.payload.cart_item;
       }),
     [ADD_CART]: (state, action) =>
       produce(state, (draft) => {
-        console.log(draft.cart_list);
-        console.log(action.payload);
-        console.log(action.payload.cart_item);
-
         if (!draft.cart_list) {
           draft.cart_list = action.payload.cart_item;
         }
@@ -217,24 +198,17 @@ export default handleActions(
       }),
     [UPDATE_CART]: (state, action) =>
       produce(state, (draft) => {
-        console.log(draft.cart_list);
-        console.log(action.payload.cart_item);
         let idx = draft.cart_list.findIndex(
           (i) => i.coffee.coffeeId === action.payload.cart_item.coffee.coffeeId
         );
-        console.log(idx);
-        console.log(draft.cart_list[idx]);
         draft.cart_list[idx] = {
           ...draft.cart_list[idx],
           ...action.payload.cart_item,
-        };
-        console.log({ ...draft.cart_list[idx], ...action.payload.cart_item });
+        }
       }),
     [BUY_CART]: (state, action) =>
       produce(state, (draft) => {
-        // 위 아래 똑같이 작동!
         draft.cart_list = [];
-        // draft.cart_list.length = 0;
       }),
   },
   initialState

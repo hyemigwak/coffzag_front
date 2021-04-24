@@ -1,6 +1,6 @@
 import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { Grid, Button, Line } from "../elements/";
+import { Grid, Line } from "../elements/";
 import styled from "styled-components";
 import LikeCard from "../components/LikeCard";
 import FavoriteIcon from "@material-ui/icons/Favorite";
@@ -9,16 +9,14 @@ import { actionCreators as likeActions } from "../redux/modules/like";
 const Mypage = (props) => {
   const dispatch = useDispatch();
   const username = localStorage.getItem("user_name");
-
   const likeList = useSelector((state) => state.like.like_list);
-  console.log("라이크리스트임", likeList);
-  console.log("배열의길이임", likeList.length);
 
   // 찜리스트 GET
   useEffect(() => {
     dispatch(likeActions.getLikeAPI());
   }, [likeList]);
 
+  //찜리스트가 비면 "찜리스트가 비었습니다" 보여주기 위해 분기
   if (likeList.length === 0) {
     return (
       <Grid width="100vmin">
