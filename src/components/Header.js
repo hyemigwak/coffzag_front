@@ -53,8 +53,8 @@ const Header = (props) => {
           <Grid>
             <Logo
               onClick={() => {
-                history.push("/")
-                dispatch(productActions.setProductAPI(1,8));
+                history.push("/");
+                dispatch(productActions.setProductAPI(1, 8));
               }}
             >
               Coffzag

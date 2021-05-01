@@ -1,5 +1,5 @@
 import React, { useEffect } from "react";
-import { DetailProduct, DetailReview }  from "../components";
+import { DetailProduct, DetailReview } from "../components";
 import Loading from "../shared/Loading";
 import { actionCreators as productActions } from "../redux/modules/product";
 import { actionCreators as commentActions } from "../redux/modules/comment";
@@ -9,8 +9,11 @@ const Detail = (props) => {
   const dispatch = useDispatch();
   const is_loading = useSelector((state) => state.product.is_loading);
   const id = props.match.params.id;
-  const _product = useSelector((state) => state.product.product);
-  const coffeeIdx= _product.coffeeId
+  console.log(id);
+  const coffees = useSelector((state) => state.product.product_list);
+  const coffee_idx = coffees.findIndex((c) => c.coffeeId === Number(id));
+  const coffee = coffees[coffee_idx];
+  console.log(coffee);
 
   useEffect(() => {
     dispatch(productActions.setOneProductAPI(id));
@@ -23,8 +26,8 @@ const Detail = (props) => {
 
   return (
     <div>
-      <DetailProduct {..._product} />
-      <DetailReview coffeeId={coffeeIdx} />
+      <DetailProduct {...coffee} />
+      <DetailReview {...coffee} />
     </div>
   );
 };

@@ -44,7 +44,7 @@
 
 - 협업 툴: git, slack, notion, figma
 
-- 노션 주소:  
+- 노션 주소:
 
   [coffeezag]: https://www.notion.so/b181cfdb12214f0799a1f469c3bbbbe4?v=51028cfc9edc454bb3b1fd5ab8faca2f
 

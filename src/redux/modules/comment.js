@@ -197,8 +197,8 @@ export default handleActions(
           ];
         }
         // unshift: 배열 맨 앞에 추가하기
-        console.log(draft.comment_list[action.payload.coffeeId]);
-        console.log(action.payload.comment);
+        // console.log(draft.comment_list[action.payload.coffeeId]);
+        // console.log(action.payload.comment);
         draft.comment_list[action.payload.coffeeId].unshift(
           action.payload.comment
         );

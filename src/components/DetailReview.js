@@ -15,6 +15,8 @@ const DetailReview = (props) => {
   const _user_name = localStorage.getItem("user_name");
 
   const commentList = useSelector((state) => state.comment.comment_list);
+  const comments = commentList[Object.keys(commentList)[0]];
+  console.log("key값 뗀 comments", comments);
   const is_login = useSelector((state) => state.user.is_login);
 
   const createdAt = moment().format("YYYY-MM-DD"); // 작성된 시점의 시간을 보냄

@@ -57,6 +57,7 @@ const setProductAPI = (page, size) => {
 //디테일 페이지 상품 하나 불러오기
 const setOneProductAPI = (coffeeId) => {
   return function (dispatch, getState, { history }) {
+    dispatch(loading(true));
     axios
       .get(`http://54.180.86.19/api/details/${coffeeId}`)
       .then((res) => {

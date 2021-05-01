@@ -24,15 +24,7 @@ const DetailProduct = (props) => {
     }
   }, [_product]);
 
-  const {
-    coffeeName,
-    coffeePrice,
-    coffeeImg,
-    coffeeBrand,
-    coffeeUnit,
-    coffeeInfo,
-    coffeeId,
-  } = props;
+  const { coffeeName, coffeePrice, coffeeImg, coffeeBrand, coffeeUnit, coffeeInfo, coffeeId } = props;
 
   console.log(props);
 
@@ -53,17 +45,7 @@ const DetailProduct = (props) => {
       }
       return;
     }
-    dispatch(
-      cartActions.addCartAPI(
-        coffeeId,
-        orderCnt,
-        coffeePrice,
-        coffeeName,
-        coffeeImg,
-        coffeeBrand,
-        coffeeUnit
-      )
-    );
+    dispatch(cartActions.addCartAPI(coffeeId, orderCnt, coffeePrice, coffeeName, coffeeImg, coffeeBrand, coffeeUnit));
     if (window.confirm("장바구니로 이동하시겠습니까?")) {
       history.push("/cart");
     } else {
@@ -72,9 +54,7 @@ const DetailProduct = (props) => {
   };
 
   //가격에 콤마 붙여주는 정규식 표현
-  const coffee_price = (_product.coffeePrice || coffeePrice)
-    .toString()
-    .replace(/\B(?<!\.\d*)(?=(\d{3})+(?!\d))/g, ",");
+  const coffee_price = (_product.coffeePrice || coffeePrice).toString().replace(/\B(?<!\.\d*)(?=(\d{3})+(?!\d))/g, ",");
 
   // 정보 묶어서 PaymentButton 컴포넌트에 보냄
   const buy_oneproduct_info = {
@@ -106,9 +86,7 @@ const DetailProduct = (props) => {
             </ProductName>
             <PriceLine>
               <div className="Pprice">{coffee_price} 원</div>
-              <div className="capsulePack">
-                {coffeeUnit}
-              </div>
+              <div className="capsulePack">{coffeeUnit}</div>
             </PriceLine>
             <DetailLine>
               <p>{coffeeInfo}</p>
@@ -117,18 +95,11 @@ const DetailProduct = (props) => {
               <div className="plusminusBtn">
                 <RemoveCircleOutlineIcon onClick={cntMinus} />
                 &ensp;{orderCnt}개&ensp;
-                <AddCircleOutlineIcon
-                  onClick={cntPlus}
-                  style={{ marginRight: "0.4rem" }}
-                />
+                <AddCircleOutlineIcon onClick={cntPlus} style={{ marginRight: "0.4rem" }} />
               </div>
             </QtyLine>
             <BtnLine>
-              <Button
-                _onClick={siteaddCart}
-                text="장바구니"
-                margin="0 10px 0 0"
-              />
+              <Button _onClick={siteaddCart} text="장바구니" margin="0 10px 0 0" />
               <PaymentButton DetailProduct {...buy_oneproduct_info} />
             </BtnLine>
           </CardLeft>
